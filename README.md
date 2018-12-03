@@ -1,5 +1,6 @@
-# Charts using RGraph and D3 with options  to  customize
-# Option to use dimensions/measure or 2+ measures as dimensions
+# NExtensions 4 Qlik
+## Charts using RGraph and D3 with options  to  customize
+## Option to use dimensions/measure or 2+ measures as dimensions
 
 1. WaterFall Chart
 		
