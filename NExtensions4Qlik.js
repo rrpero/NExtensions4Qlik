@@ -16,7 +16,7 @@ requirejs.config({
 		"RGraph.funnel": "../extensions/NExtensions4Qlik/libraries/RGraph.funnel",
 		"RGraph.waterfall": "../extensions/NExtensions4Qlik/libraries/RGraph.waterfall",
 		"RGraph.common.key": "../extensions/NExtensions4Qlik/libraries/RGraph.common.key",
-		"d3":'../extensions/NExtensions4Qlik/libraries/d3',
+		"d32":'../extensions/NExtensions4Qlik/libraries/d3',
 		"viz":'../extensions/NExtensions4Qlik/libraries/viz'
 		,
 		"cloud":'../extensions/NExtensions4Qlik/libraries/d3.layout.cloud'
@@ -53,7 +53,7 @@ define( [
 		,'qlik'
         ,'./properties/properties'
 		,'./properties/initialProperties'
-		,'d3'
+		,'d32'
 		,'viz'	
 		,'cloud'
 		,"text!./border.css"
