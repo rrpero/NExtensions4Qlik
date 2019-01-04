@@ -60,17 +60,7 @@ define( [
 	};
 	var show={};
 	
-	messages[language].ROTATE_TYPE= "Tipo Rotação";
-	messages[language].RANDOM2 = "Aleatório 2";
-	messages[language].RANDOM7 = "Aleatório 7";
-	messages[language].FIXED1 = "Fixo 1";	
-	messages[language].FIXED2 = "Fixo 2";
-	messages[language].FIXED3 = "Fixo 3";
-	messages[language].FIXED4 = "Fixo 4";
-	messages[language].FIXED5 = "Fixo 5";
-	messages[language].FIXED7 = "Fixo 7";
 
-	
 	show['options']={};
 	show['options']['rotateType']=["wordCloudChart"];
 	
@@ -121,7 +111,7 @@ define( [
 			}				
 	};
 	
-	messages[language].MIN_TEXT_SIZE = "Tamanho Mínimo Texto";
+
 	show['options']['minTextSize']=["wordCloudChart"];
 	var minTextSize = {
 			type: "integer",
@@ -139,7 +129,9 @@ define( [
 			}
 	};	
 
-	messages[language].MAX_TEXT_SIZE =  "Tamanho Máximo Texto";
+	
+	
+
 	show['options']['maxTextSize']=["wordCloudChart"];
 	var maxTextSize = {
 			type: "integer",
@@ -156,16 +148,6 @@ define( [
 
 			}
 	};	
-
-
-	messages[language].CHART_TYPE = "Tipo de Gráfico";
-	messages[language].POLAR = "Polar";
-	messages[language].RADAR = "Radar";
-	messages[language].FUNNEL = "Pirâmide";
-	messages[language].WATERFALL = "Waterfall";			
-	//messages[language].CHORD = "Chord";
-	messages[language].BIPARTITE = "Bipartido";
-	messages[language].WORDCLOUD = "Word Cloud";
 
 	
 	var polar = {
@@ -196,14 +178,7 @@ define( [
 		defaultValue: "polar"
 	};	
 	
-	messages[language].ANALOGUE1 =  "Análogas 1";
-	messages[language].ANALOGUE2 =  "Análogas 2";
-	messages[language].YELLOWRED =  "Amarelo->Vernelho";
-	messages[language].WHITEBLUE =  "Branco->Azul";
-	messages[language].COLORS= "Cores";
-	messages[language].STANDARD_QS= "Padrão QS"
-	messages[language].COLORED= "Colorido";
-	messages[language].BRAZIL= "Brasil";	
+
 	var palette = {
 			type: "string",
 			component: "dropdown",
@@ -236,7 +211,7 @@ define( [
 			defaultValue: "analogue1"
 	};
 
-	messages[language].TRANSPARENT="Transparência";
+
 	show['options']['transparent']=["radar","funnel","waterfall","polar"];		
 	var transparent = {
 		type: "float",
@@ -255,8 +230,7 @@ define( [
 	};		
 
 
-	messages[language].CAPITALIZE = "Capitalizar";
-	messages[language].UPPER = "Maiúsculas";
+
 	show['options']['capitalize']=["wordCloudChart"];	
 	var capitalize = {
 			type: "string",
@@ -279,9 +253,7 @@ define( [
 			}			
 	};		
 	
-	messages[language].BORDER = "Borda";
-	messages[language].YES = "Sim";
-	messages[language].NO = "Não";
+
 	show['options']['border']=["wordCloudChart"];		
 	var border = {
 		type: "boolean",
@@ -301,7 +273,7 @@ define( [
 
 		}	
 	};	
-	messages[language].GRID = "Grid";
+//	messages[language].GRID = "Grid";
 /*	var grid = {
 		type: "boolean",
 		component: "switch",
@@ -319,7 +291,7 @@ define( [
 
 
 	show['options']['grid']=["polar","radar"];
-	messages[language].GRID  = "Grid";
+
 	var grid = {
 			type: "integer",
 			//component: "switch",
@@ -335,11 +307,68 @@ define( [
 		
 		};	
 	
+	show['options']['gridDotted']=["radar"];
+	var gridDotted = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].GRID_DOTTED,
+			ref: "gridDotted",
+			options: [{
+				value: true,
+				label: messages[language].YES
+			}, {
+				value: false,
+				label: messages[language].NO
+			}],
+			defaultValue: true,
+			show: function (d) {
+				return showTo(show['options']["gridDotted"],d);
+			}
+		};
+
+
+	show['options']['gridCircle']=["radar"];
+	var gridCircle = {
+			type: "string",
+			component: "switch",
+			label: messages[language].GRID_CIRCLE,
+			ref: "gridCircle",
+			options: [{
+				value: false,
+				label: messages[language].CIRCLE
+			}, {
+				value: true,
+				label: messages[language].POLYGON
+			}],
+			defaultValue: true,
+			show: function (d) {
+				return showTo(show['options']["gridCircle"],d);
+			}
+		};
+
+	show['options']['gridSpokes']=["radar","polar"];
+	var gridSpokes = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].GRID_SPOKES,
+			ref: "gridSpokes",
+			options: [{
+				value: true,
+				label: messages[language].YES
+			}, {
+				value: false,
+				label: messages[language].NO
+			}],
+			defaultValue: true,
+			show: function (d) {
+				return showTo(show['options']["gridSpokes"],d);
+			}
+		};		
 	
 
-
+/*
 	show['options']['gridRadials']=["polar"];
-	messages[language].GRID_RADIALS="Divisórias";
+
 	var gridRadials = {
 			type: "integer",
 			//component: "switch",
@@ -352,10 +381,12 @@ define( [
 				return showTo(show['options']["gridRadials"],d);
 			}
 		};	
+*/	
+	
 	
 
 	
-	messages[language].AXES = "Eixos";
+
 	show['options']['axes']=["polar"];	
 	var axes = {
 			type: "boolean",
@@ -375,7 +406,7 @@ define( [
 			}	
 	};		
 	
-	messages[language].BACKGROUND_COLOR = "Cor de Fundo";
+
 	show['options']['backgroundColor']=["polar","funnel","radar","waterfall","wordCloudChart"];		
 	var backgroundColor = {
 			type: "string",
@@ -406,7 +437,7 @@ define( [
 			defaultValue: false
 	};		*/
 	
-	messages[language].SHOW_LABELS="Mostrar Labels";
+
 	show['options']['chartLabels']=["polar","funnel"];
 	var chartLabels = {
 			type: "boolean",
@@ -426,7 +457,7 @@ define( [
 			}	
 	};
 	
-	messages[language].FONT_COLOR = "Cor da Letra";
+
 	show['options']['fontColor']=["biPartite"];
 	var fontColor = {
 			type: "string",
@@ -440,8 +471,8 @@ define( [
 			}
 	};		
 
-	messages[language].SHOW_VALUES="Mostrar Valores";
-	show['options']['showvalues']=["polar","funnel"];
+
+	show['options']['showvalues']=["polar","funnel","radar"];
 	var showvalues = {
 			type: "boolean",
 			component: "switch",
@@ -460,7 +491,7 @@ define( [
 			}	
 	};
 	
-	messages[language].APPROX="Aproximação Labels";
+
 	show['options']['labelsApprox']=["polar"];
 	var labelsApprox = {
 		type: "float",
@@ -477,7 +508,7 @@ define( [
 		}			
 	};	
 	
-	messages[language].LABEL_TEXT_SIZE="Label Text Size";
+
 	show['options']['labelTextSize']=["polar","waterfall","radar","funnel","biPartite"];
 	var labelTextSize = {
 		type: "integer",
@@ -497,8 +528,7 @@ define( [
 	};		
 	
 
-	messages[language].BOLD = "Negrito";
-	messages[language].NORMAL = "Normal";
+
 	show['options']['bold']=["biPartite","wordCloudChart"];	
 	var bold = {
 			type: "string",
@@ -520,8 +550,7 @@ define( [
 			}	
 	};
 	
-	messages[language].LABEL_IN = "Label Dentro";
-	messages[language].LABEL_OUT = "Label Fora";
+
 	show['options']['labelIn']=["biPartite"];		
 	var labelIn = {
 			type: "string",
@@ -543,10 +572,9 @@ define( [
 			}	
 	};	
 	
+
 	
 	
-	
-	messages[language].ITEM_OPTIONS="Opções";
 	var Options = {
 		type:"items",
 		label:messages[language].ITEM_OPTIONS,
@@ -561,7 +589,10 @@ define( [
 			transparent:transparent,
 			border:border,
 			grid:grid,
-			gridRadials:gridRadials,
+			//gridRadials:gridRadials,
+			gridSpokes:gridSpokes,
+			gridDotted:gridDotted,
+			gridCircle:gridCircle,
 			axes:axes,
 			backgroundColor:backgroundColor,
 			chartLabels:chartLabels,
@@ -582,9 +613,7 @@ define( [
 	};
 	
 	
-	messages[language].EDGE_MODE = "Tipo de Linha";
-	messages[language].STRAIGHT =  "Reto";
-	messages[language].CURVED = "Curvado";
+
 	show['biPartite']={};
 	show['biPartite']['edgeMode']=["biPartite"];
 	var edgeMode = {
@@ -609,7 +638,7 @@ define( [
 			}			
 	};		
 
-	messages[language].SPACE_LABEL_RIGHT =  "Espaço Label Direita";
+
 	show['biPartite']['spaceLabelRight']=["biPartite"];
 	var spaceLabelRight = {
 			type: "integer",
@@ -626,7 +655,7 @@ define( [
 			}	
 	};
 
-	messages[language].SPACE_LABEL_LEFT =  "Espaço Label Esquerda";
+
 	show['biPartite']['spaceLabelLeft']=["biPartite"];
 	var spaceLabelLeft = {
 			type: "integer",
@@ -644,7 +673,7 @@ define( [
 	};	
 	
 	
-	messages[language].PAD =  "Espaçamento";
+
 	show['biPartite']['pad']=["biPartite"];
 	var pad = {
 			type: "integer",
@@ -661,9 +690,7 @@ define( [
 			}	
 	};
 	
-	messages[language].ORIENT = "Orientação";
-	messages[language].VERTICAL = "vertical";
-	messages[language].HORIZONTAL = "horizontal";
+
 	show['biPartite']['orient']=["biPartite"];
 	var orient = {
 			type: "string",
@@ -687,7 +714,7 @@ define( [
 	};	
 
 
-	messages[language].BARSIZE = "Tamanho da Barra";
+
 	show['biPartite']['barSize']=["biPartite"];
 	var barSize = {
 			type: "integer",
@@ -756,7 +783,7 @@ define( [
 
 	};	
 	
-	messages[language].STEP_SCALE = "Passos da Escala";
+
 	show['scale']={};
 	show['scale']['stepScale']=["polar"];		
 	var stepScale = {
@@ -773,12 +800,12 @@ define( [
 	};
 
 	
-	messages[language].UP_AXE_ESCALE = "Escala Eixo Em Cima";
+
 	show['scale']['upScale']=["polar"];	
 	var upScale = {
 		type: "string",
 		component: "switch",
-		label: messages[language].UP_AXE_ESCALE,
+		label: messages[language].UP_AXE_SCALE,
 		ref: "upScale",
 		options: [{
 			value: "n",
@@ -793,12 +820,12 @@ define( [
 		}	
 	};
 
-	messages[language].DOWN_AXE_ESCALE = "Escala Eixo Em Baixo";
+
 	show['scale']['downScale']=["polar"];	
 	var downScale = {
 		type: "string",
 		component: "switch",
-		label: messages[language].DOWN_AXE_ESCALE,
+		label: messages[language].DOWN_AXE_SCALE,
 		ref: "downScale",
 		options: [{
 			value: "s",
@@ -813,12 +840,12 @@ define( [
 		}			
 	};	
 
-	messages[language].LEFT_AXE_ESCALE = "Escala Eixo Esquerda"
+
 	show['scale']['leftScale']=["polar"];	
 	var leftScale = {
 		type: "string",
 		component: "switch",
-		label: messages[language].LEFT_AXE_ESCALE,
+		label: messages[language].LEFT_AXE_SCALE,
 		ref: "leftScale",
 		options: [{
 			value: "w",
@@ -833,12 +860,12 @@ define( [
 		}			
 	};	
 
-	messages[language].RIGHT_AXE_ESCALE = "Escala Eixo Direita";
+
 	show['scale']['rightScale']=["polar"];
 	var rightScale = {
 		type: "string",
 		component: "switch",
-		label: messages[language].RIGHT_AXE_ESCALE,
+		label: messages[language].RIGHT_AXE_SCALE,
 		ref: "rightScale",
 		options: [{
 			value: "e",
@@ -854,7 +881,6 @@ define( [
 	};	
 	
 
-	messages[language].ITEM_SCALE="Escala";
 	show['scale']['scale']=["polar"];	
 	var Scale = {
 		type:"items",
@@ -874,7 +900,7 @@ define( [
 	
 	show['size']={};
 	show['size']['chartRadius']=["funnel","polar","waterfall","radar"];
-	messages[language].CHART_RADIUS_SIZE = "Raio";
+
 	var chartRadius = {
 			type: "integer",
 			label: messages[language].CHART_RADIUS_SIZE,
@@ -892,7 +918,7 @@ define( [
 	
 	
 	show['size']['width']=["biPartite"];
-	messages[language].CHART_WIDTH = "Largura";
+
 	var chartWidth = {
 			type: "integer",
 			label: messages[language].CHART_WIDTH,
@@ -909,7 +935,7 @@ define( [
 	};		
 
 	show['size']['height']=["biPartite"];
-	messages[language].CHART_HEIGHT = "Altura";
+
 	var chartHeight = {
 			type: "integer",
 			label: messages[language].CHART_HEIGHT,
@@ -925,7 +951,7 @@ define( [
 			}
 	};		
 	
-	messages[language].ITEM_SIZE = "Tamanho"
+
 	var chartSize = {
 		type:"items",
 		label:messages[language].ITEM_SIZE,
@@ -941,7 +967,7 @@ define( [
 	};
 	
 	show['legends']={};
-	messages[language].LEGEND_POSITION_HORIZONTAL="Posição Horizontal";
+
 	var keyPositionX = {
 			type: "integer",
 			label: messages[language].LEGEND_POSITION_HORIZONTAL,
@@ -954,7 +980,7 @@ define( [
 			defaultValue: 0
 	};	
 	
-	messages[language].LEGEND_POSITION_VERTICAL="Posição Vertical";
+
 	var keyPositionY = {
 			type: "integer",
 			label: messages[language].LEGEND_POSITION_VERTICAL,
@@ -967,11 +993,6 @@ define( [
 			defaultValue: 3
 	};		
 
-
-	
-	messages[language].SHOW_LEGENDS="Mostrar Legenda";
-	messages[language].SHOW="Mostrar";
-	messages[language].DONT_SHOW="Não Mostrar";
 
 	var showLegends = {
 			type: "boolean",
@@ -989,9 +1010,6 @@ define( [
 	};
 
 	
-	messages[language].ORIENTATION="Orientação";
-	messages[language].VERTICAL="Vertical";
-	messages[language].HORIZONTAL="Horizontal";
 	var graphGutter = {
 			type: "string",
 			component: "switch",
@@ -1007,8 +1025,8 @@ define( [
 			defaultValue: "graph"
 	};	
 
-	messages[language].ITEM_LEGENDS="Legenda";
-	show['legends']['legends']=["polar"];
+
+	show['legends']['legends']=["polar","radar"];
 	//messages[language].ITEM_LABELS="Labels";
 	var legends = {
 		type:"items",
@@ -1030,7 +1048,6 @@ define( [
 	
 	
 	show['position']={};
-	messages[language].CHART_POSITION_VERTICAL="Vertical";
 	show['position']['gutterTop']=["polar","waterfall","radar","biPartite"];
 	var gutterTop = {
 			type: "integer",
@@ -1049,7 +1066,6 @@ define( [
 	
 	
 	show['position']['gutterLeft']=["funnel","polar","waterfall","radar","biPartite"];	
-	messages[language].CHART_POSITION_HORIZONTAL="Horizontal";
 	var gutterLeft = {
 			type: "integer",
 			label: messages[language].CHART_POSITION_HORIZONTAL,
@@ -1065,7 +1081,7 @@ define( [
 			}
 	};
 
-	messages[language].ITEM_POSITION="Posição";	
+
 	var Position = {
 		type:"items",
 		//component: "expandable-items",
@@ -1079,8 +1095,6 @@ define( [
 	};	
 
 
-	
-	messages[language].EXPANDABLE_ITEM_OPTIONS = "Opções";
 	var optionsSizeBorders = {
 		//type:"items",
 		component: "expandable-items",

@@ -651,20 +651,200 @@ define( [
 					}
 					else if(layout.polar=="radar"){
 						
-						if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
-							layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0){
-							var name="";
-							while(measArrayNum2.length<3)
+						//console.log(qMatrix);
+						
+						
+						if(layout.qHyperCube.qDimensionInfo.length==2){
+							
+							toolTipsArray=[];
+							var dim1Structure = {};
+							for(var i = 0; i< qMatrix.length;i++)
 							{
-								name=name+" ";
-								measArrayNum2.push(0);
-								keys.push(name);
+								dim1Structure[qMatrix[i][1].qText]={};
 							}
+							var dim1StructureKeys = Object.keys(dim1Structure);
+							
+							palette=createPalette(dim1StructureKeys.length,{},{});
+							
+							for(var i = 0; i< dim1StructureKeys.length;i++)
+							{
+								for(var j = 0; j< qMatrix.length;j++)
+								{									
+									dim1Structure[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+								}
+							}
+							var max = 0;
+							for(var i = 0; i< qMatrix.length;i++)
+							{
+								dim1Structure[qMatrix[i][1].qText][qMatrix[i][0].qText]=qMatrix[i][2].qNum;
+								if(max<qMatrix[i][2].qNum)
+									max=qMatrix[i][2].qNum;
+							}
+							max=max*1.1;
+							//console.log(dim1Structure);
+							var measArrays2 =[];
+							
+							//console.log(palette);
+							for(var i = 0; i< dim1StructureKeys.length;i++)
+							{
+								var measArrayNumTeste =[];
+								var dim2StructureKeys = Object.keys(dim1Structure[dim1StructureKeys[i]]);
+								//console.log(palette[i]);
+
+    
+
+								for(var j = 0; j< dim2StructureKeys.length;j++){
+									if(i>0)
+										toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ dim1StructureKeys[i]+' - <div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>";
+									else
+										toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ dim1StructureKeys[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>");
+									
+									measArrayNumTeste.push(dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+									
+								}
+								measArrays2.push(measArrayNumTeste);
+								
+							}
+							
+						
+							
+						}
+						//console.log(measArrays2);
+						
+
+						if(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1){
+								//console.log(qMatrix);
+
+							toolTipsArray=[];
+							var dim1Structure = {};
+							for(var i = 0; i< layout.qHyperCube.qMeasureInfo.length;i++)
+							{
+								dim1Structure[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
+							}
+							var dim1StructureKeys = Object.keys(dim1Structure);
+							
+
+							
+							palette=createPalette(dim1StructureKeys.length,{},{});
+							
+							for(var i = 0; i< dim1StructureKeys.length;i++)
+							{
+								for(var j = 0; j< qMatrix.length;j++)
+								{									
+									dim1Structure[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+								}
+							}
+							
+							//console.log(dim1Structure);
+							var max = 0;
+							
+							for(var i = 0; i< qMatrix.length;i++)
+							{
+								for(j=0;j<dim1StructureKeys.length;j++){
+									dim1Structure[dim1StructureKeys[j]][qMatrix[i][0].qText]=qMatrix[i][j+1].qNum;
+									if(max<qMatrix[i][j+1].qNum)
+										max=qMatrix[i][j+1].qNum;
+								}
+							}
+							//console.log(dim1Structure);
+							
+							max=max*1.1;
+							//console.log(dim1Structure);
+							var measArrays2 =[];
+							
+							//console.log(palette);
+							for(var i = 0; i< dim1StructureKeys.length;i++)
+							{
+								var measArrayNumTeste =[];
+								var dim2StructureKeys = Object.keys(dim1Structure[dim1StructureKeys[i]]);
+								//console.log(palette[i]);
+
+    
+
+								for(var j = 0; j< dim2StructureKeys.length;j++){
+									if(i>0)
+										toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ dim1StructureKeys[i]+' - <div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>";
+									else
+										toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ dim1StructureKeys[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>");
+									
+									measArrayNumTeste.push(dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+									
+								}
+								measArrays2.push(measArrayNumTeste);
+								
+							}
+								
+							
+						}						
+						
+						
+						
+						if(((layout.qHyperCube.qDimensionInfo.length==1 || layout.qHyperCube.qDimensionInfo.length==2) && layout.qHyperCube.qMeasureInfo.length==1) ||
+							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0) || 
+							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1)
+							){
+								
+
+							var name="";
+							var measArrays =[];
+							var keysLegends = keys;
+							
+							if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
+							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)){
+								//max=null;
+								while(measArrayNum2.length<3)
+								{
+									name=name+" ";
+									measArrayNum2.push(0);
+									keys.push(name);
+								}
+								measArrays.push(measArrayNum2);
+								
+								max = 0;
+								for(var i = 0; i< measArrayNum2.length;i++)
+								{
+									if(max<measArrayNum2[i])
+										max=measArrayNum2[i];
+								}
+								max=max*1.1;
+								
+								//qFallbackTitle
+								//console.log(layout.qHyperCube.qMeasureInfo);
+								keysLegends = [];
+								keysLegends.push(layout.qHyperCube.qMeasureInfo[0].qFallbackTitle);
+								
+								
+							}
+							
+							var spokes = measArrayNum2.length;
+							if(layout.qHyperCube.qDimensionInfo.length==2 || 
+							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1)
+							){
+								measArrays=measArrays2;
+								keys=dim2StructureKeys;
+								keysLegends=dim1StructureKeys;
+								spokes = measArrays[0].length;
+							}
+							
+							if(!layout.gridSpokes){
+								spokes=0;
+							}
+							
+							
+							
+		
+							//var lineWidth=((testRadius*3)/180);
+							var lineWidth=2;
+							//measArrays.push(measArrayNumTeste);
+							//console.log(measArrays);
+							//console.log(keys);
 							var rose =  new RGraph.Radar({
-								width:100,
+								//width:100,
 								id: tmpCVSID,
-								data: measArrayNum2,
+								data: measArrays,
 								options: {
+									//scaleVisible:true,
+									ymax:max,
 									labels: keys,
 									labelsBold:true,
 									textAccessible: true,
@@ -675,9 +855,18 @@ define( [
 									backgroundCircles: true,
 									backgroundCirclesColor:'#000',
 									backgroundCirclesCount:layout.grid,
-									backgroundCirclesPoly:true,							
+									
+									tickmarksStyle:'filledcircle',
+									tickmarksLinewidth:5,
+									tickmarksSize:12,
+									
+									backgroundCirclesPoly:layout.gridCircle,
+									backgroundCirclesSpokes:spokes,									
+									colorsAlpha:0.5,
+									backgroundCirclesDotted:layout.gridDotted,
+									
 									//strokestyle: ['black'],
-									linewidth:2,
+									linewidth:lineWidth,
 									
 									backgroundAxes:layout.axes,
 									radius:testRadius,	
@@ -685,13 +874,27 @@ define( [
 									labelsBoxed:false,
 									textSize: labelTextSize,
 									colors:palette,
-									tooltips:function (idx)
+									//colors:['black','red'],
+									tooltips:function (idx,a,b,c,d,e)
 									{
-										return '<div id="__tooltip_div__">'+toolTipsArray[idx]+'</div>';
+										//console.log(idx+ " "  + a + " "  + b+ " "  + c+ " "  + d+ " "  + e);
+										//return '<div id="__tooltip_div__">'+toolTipsArray[idx]+'</div>';
+										return '<div id="__tooltip_div__" style="display:inline;">'+toolTipsArray[idx%keys.length]+'</div>';
 											   //'s stats<br/><canvas id="__tooltip_canvas__" width="400" height="150">='
 											   //'[No canvas support]</canvas>';
 									},
-									tooltipsEvent: 'onmousemove'
+									tooltipsEvent: 'onmousemove',
+									
+									key:layout.showLegends ? keysLegends: null,
+									keyHalign:"right",
+									keyPositionX:layout.keyPositionX,
+									keyPositionY:layout.keyPositionY,
+									keyPositionGraphBoxed:false,
+									keyPosition:layout.graphGutter,
+									keyTextBold:true,
+									keyTextSize:labelTextSize-2,
+
+									showValues:layout.showvalues
 								}
 							}).draw();
 						}
@@ -707,6 +910,10 @@ define( [
 							//rainbow.setNumberRange(0, keys.length+1);
 							//palette=getPalette(rainbow);
 							//console.log(palette);
+							var spokes = 0;
+							if(layout.gridSpokes){
+								spokes=labelsArray.length;
+							}
 							var rose = new RGraph.RoseMV({
 								//id: 'canvas-wrapper-'+tmpCVSID,
 								id: tmpCVSID,
@@ -717,7 +924,8 @@ define( [
 									gutterRight: 100,
 									gutterTop: layout.gutterTop,
 									gutterBottom: 50,
-									backgroundGridRadials:layout.gridRadials,
+									//backgroundGridRadials:layout.gridRadials,
+									backgroundGridRadials:spokes,
 									//backgroundGridCount:layout.grid?layout.grid:0,
 									backgroundGridCount:layout.grid,
 									backgroundGrid:true,
