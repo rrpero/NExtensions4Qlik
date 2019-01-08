@@ -452,10 +452,23 @@
 		biPartite.edgeMode();
 		refresh=false;
 	  }
-	  function fx(d){ return -d.width}
-	  function fy(d){ return -d.height}
-      function fw(d){ return 2*d.width}
-      function fh(d){ return 2*d.height}
+	  function fx(d){ //console.log("fx: " + -d.width); 
+			if(isNaN(-d.width))
+			  return -0.1;
+			return -d.width}
+	  function fy(d){ //console.log("fy: " + -d.height);  
+		  if(isNaN(-d.height))
+			  return -0.1;
+		return -d.height}
+      function fw(d){ //console.log("fw: " + 2*d.width);  
+			if(isNaN(2*d.width))
+			  return 0.1;	  
+		return 2*d.width}
+      function fh(d){ //console.log("fh: " + 2*d.height);
+		
+		if(2*d.height<0 ||  isNaN(2*d.height))
+			return 0.1;
+		return 2*d.height}
 	  
 	  return biPartite;
 	}

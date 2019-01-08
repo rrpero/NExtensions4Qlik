@@ -254,7 +254,7 @@ define( [
 	};		
 	
 
-	show['options']['border']=["wordCloudChart"];		
+	show['options']['border']=["wordCloudChart","polar"];		
 	var border = {
 		type: "boolean",
 		component: "switch",
@@ -272,7 +272,23 @@ define( [
 			return showTo(show['options']['border'],d);
 
 		}	
-	};	
+	};
+	
+	show['options']['borderSize']=["polar"];
+	var borderSize = {
+			type: "integer",
+			//component: "switch",
+			label: messages[language].BORDER_SIZE,
+			ref: "borderSize",
+			min: 0,
+			max: 20,			
+			defaultValue: 0,
+			show: function (d) {
+				return d.border && showTo(show['options']["borderSize"],d);
+			}
+		};	
+
+	
 //	messages[language].GRID = "Grid";
 /*	var grid = {
 		type: "boolean",
@@ -289,6 +305,39 @@ define( [
 		defaultValue: true
 	};	*/	
 
+	
+	show['options']['marginSlices']=["polar"];
+	var marginSlices = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].MARGIN_SLICES,
+			ref: "marginSlices",
+			options: [{
+				value: true,
+				label: messages[language].YES
+			}, {
+				value: false,
+				label: messages[language].NO
+			}],
+			defaultValue: false,
+			show: function (d) {
+				return showTo(show['options']["marginSlices"],d);
+			}
+		};
+
+	show['options']['marginSlicesSize']=["polar"];
+	var marginSlicesSize = {
+			type: "integer",
+			//component: "switch",
+			label: messages[language].MARGIN_SLICES_SIZE,
+			ref: "marginSlicesSize",
+			min: 0,
+			max: 10,			
+			defaultValue: 0,
+			show: function (d) {
+				return d.marginSlices && showTo(show['options']["marginSlicesSize"],d);
+			}
+		};		
 
 	show['options']['grid']=["polar","radar"];
 
@@ -472,7 +521,7 @@ define( [
 	};		
 
 
-	show['options']['showvalues']=["polar","funnel","radar"];
+	show['options']['showvalues']=["polar","funnel","radar","waterfall"];
 	var showvalues = {
 			type: "boolean",
 			component: "switch",
@@ -588,7 +637,10 @@ define( [
 			palette:palette,
 			transparent:transparent,
 			border:border,
+			borderSize:borderSize,
 			grid:grid,
+			marginSlices:marginSlices,
+			marginSlicesSize:marginSlicesSize,
 			//gridRadials:gridRadials,
 			gridSpokes:gridSpokes,
 			gridDotted:gridDotted,
@@ -1081,7 +1133,7 @@ define( [
 			}
 	};
 
-
+	show['position']['Position']=["funnel","polar","waterfall","radar","biPartite"];	
 	var Position = {
 		type:"items",
 		//component: "expandable-items",
@@ -1090,7 +1142,10 @@ define( [
 			gutterTop:gutterTop,
 			gutterLeft:gutterLeft
 			//,rotateUpFor:rotateUpFor
-		}
+		},
+		show: function (d) {
+			return showTo(show['position']['Position'],d);
+		}	
 	
 	};	
 

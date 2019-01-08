@@ -476,6 +476,8 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 					var edgeMode = "curved";
 					
 					var fWidth = layout.width/10;
+					if(layout.height<2.5)
+						layout.height=2.5;
 					var fHeight = layout.height/10;
 					
 					
@@ -496,7 +498,8 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 					
 					barSize=barSize+(layout.barSize*0.01*barSize);
 					
-					
+					//console.log(layout.height);
+					//console.log(bpHeight);
 					var bp=[ viz().biPartite()
 							.data(data)
 							.min(12)

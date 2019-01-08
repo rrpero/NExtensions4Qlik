@@ -1010,6 +1010,7 @@
 							co.lineTo(coords_dataset[i][0], coords_dataset[i][1]);
 						}
 						*/
+						//DRAW DOTS
 						co.beginPath();
 						//co.fillStyle='rgba(0,0,0,0)';
 						//console.log(this.radius);

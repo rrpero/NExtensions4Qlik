@@ -59,6 +59,7 @@ messages["pt_BR"].UPPER = "Maiúsculas";
 
 
 messages["pt_BR"].BORDER = "Borda";
+messages["pt_BR"].BORDER_SIZE = "Tamanho da Borda";
 messages["pt_BR"].YES = "Sim";
 messages["pt_BR"].NO = "Não";
 
@@ -71,6 +72,9 @@ messages[language].CIRCLE = "Círculo";
 messages[language].POLYGON = "Polígono";
 
 messages[language].GRID_SPOKES = "Divisórias";
+
+messages[language].MARGIN_SLICES = "Separar Fatias";
+messages[language].MARGIN_SLICES_SIZE = "Tamanho Separação";
 
 //messages["pt_BR"].GRID_RADIALS="Divisórias";
 

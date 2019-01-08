@@ -595,6 +595,11 @@ define( [
 									gutterTop: 10,
 									gutterLeft: layout.gutterLeft+(0.5*testRadius),
 									gutterBottom: layout.gutterTop+(0.5*testRadius),
+									showValues:layout.showvalues,
+									//backgroundGridDashed:true,
+									//xaxisTitle:'Conn',
+									//xaxisTitleSize:12,
+									//xaxisTitleFont:'QlikView Sans',
 									tooltips:function (idx)
 									{
 										return '<div id="__tooltip_div__">'+toolTipsArray[idx]+'</div>';
@@ -603,7 +608,9 @@ define( [
 									},
 									tooltipsEvent: 'onmousemove'
 								}
-							}).draw();
+							})
+							//.set('backgroundHbars', [[0, total*0.75, 'yellow'], [total*0.75, total*0.25, 'red']])
+							.draw();
 						}
 						else
 						{
@@ -914,6 +921,15 @@ define( [
 							if(layout.gridSpokes){
 								spokes=labelsArray.length;
 							}
+							
+							var linewidth = 0;
+							
+							if(layout.border)
+								linewidth = layout.borderSize;
+							
+							var margin  = 0;
+							if(layout.marginSlices)
+								margin = layout.marginSlicesSize;
 							var rose = new RGraph.RoseMV({
 								//id: 'canvas-wrapper-'+tmpCVSID,
 								id: tmpCVSID,
@@ -952,7 +968,7 @@ define( [
 									colorsSequential: (numberOfDimensions==2 && numberOfMeasures<2)?false:true,
 									//colorsSequential: true,
 									colors: palette,
-									linewidth: 0,
+									linewidth: linewidth,
 									labels: labelsArray,
 									showvalues:layout.showvalues,
 									labelsApprox:layout.labelsApprox,
@@ -967,7 +983,8 @@ define( [
 									keyPosition:layout.graphGutter,
 									keyTextBold:true,
 									keyTextSize:labelTextSize-2,						
-									eventsClick: onClickDimension
+									eventsClick: onClickDimension,
+									margin:margin
 								}
 							}).draw();
 						}
