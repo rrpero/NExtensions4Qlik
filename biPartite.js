@@ -282,7 +282,7 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 					//dimArray[i] = layout.qHyperCube.qDataPages[0].qMatrix[i][0].qText;
 					dimArray[i] = qMatrix[i][0].qText;
 					//if(dimArray[i]=="Thresh")
-					//	console.log("Thresh  tem elem  number "  + qMatrix[i][0].qElemNumber);
+					//console.log("Thresh  tem elem  number "  + qMatrix[i][0].qElemNumber);
 					//measArrayNum[i] = layout.qHyperCube.qDataPages[0].qMatrix[i][1].qNum;
 					measArrayNum[i] = qMatrix[i][1].qNum;
 					//console.log(qMatrix[i][0]);

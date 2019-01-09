@@ -875,7 +875,7 @@
                             co.lineTo(this.centerx + explodedX, this.centery + explodedY);
                         co.closePath(); // End the segment
 						
-						console.log(prop['chart.linewidth']);
+						//console.log(prop['chart.linewidth']);
 						/*
 						if(prop['chart.linewidth']==0){
 							//co.stroke();

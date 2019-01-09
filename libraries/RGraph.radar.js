@@ -97,6 +97,7 @@
         this.properties =
         {
             'chart.show.values':			true,
+			'chart.show.values.text.size':			7,
 			'chart.strokestyle':           '#aaa',
             'chart.gutter.left':           25,
             'chart.gutter.right':          25,
@@ -1030,11 +1031,11 @@
 						if(prop['chart.show.values']){
 							RG.text2(this, {
 								'font':'QlikView Sans',
-								'size':7,
+								'size':prop['chart.show.values.text.size'],
 								'bold':true,
 								'color':this.pSBC(-0.4,co.strokeStyle),
 								'x':coords_dataset[i][0],
-								'y':coords_dataset[i][1]-8,
+								'y':coords_dataset[i][1]-prop['chart.show.values.text.size'],
 								'text':this.data[dataset][i],
 								'valign':'center',
 								'halign':'center',

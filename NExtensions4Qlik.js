@@ -827,6 +827,16 @@ define( [
 							if(layout.qHyperCube.qDimensionInfo.length==2 || 
 							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1)
 							){
+								while(measArrays2[0].length<3)
+								{
+									name=name+" ";
+									for(var i = 0; i < measArrays2.length;i++)
+									{
+										measArrays2[i].push(0);
+									}									
+									dim2StructureKeys.push(name);
+									toolTipsArray.push("");
+								}
 								measArrays=measArrays2;
 								keys=dim2StructureKeys;
 								keysLegends=dim1StructureKeys;
@@ -845,6 +855,7 @@ define( [
 							//measArrays.push(measArrayNumTeste);
 							//console.log(measArrays);
 							//console.log(keys);
+							max=max*(1+(labelTextSize/100));
 							var rose =  new RGraph.Radar({
 								//width:100,
 								id: tmpCVSID,
@@ -901,7 +912,8 @@ define( [
 									keyTextBold:true,
 									keyTextSize:labelTextSize-2,
 
-									showValues:layout.showvalues
+									showValues:layout.showvalues,
+									showValuesTextSize:labelTextSize-2
 								}
 							}).draw();
 						}

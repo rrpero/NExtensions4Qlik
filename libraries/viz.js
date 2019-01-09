@@ -81,7 +81,7 @@
         	.data(bars.subBars)
         	.enter()
 			.append("g")
-			.attr("transform", function(d){ /*console.log(d);*/ return "translate("+d.x+","+d.y+")";})
+			.attr("transform", function(d){ /*//console.log(d);*/ return "translate("+d.x+","+d.y+")";})
         	.attr("class","viz-biPartite-subBar")
         	.append("rect")
         	.attr("x",fx).attr("y",fy).attr("width",fw).attr("height",fh)
@@ -101,7 +101,7 @@
         	.data(bars.mainBars)
         	.enter()
 			.append("g")
-			.attr("transform", function(d){ /*console.log(d);*/ return "translate("+d.x+","+d.y+")";})
+			.attr("transform", function(d){ /*//console.log(d);*/ return "translate("+d.x+","+d.y+")";})
         	.attr("class","viz-biPartite-mainBar")
         	.append("rect")
         	.attr("x",fx).attr("y",fy).attr("width",fw).attr("height",fh)
@@ -294,8 +294,8 @@
 		function bpmap(a/*array*/, p/*pad*/, m/*min*/, s/*start*/, e/*end*/){
 			//s=1;
 			var r = m/(e-s-2*a.length*p); // cut-off for ratios
-			var ln =0, lp=0, t=d3.sum(a,function(d){ /*console.log(d);*/return d.value;}); // left over count and percent.
-			a.forEach(function(d){ /*console.log(d);*/ if(d.value < r*t ){ ln+=1; lp+=d.value; }})
+			var ln =0, lp=0, t=d3.sum(a,function(d){ /*//console.log(d);*/return d.value;}); // left over count and percent.
+			a.forEach(function(d){ /*//console.log(d);*/ if(d.value < r*t ){ ln+=1; lp+=d.value; }})
 			var o= t < 1e-5 ? 0:(e-s-2*a.length*p-ln*m)/(t-lp); // scaling factor for percent.
 			var b=s, ret=[];
 			a.forEach(function(d){ 
@@ -343,7 +343,7 @@
 			.data(bars.mainBars)
 			.transition()
 			.duration(duration)
-			.attr("transform", function(d){/* console.log(d); */ return "translate("+d.x+","+d.y+")";})
+			.attr("transform", function(d){/*//console.log(d); */ return "translate("+d.x+","+d.y+")";})
         	.select("rect")
         	.attr("x",fx)
 			.attr("y",fy)
@@ -764,7 +764,7 @@
   }
   
   chord.fill = function(_){
-	// console.log("ois");
+	//console.log("ois");
 	return arguments.length ? (fill = _, chord) : typeof fill !== "undefined" ? fill : 	(fill=viz_schemeCategory10()) ;
   }
   
@@ -772,14 +772,14 @@
  /*
  chord.fill = function(_){
 	return arguments.length ? (fill = _, refresh=true, chord) 
-		: fill || (fill=function(){console.log("opa2"); var color = d3.scale.ordinal(d3.schemeCategory10);  return function(d){ console.log("opa");  return color(d.primary);}}());		
+		: fill || (fill=function(){//console.log("opa2"); var color = d3.scale.ordinal(d3.schemeCategory10);  return function(d){ //console.log("opa");  return color(d.primary);}}());		
   }
   */
   /*
  chord.fill = function(_){
-	 console.log(arguments.length);
+	 //console.log(arguments.length);
 	return arguments.length ? (fill = _,  chord) 
-		: fill || (fill=function(){console.log("opa2"); var color = d3.scale.ordinal(d3.schemeCategory10);  return function(d){ console.log("opa");  return color(d.primary);}}());		
+		: fill || (fill=function(){//console.log("opa2"); var color = d3.scale.ordinal(d3.schemeCategory10);  return function(d){ //console.log("opa");  return color(d.primary);}}());		
   } */ 
   chord.duration = function(_){
 	return arguments.length ? (duration = _, chord) :  typeof duration !== "undefined" ? duration : (duration=500) ;
@@ -831,7 +831,7 @@
   }
   chord.label = function(_){
 	return arguments.length ? (label = _, chord) 
-		:  typeof label !== "undefined" ? label : (label=function(d){ /*console.log(d); */ return d.source+" ("+d.value+")"}); 
+		:  typeof label !== "undefined" ? label : (label=function(d){ /*//console.log(d); */ return d.source+" ("+d.value+")"}); 
   }
   chord.mouseover = function(d){
     relayouts(d.source);
@@ -913,7 +913,7 @@
 	    
 	    gia.forEach(function(si, i){		
 	      var t1=grpbarsgia[i];
-		 // console.log(t1);
+		 //console.log(t1);
   	        chords.push({
 	  		         startAngle:t1.c-t1.v/2
 	                 , endAngle:t1.c+t1.v/2
@@ -1115,7 +1115,7 @@
 	if(fixed) dorder =dorder.slice(ind).concat(dorder.slice(0,ind));
 	  
     var a0 = data.filter(function(d){ return (!fixed || d.source!==fixedSource  || d.type!="g") && !d.skipPad})
-	  .map(function(d){/* console.log(d);*/  return d.value;});
+	  .map(function(d){/* //console.log(d);*/  return d.value;});
 	  
 	var ta = 2*Math.PI - (fixed ? (data[ind].endAngle-data[ind].startAngle +2*pad): 0);
   
@@ -1484,7 +1484,7 @@
 		return cal;		
 	}
 	cal.value = function(_){ 
-		if(!arguments.length) return typeof value !== "undefined" ? value : function(d){ /*console.log(d);*/ return d.value; } ;
+		if(!arguments.length) return typeof value !== "undefined" ? value : function(d){ /*//console.log(d);*/ return d.value; } ;
 		value = _;
 		return cal;		
 	}
@@ -1833,7 +1833,7 @@
 		return arguments.length ? (key = typeof _ === "function" ? _ : function(){ return _ ;}, area) :  key || (key=function(d){ return d.key;}) ;
 	}
 	area.value1 = function(_){
-		return arguments.length ? (value1 = typeof _ === "function" ? _ : function(){ return +_ ;}, area) :  value1 || (value1=function(d){ /*console.log(d);  */return d.value;});
+		return arguments.length ? (value1 = typeof _ === "function" ? _ : function(){ return +_ ;}, area) :  value1 || (value1=function(d){ /*//console.log(d);  */return d.value;});
 	}
 	area.value0 = function(_){
 		return arguments.length ? (value0 = typeof _ === "function" ? _ : function(){ return +_ ;}, area) :  value0 || (value0=function(d){ return 0;});
@@ -2266,7 +2266,7 @@
 		return arguments.length ? (key = typeof _ === "function" ? _ : function(){ return _ ;}, bar) :  key || (key=function(d){ return d.key;}) ;
 	}
 	bar.value1 = function(_){
-		return arguments.length ? (value1 = typeof _ === "function" ? _ : function(){ return +_ ;}, bar) :  value1 || (value1=function(d){ /*console.log(d); */return d.value;});
+		return arguments.length ? (value1 = typeof _ === "function" ? _ : function(){ return +_ ;}, bar) :  value1 || (value1=function(d){ /*//console.log(d); */return d.value;});
 	}
 	bar.value0 = function(_){
 		return arguments.length ? (value0 = typeof _ === "function" ? _ : function(){ return +_ ;}, bar) :  value0 || (value0=function(d){ return 0;});
@@ -3098,7 +3098,7 @@
   function viz_height2(d){ return d.height/2}
   function viz_width2(d){ return d.width/2}
   function viz_key(d){ return d.key}
-  function viz_value(d){ /*console.log(d);*/ return d.value}
+  function viz_value(d){ /*//console.log(d);*/ return d.value}
   
   function viz_assign(o){
 	var x;
