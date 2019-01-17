@@ -414,6 +414,22 @@ define( [
 			}
 		};		
 	
+	show['options']['max']=["radar"];		
+	var max = {
+		type: "float",
+		label: messages[language].MAX,
+		ref: "max",
+		component: "slider",
+		min: 0.05,
+		max: 2,
+		step: 0.05,			
+		//expression: "always",
+		defaultValue: 1,
+		show: function (d){
+			return showTo(show['options']['max'],d);
+
+		}
+	};	
 
 /*
 	show['options']['gridRadials']=["polar"];
@@ -653,7 +669,8 @@ define( [
 			labelTextSize:labelTextSize,
 			labelIn:labelIn,
 			bold:bold,
-			labelsApprox:labelsApprox
+			labelsApprox:labelsApprox,
+			max:max
 			
 			//,keepColors:keepColors
 

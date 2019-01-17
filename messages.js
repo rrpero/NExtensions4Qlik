@@ -73,6 +73,8 @@ messages[language].POLYGON = "Polígono";
 
 messages[language].GRID_SPOKES = "Divisórias";
 
+messages[language].MAX = "Máximo";
+
 messages[language].MARGIN_SLICES = "Separar Fatias";
 messages[language].MARGIN_SLICES_SIZE = "Tamanho Separação";
 

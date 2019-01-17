@@ -96,7 +96,9 @@
 
         this.properties =
         {
-            'chart.show.values':			true,
+            
+			'chart.show.values.array':			null,
+			'chart.show.values':			true,
 			'chart.show.values.text.size':			7,
 			'chart.strokestyle':           '#aaa',
             'chart.gutter.left':           25,
@@ -550,6 +552,8 @@
             // Draw the key if necessary
             // obj, key, colors
             if (prop['chart.key']) {
+				//console.log(this.interactiveKeyHighlight);
+				//this.interactiveKeyHighlight = prop['chart.key.interactive'];
                 RG.DrawKeyV2(this, prop['chart.key'], prop['chart.colors']);
             }
     
@@ -1036,7 +1040,8 @@
 								'color':this.pSBC(-0.4,co.strokeStyle),
 								'x':coords_dataset[i][0],
 								'y':coords_dataset[i][1]-prop['chart.show.values.text.size'],
-								'text':this.data[dataset][i],
+								//'text':this.data[dataset][i],
+								'text':prop['chart.show.values.array'][dataset][i],
 								'valign':'center',
 								'halign':'center',
 								'bounding':false,
@@ -1837,7 +1842,8 @@
         this.interactiveKeyHighlight = function (index)
         {
             var coords = this.coords2[index];
-
+			//console.log(index);
+			
             if (coords) {
                 
                 var pre_linewidth = co.lineWidth;
