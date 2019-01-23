@@ -3,7 +3,7 @@
     "description" : "Charts using RGraph and D3 with options  to  customize",
     "icon" : "pie-chart",
     "type" : "visualization",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "preview" : "pie-chart",
     "author": "Ruben Albuquerque"
 }
