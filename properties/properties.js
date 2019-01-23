@@ -110,6 +110,23 @@ define( [
 
 			}				
 	};
+
+	show['options']['factor']=["radar","funnel","polar"];
+	var factor = {
+			type: "integer",
+			label: messages[language].FACTOR,
+			ref: "factor",
+			//component: "slider",
+			min: 0,
+			//max: 200,
+			//step: 1,			
+			//expression: "always",
+			defaultValue: 0,
+			show: function (d){
+				return showTo(show['options']['factor'],d);
+
+			}
+	};	
 	
 
 	show['options']['minTextSize']=["wordCloudChart"];
@@ -646,6 +663,7 @@ define( [
 		items: {			
 
 			polar:polar,
+			factor:factor,
 			rotateType:rotateType,
 			minTextSize:minTextSize,
 			maxTextSize:maxTextSize,
@@ -1021,6 +1039,7 @@ define( [
 	};		
 	
 
+	show['size']['chartSize']=["funnel","polar","waterfall","radar","biPartite"];	
 	var chartSize = {
 		type:"items",
 		label:messages[language].ITEM_SIZE,
@@ -1031,6 +1050,9 @@ define( [
 			//,
 			//donutWidth:donutWidth		
 
+		},
+		show: function (d) {
+			return showTo(show['size']['chartSize'],d);
 		}
 	
 	};

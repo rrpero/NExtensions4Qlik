@@ -17,7 +17,7 @@ messages["pt_BR"].RADAR_DIMENSIONMEASURE ="Radar: Selecione Somente 1 Dimensão 
 messages["pt_BR"].POLAR_DIMENSIONMEASURE ="Polar: Selecione até 1 Dimensão e 1 Medida / Selecione 2 ou mais Medidas sem Dimensões";
 
 
-messages["pt_BR"].ROTATE_TYPE= "TTipo Rotação";
+messages["pt_BR"].ROTATE_TYPE= "Tipo Rotação";
 messages["pt_BR"].RANDOM2 = "Aleatório 2";
 messages["pt_BR"].RANDOM7 = "Aleatório 7";
 messages["pt_BR"].FIXED1 = "Fixo 1";	
@@ -26,6 +26,8 @@ messages["pt_BR"].FIXED3 = "Fixo 3";
 messages["pt_BR"].FIXED4 = "Fixo 4";
 messages["pt_BR"].FIXED5 = "Fixo 5";
 messages["pt_BR"].FIXED7 = "Fixo 7";
+
+messages[language].FACTOR = "Fator";
 
 messages["pt_BR"].MIN_TEXT_SIZE = "Tamanho Mínimo Texto";	
 
