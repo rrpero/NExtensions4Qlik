@@ -9,6 +9,7 @@
 ### 3. Polar Chart
 
 ### 4. BiPartite Chart
+![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/bipartite.png)
 
 ### 5. Word Cloud Chart
 
