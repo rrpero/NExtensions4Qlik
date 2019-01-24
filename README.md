@@ -10,7 +10,6 @@
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/polar.png)
 ### 4. BiPartite Chart
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/bipartite.png)
-
 ### 5. Word Cloud Chart
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/wordcloudb.png)
 ### 6. Radar Chart
