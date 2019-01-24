@@ -538,7 +538,26 @@ define( [
 				return showTo(show['options']["chartLabels"],d);
 			}	
 	};
-	
+/*	
+	show['options']['valueInLabels']=["radar"];
+	var valueInLabels = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].VALUE_IN_LABELS,
+			ref: "valueInLabels",
+			options: [{
+				value: true,
+				label: messages[language].ON
+			}, {
+				value: false,
+				label: messages[language].OFF
+			}],
+			defaultValue: false,
+			show: function (d) {
+				return showTo(show['options']["valueInLabels"],d);
+			}	
+	};	
+*/	
 
 	show['options']['fontColor']=["biPartite"];
 	var fontColor = {
@@ -682,6 +701,7 @@ define( [
 			axes:axes,
 			backgroundColor:backgroundColor,
 			chartLabels:chartLabels,
+//			valueInLabels:valueInLabels,
 			fontColor:fontColor,
 			showvalues:showvalues,
 			labelTextSize:labelTextSize,

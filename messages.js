@@ -88,6 +88,8 @@ messages["pt_BR"].BACKGROUND_COLOR = "Cor de Fundo";
 
 messages["pt_BR"].SHOW_LABELS="Mostrar Labels";
 
+//messages["pt_BR"].VALUE_IN_LABELS="Valor Nas Labels";
+
 messages["pt_BR"].FONT_COLOR = "Cor da Letra";
 
 messages["pt_BR"].SHOW_VALUES="Mostrar Valores";
