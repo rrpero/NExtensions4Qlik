@@ -63,7 +63,8 @@
         
         this.properties =
         {
-            'chart.showvalues':				false,
+            'chart.show.values':				false,
+			'chart.show.values.array':				null,
 			'chart.background.axes':        true,
             'chart.background.axes.color':  'black',
             'chart.background.grid':        true,
@@ -1153,7 +1154,7 @@
                 centery     = this.centery + (prop['chart.variant'].indexOf('3d') !== -1 ? prop['chart.variant.threed.depth'] : 0);
 
             // Draw any circular labels
-            if (typeof prop['chart.labels'] == 'object' && prop['chart.labels']) {
+            if ((typeof prop['chart.labels'] == 'object' && prop['chart.labels'])   || prop['chart.show.values']) {
                 this.DrawCircularLabels(co, prop['chart.labels'], font, size, radius + 10);
             }
     
@@ -1296,13 +1297,21 @@
 				
 				var radiusT = radius;
 				var dataI = 0;
+				var dataIF = 0;
 				if(this.data[i].constructor === Array)
 				{
+					//console.log("constructor");
 					for(j in this.data[i])
 						dataI = dataI+this.data[i][j];
 				}
-				else
-					dataI = this.data[i];				
+				else{
+					//console.log("no constructor");
+					dataI = this.data[i];
+					dataIF = prop['chart.show.values.array'][0][i];
+					
+					//console.log(dataI);
+					//console.log(this.data[i]);
+				}
 				if(prop['chart.labels.approx']<1){
 						
 					radiusT = ((dataI - prop['chart.ymin']) / (this.max - prop['chart.ymin'])) * (this.radius*1.1);
@@ -1323,16 +1332,30 @@
                 } else {
                     halign = 'right';
                 }
-				var labelPrint=labels[i];
-				if(prop['chart.showvalues']){
-					               
-					if (x > centerx) {
-						labelPrint=dataI +" - "	+labelPrint;				
-					} else if (Math.round(x) == centerx) {
-						labelPrint=dataI+" - "	+labelPrint;
-					} else {
-						labelPrint=labelPrint+" - "+dataI;
+				if(labels !=  null){
+					var labelPrint=labels[i];
+					if(prop['chart.show.values']){
+									   
+						if (x > centerx) {
+							labelPrint=dataIF +" - "	+labelPrint;				
+						} else if (Math.round(x) == centerx) {
+							labelPrint=dataIF+" - "	+labelPrint;
+						} else {
+							labelPrint=labelPrint+" - "+dataIF;
+						}
 					}
+				}
+				else{
+					if(prop['chart.show.values']){
+									   
+						if (x > centerx) {
+							labelPrint=dataIF;				
+						} else if (Math.round(x) == centerx) {
+							labelPrint=dataIF;
+						} else {
+							labelPrint=dataIF;
+						}
+					}					
 				}
     
                 RG.text2(this, {

@@ -302,13 +302,13 @@ define( [
 					
 					
 					//RGraph.Reset(document.getElementById(tmpCVSID));
-					//var min = Math.min.apply(null, measArrayNum),
-					//max = Math.max.apply(null, measArrayNum);
+					var min = Math.min.apply(null, measArrayNum),
+					max = Math.max.apply(null, measArrayNum);
 					
-					//var diffMaxMin = max - min;
+					var diffMaxMin = max - min;
 					
 
-					/*
+					
 					var  maxTextSize = 20-layout.maxTextSize;
 					if(width>height){
 						tamanho=height;
@@ -331,7 +331,7 @@ define( [
 					//console.log("LOG: " + Math.log(1000000*measArrayNum.length));
 					//tamanho = height+width;				
 					var fontMax =  5 + ((max/total)*tamanho);
-					*/
+
 						
 					/*
 					//console.log(dimArray.map(function(d,i) {
@@ -358,337 +358,15 @@ define( [
 						layout.grid=0;
 					//console.log(layout.grid+0);
 					
-					var data = null;
 					
-					//array que contem measArrayNum2
-					var measArrays = [];
-					var measArrayNum2 = [];
-					//array que contem measArrayNum2ValuesFormatted
-					var valuesFormatted =[];
-					var measArrayNum2ValuesFormatted = [];
-					var labelsArray = [];
-					var toolTipsArray = [];					
-					var newStructure = {};
-					var newStructureValuesFormatted = {};
-					var total = 0;
-					var max=0;
-					var palette = null;
-					
-					var keyLegendsWhenMeasure = [];
-					
-					
-					if(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1){
-						
-						
-						for (var i=0; i<qMatrix.length;i++){
-							newStructure[qMatrix[i][0].qText]={};
-							newStructureValuesFormatted[qMatrix[i][0].qText]={};
+					//console.log(measArrayNum2);
+					//console.log(testRadius);
 
-						}
-						labelsArray=Object.keys(newStructure);
-						palette=createPalette(qMatrix.length,{},{});
-					
-						for(var  i  in newStructure){
-							newStructure[i]=0;
-							newStructureValuesFormatted[i]=0;
-						}	
-						for (var i=0; i<qMatrix.length;i++){
-							newStructure[qMatrix[i][0].qText]=qMatrix[i][1].qNum;
-							newStructureValuesFormatted[qMatrix[i][0].qText]=qMatrix[i][1].qText;
-							if(max<qMatrix[i][1].qNum){
-								max=qMatrix[i][1].qNum;
-
-							}
-							
-						}
-											
-						if(layout.polar == "radar" || layout.polar == "funnel" || layout.polar == "polar"){
-							//arrayValuesDim2=arrayValuesDim2-layout.factor;
-							max=max-layout.factor;
-						}									
-						
-
-						var ix=0;
-						for(var  i  in newStructure){
-							total = total + parseFloat(newStructure[i]);
-							
-							var arrayValuesDim2	= newStructure[i];
-							if(layout.polar == "radar" ||  layout.polar == "funnel" || layout.polar == "polar"){
-								arrayValuesDim2=arrayValuesDim2-layout.factor;
-								//max=max-layout.factor;
-							}
-							var arrayValuesDim2ValuesFormatted	= newStructureValuesFormatted[i];
-
-							//toolTipsArray[ix]=i+" - " + newStructure[i];							
-							toolTipsArray[ix]=i+" - " + newStructureValuesFormatted[i];					
-							//toolTipsArray[ix]=i+" - " + (newStructure[i]+120).toFixed(1);					
-							measArrayNum2[ix]=arrayValuesDim2;
-							measArrayNum2ValuesFormatted[ix]=arrayValuesDim2ValuesFormatted;
-							/*Test to show an increase in values when send decrease in measure*/
-							//measArrayNum2ValuesFormatted[ix]=arrayValuesDim2+120;
-							//measArrayNum2ValuesFormatted[ix]=measArrayNum2ValuesFormatted[ix].toFixed(1);
-							ix++;
-						}
-						measArrays.push(measArrayNum2);
-						valuesFormatted.push(measArrayNum2ValuesFormatted);
-						//console.log(measArrayNum2ValuesFormatted);
-						//console.log(labelsArray);
-						
-						
-						keyLegendsWhenMeasure.push(layout.qHyperCube.qMeasureInfo[0].qFallbackTitle);
-						
-						
-					}
-					else if (layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length>1){
-						
-						
-						for (var i=0; i<layout.qHyperCube.qMeasureInfo.length;i++){
-							newStructure[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
-							newStructureValuesFormatted[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
-
-						}
-						//labelsArray=Object.keys(newStructure);
-						//palette=createPalette(qMatrix.length,{},{});
-						
-						var dim1StructureKeys = Object.keys(newStructure);
-						keyLegendsWhenMeasure=dim1StructureKeys;
-
-					
-						palette=createPalette(dim1StructureKeys.length,{},{});
-					
-						for(var i = 0; i< dim1StructureKeys.length;i++)
-						{
-							for(var j = 0; j< qMatrix.length;j++)
-							{									
-								newStructure[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
-								newStructureValuesFormatted[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
-							}
-						}
-					
-						//console.log(dim1Structure);
-						//var max = 0;
-					
-						for(var i = 0; i< qMatrix.length;i++)
-						{
-							labelsArray.push(qMatrix[i][0].qText);
-							for(j=0;j<dim1StructureKeys.length;j++){
-								newStructure[dim1StructureKeys[j]][qMatrix[i][0].qText]=qMatrix[i][j+1].qNum;
-								newStructureValuesFormatted[dim1StructureKeys[j]][qMatrix[i][0].qText]=qMatrix[i][j+1].qText;
-								if(max<qMatrix[i][j+1].qNum)
-									max=qMatrix[i][j+1].qNum;
-							}
-						}
-
-						max=max*1.1;
-						if(layout.polar == "radar" || layout.polar == "funnel" || layout.polar == "polar"){
-							//arrayValuesDim2=arrayValuesDim2-layout.factor;
-							max=max-layout.factor;
-						}							
-						//console.log(dim1Structure);
-						//var measArrays2 =[];
-						
-						//console.log(palette);
-						
-						for(var i = 0; i< dim1StructureKeys.length;i++)
-						{
-							var measArrayNumTeste =[];
-							var valueFormatted =[];
-							var dim2StructureKeys = Object.keys(newStructure[dim1StructureKeys[i]]);
-							//console.log(palette[i]);
-
-
-
-							for(var j = 0; j< dim2StructureKeys.length;j++){
-								if(i>0)
-									toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ dim1StructureKeys[i]+' - <div style="display:inline;color:'+palette[i]+'">'+newStructureValuesFormatted[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>";
-								else
-									toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ dim1StructureKeys[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+newStructureValuesFormatted[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>");
-								
-								
-								if(layout.polar == "radar" || layout.polar == "funnel" || layout.polar == "polar"){
-									//arrayValuesDim2=arrayValuesDim2-layout.factor;
-									measArrayNumTeste.push(newStructure[dim1StructureKeys[i]][dim2StructureKeys[j]]-layout.factor);
-								}
-								else{
-									measArrayNumTeste.push(newStructure[dim1StructureKeys[i]][dim2StructureKeys[j]]);
-								}									
-								
-								
-								valueFormatted.push(newStructureValuesFormatted[dim1StructureKeys[i]][dim2StructureKeys[j]]);
-								
-							}
-							measArrays.push(measArrayNumTeste);
-							valuesFormatted.push(valueFormatted);
-						}						
-											
-						
-					}
-					else if (layout.qHyperCube.qDimensionInfo.length==0 && layout.qHyperCube.qMeasureInfo.length>1){
-						
-						for (var i=0; i<layout.qHyperCube.qMeasureInfo.length;i++){
-							newStructure[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
-							newStructureValuesFormatted[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
-
-						}
-						labelsArray=Object.keys(newStructure);
-						palette=createPalette(labelsArray.length,{},{});
-					
-						for(var  i  in newStructure){
-							newStructure[i]=0;
-							newStructureValuesFormatted[i]=0;
-						}
-						//console.log(qMatrix);
-						
-						for (var i=0; i<labelsArray.length;i++){
-							newStructure[labelsArray[i]]=qMatrix[0][i].qNum;
-							newStructureValuesFormatted[labelsArray[i]]=qMatrix[0][i].qText;
-							if(max<qMatrix[0][i].qNum){
-								max=qMatrix[0][i].qNum;
-
-							}
-							
-						}
-						//console.log(qMatrix);
-						//console.log(newStructureValuesFormatted);
-											
-						if(layout.polar == "radar" || layout.polar == "funnel" || layout.polar == "polar"){
-							//arrayValuesDim2=arrayValuesDim2-layout.factor;
-							max=max-layout.factor;
-						}									
-						
-
-						var ix=0;
-						for(var  i  in newStructure){
-							total = total + parseFloat(newStructure[i]);
-							
-							var arrayValuesDim2	= newStructure[i];
-							if(layout.polar == "radar" ||  layout.polar == "funnel" || layout.polar == "polar"){
-								arrayValuesDim2=arrayValuesDim2-layout.factor;
-								//max=max-layout.factor;
-							}
-							var arrayValuesDim2ValuesFormatted	= newStructureValuesFormatted[i];
-
-							//toolTipsArray[ix]=i+" - " + newStructure[i];							
-							toolTipsArray[ix]=i+" - " + newStructureValuesFormatted[i];					
-							//toolTipsArray[ix]=i+" - " + (newStructure[i]+120).toFixed(1);					
-							measArrayNum2[ix]=arrayValuesDim2;
-							measArrayNum2ValuesFormatted[ix]=arrayValuesDim2ValuesFormatted;
-							//Test to show an increase in values when send decrease in measure
-							//measArrayNum2ValuesFormatted[ix]=arrayValuesDim2+120;
-							//measArrayNum2ValuesFormatted[ix]=measArrayNum2ValuesFormatted[ix].toFixed(1);
-							ix++;
-						}
-						measArrays.push(measArrayNum2);
-						valuesFormatted.push(measArrayNum2ValuesFormatted);
-						//console.log(measArrayNum2ValuesFormatted);
-						//console.log(labelsArray);
-						
-						
-						keyLegendsWhenMeasure.push(layout.qHyperCube.qMeasureInfo[0].qFallbackTitle);
-						
-						
-					}
-					else if(layout.qHyperCube.qDimensionInfo.length==2 && layout.qHyperCube.qMeasureInfo.length==1){
-						
-						//console.log(qMatrix);
-							
-						for(var i = 0; i< qMatrix.length;i++)
-						{
-							newStructure[qMatrix[i][1].qText]={};
-							newStructureValuesFormatted[qMatrix[i][1].qText]={};
-						}
-						labelsArray = Object.keys(newStructure);
-					
-						palette=createPalette(labelsArray.length,{},{});
-					
-						for(var i = 0; i< labelsArray.length;i++)
-						{
-							for(var j = 0; j< qMatrix.length;j++)
-							{									
-								newStructure[labelsArray[i]][qMatrix[j][0].qText]=0;
-								newStructureValuesFormatted[labelsArray[i]][qMatrix[j][0].qText]=0;
-							}
-						}
-						
-						
-						for(var i = 0; i< qMatrix.length;i++)
-						{
-							newStructure[qMatrix[i][1].qText][qMatrix[i][0].qText]=qMatrix[i][2].qNum;
-							newStructureValuesFormatted[qMatrix[i][1].qText][qMatrix[i][0].qText]=qMatrix[i][2].qText;
-							//console.log(qMatrix[i][2]);
-							if(max<qMatrix[i][2].qNum)
-								max=qMatrix[i][2].qNum;
-						}
-						
-						if(layout.polar == "radar" || layout.polar == "funnel" || layout.polar == "polar"){
-							//arrayValuesDim2=arrayValuesDim2-layout.factor;
-							max=max-layout.factor;
-						}						
-						max=max*1.1;
-						//console.log(newStructure);
-						
-						
-						for(var i = 0; i< labelsArray.length;i++)
-						{
-							//var measArrayNumTeste =[];
-							//var valueFormatted =[];
-							var dim2StructureKeys = Object.keys(newStructure[labelsArray[i]]);
-							//console.log(palette[i]);
-							measArrayNum2=[];
-							measArrayNum2ValuesFormatted=[];
-
-
-							for(var j = 0; j< dim2StructureKeys.length;j++){
-								if(i>0)
-									toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ labelsArray[i]+' - <div style="display:inline;color:'+palette[i]+'">'+newStructureValuesFormatted[labelsArray[i]][dim2StructureKeys[j]]+"</div>";
-								else
-									toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ labelsArray[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+newStructureValuesFormatted[labelsArray[i]][dim2StructureKeys[j]]+"</div>");
-								
-								measArrayNum2.push(newStructure[labelsArray[i]][dim2StructureKeys[j]]);
-								measArrayNum2ValuesFormatted.push(newStructureValuesFormatted[labelsArray[i]][dim2StructureKeys[j]]);
-								//measArrayNum2[i]=arrayValuesDim2;
-								//measArrayNum2ValuesFormatted[i]=arrayValuesDim2ValuesFormatted;
-								
-							}
-							measArrays.push(measArrayNum2);
-							valuesFormatted.push(measArrayNum2ValuesFormatted);
-							
-						}	
-
-						keyLegendsWhenMeasure=labelsArray;
-						labelsArray = Object.keys(newStructure[labelsArray[0]]);
-
-						
-					}
-
-					var qDec = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qDec;
-					var qThou = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qThou;
-					var qFmt = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qFmt;
-					
-					var dcmPlcs = qFmt.split(qDec);
-					
-					if(dcmPlcs.length>1){
-						//qDec = 
-						qFmt = dcmPlcs[1];
-						//console.log("teve " + dcmPlcs[1]);
-					}
-					else{
-						qDec = null;
-						qFmt = null;
-						qThou = null;
-						//console.log("nao teve" + dcmPlcs);
-					}
 					if(layout.polar=="waterfall"){
 						
-						
-						
-						if(
-						(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) 
-							||
-						(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)
-						)					
-						{
-							
+						if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
+						layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0){
+							labelsArray=Object.keys(newStructure);
 							labelsArray.push("Total");
 							toolTipsArray.push("Total - " + total);
 							var rose = new RGraph.Waterfall({
@@ -701,14 +379,10 @@ define( [
 									labelsBoxed:false,
 									textSize: labelTextSize	,
 									colors: palette	,
-									gutterTop: 20,
+									gutterTop: 10,
 									gutterLeft: layout.gutterLeft+(0.5*testRadius),
 									gutterBottom: layout.gutterTop+(0.5*testRadius),
 									showValues:layout.showvalues,
-									showValuesDecimalChar:qDec,
-									showValuesThousandChar:qThou,
-									showValuesDecimalPlaces:qFmt,
-									showValuesArray:measArrayNum2ValuesFormatted,
 									//backgroundGridDashed:true,
 									//xaxisTitle:'Conn',
 									//xaxisTitleSize:12,
@@ -733,25 +407,21 @@ define( [
 					}
 					else if(layout.polar=="funnel"){
 						
-						
-						if(
-						(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1)
-						 ||
-						(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)
-						){
+						if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
+						layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0){
 							// Create the Funnel chart. Note the the values start at the maximum and decrease to the minimum.
-
-							
+							//console.log(palette);
+							//labelsArray=Object.keys(newStructure);
+							//labelsArray.push("Total");
 							var rose = new RGraph.Funnel({
 								id: tmpCVSID,
 								data: measArrayNum2,
 								options: {
 									textBoxed: false,
 									//title: 'Leads through to sales',
-									labels: layout.chartLabels?labelsArray:null,
-									showValues:layout.showvalues,
-									showValuesArray:measArrayNum2ValuesFormatted,									
-									shadow: false,
+									labels: labelsArray,
+									showvalues:layout.showvalues,
+									shadow: true,
 									labelsSticks:true,
 									width:(width/2)/testRadius,
 									textFont:'QlikView Sans',
@@ -769,7 +439,6 @@ define( [
 									//gutterLeft: layout.showLegends ? layout.gutterLeft+190: layout.gutterLeft
 								}
 							}).draw();
-							
 						}
 						else
 						{
@@ -777,38 +446,18 @@ define( [
 						}
 					}
 					else if(layout.polar=="radar"){
-						//console.log(layout.qHyperCube.qDimensionInfo.length);
-						//console.log(layout.qHyperCube.qMeasureInfo.length);
-						//console.log(layout.qHyperCube.qDimensionInfo.length==1);
-						//console.log(layout.qHyperCube.qMeasureInfo.length>1);
-						if(
-						(
-							(layout.qHyperCube.qDimensionInfo.length==1 
-							|| layout.qHyperCube.qDimensionInfo.length==2
-							) && layout.qHyperCube.qMeasureInfo.length==1
-						) 
-						||
+			
+						if(((layout.qHyperCube.qDimensionInfo.length==1 || layout.qHyperCube.qDimensionInfo.length==2) && layout.qHyperCube.qMeasureInfo.length==1) ||
 							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0) || 
 							(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1)
-						){
-							var name="";
-
-							while(measArrays[0].length<3)
-							{
-								name=name+" ";
-								for(var i = 0; i < measArrays.length;i++)
-								{
-									measArrays[i].push(0);
-									valuesFormatted[i].push("");
-								}									
-								labelsArray.push(name);
-								toolTipsArray.push("");
-							}
-							//console.log(measArrays);
-							//console.log(valuesFormatted);
+							){
+								
+							var spokes = measArrayNum2.length;
 							
-							var spokes = labelsArray.length;
-					
+							
+							
+							
+							
 							
 							if(!layout.gridSpokes){
 								spokes=0;
@@ -822,9 +471,7 @@ define( [
 							max=max*(1+(labelTextSize/100));
 							
 							max=max*layout.max;	
-							//console.log(measArrays);
-							//console.log(labelsArray);
-							//console.log(valuesFormatted);
+
 							var rose =  new RGraph.Radar({
 								//width:100,
 								id: tmpCVSID,
@@ -832,8 +479,7 @@ define( [
 								options: {
 									//scaleVisible:true,
 									ymax:max,
-									//era keys
-									labels: labelsArray,
+									labels: keys,
 									labelsBold:true,
 									textAccessible: true,
 									gutterLeft: layout.showLegends ? layout.gutterLeft+190: layout.gutterLeft,
@@ -867,13 +513,13 @@ define( [
 									{
 										//console.log(idx+ " "  + a + " "  + b+ " "  + c+ " "  + d+ " "  + e);
 										//return '<div id="__tooltip_div__">'+toolTipsArray[idx]+'</div>';
-										return '<div id="__tooltip_div__" style="display:inline;">'+toolTipsArray[idx%labelsArray.length]+'</div>';
+										return '<div id="__tooltip_div__" style="display:inline;">'+toolTipsArray[idx%keys.length]+'</div>';
 											   //'s stats<br/><canvas id="__tooltip_canvas__" width="400" height="150">='
 											   //'[No canvas support]</canvas>';
 									},
 									tooltipsEvent: 'onmousemove',
 									
-									key:layout.showLegends ? keyLegendsWhenMeasure: null,
+									key:layout.showLegends ? keysLegends: null,
 									keyHalign:"right",
 									keyPositionX:layout.keyPositionX,
 									keyPositionY:layout.keyPositionY,
@@ -881,7 +527,7 @@ define( [
 									keyPosition:layout.graphGutter,
 									keyTextBold:true,
 									keyTextSize:labelTextSize-2,
-									//keyInteractive:function(d){alert(d);},
+									//keyInteractive:function(d){/*alert(d);*/},
 
 									showValues:layout.showvalues,
 									showValuesArray:valuesFormatted,
@@ -900,15 +546,12 @@ define( [
 							$element.html(getHtml(messages[language].RADAR_DIMENSIONMEASURE));
 						}
 					}
-					//"polar"
 					else
 					{
-						if(
-						(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) 
-						||
-						(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)
-							){
-
+						if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
+							layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0){
+							//rainbow.setNumberRange(0, keys.length+1);
+							//palette=getPalette(rainbow);
 							//console.log(palette);
 							var spokes = 0;
 							if(layout.gridSpokes){
@@ -944,7 +587,7 @@ define( [
 									radius:testRadius,
 									labelsAxes:layout.upScale+layout.downScale+layout.leftScale+layout.rightScale,
 									labelsCount:layout.stepScale,
-									ymax:max,
+									ymax:maxValue,
 									//labelsPosition:'edge',
 									textFont:'QlikView Sans',
 									labelsBoxed:false,
@@ -963,14 +606,13 @@ define( [
 									//colorsSequential: true,
 									colors: palette,
 									linewidth: linewidth,
-									labels: layout.chartLabels? labelsArray:null,
-									showValues:layout.showvalues,
-									showValuesArray:valuesFormatted,
+									labels: labelsArray,
+									showvalues:layout.showvalues,
 									labelsApprox:layout.labelsApprox,
 									//exploded: 3,
 									//strokestyle:'rgba(0,0,0,0.8)',
 									backgroundGridLinewidth:1,
-									key:layout.showLegends ? labelsArray: null,
+									key:layout.showLegends ? keys: null,
 									keyHalign:"right",
 									keyPositionX:layout.keyPositionX,
 									keyPositionY:layout.keyPositionY,
@@ -982,7 +624,6 @@ define( [
 									margin:margin
 								}
 							}).draw();
-							
 						}
 						else
 						{
@@ -1042,7 +683,449 @@ define( [
 			 
 			 
 			 
+			 function createStructure  {
+				 
+				var keys = (numberOfDimensions==2&&numberOfMeasures<2)?Object.keys(newStructureDim2):Object.keys(newStructure);
+				if (layout.chartLabels) {
+					var labelsArray = Object.keys(newStructure);
+					//var labelDimMeasArray =dimArray;
+					
+					/*if(layout.showValues=="value"||layout.showValues=="percent"){
+						var labelsArray = Object.keys(newStructure);
+						if(layout.onlyValues)
+							labelsArray=measArrayText;		
+						if(layout.showValues=="percent"){
+							var labelsArray = dimMeasPercArray;
+							if(layout.onlyValues)
+								labelsArray=measArrayPerc;						
+							//var labelDimMeasArray = dimMeasPercTPArray;
+						}				
+						}*/	
+				
+
+				} else {
+					var labelsArray = null;
+					//var labelDimMeasArray =[];
+				}
+					
+					
+				// Get the values of the dimension
+				var dimMeasArray=[];
+				var dimArray =[];
+				var measArrayNum =[];
+				var measArrayText =[];
+				var total= 0;
+
+				var newStructure ={};
+				if(numberOfDimensions>0 && numberOfMeasures <= 1)
+				{
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructure[qMatrix[i][0].qText]={};
+						//[qMatrix[i][1].qText]=qMatrix[i][2].qNum;
+					}
+				
+					var newStructureDim2 ={};
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructureDim2[qMatrix[i][1].qText]=qMatrix[i][1].qNum;
+						//console.log(Object.keys(newStructureDim2));
+						//[qMatrix[i][1].qText]=qMatrix[i][2].qNum;
+					}
+				}
+				else{
+				
+					var newStructureDim2 ={};
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructureDim2[qMatrix[i][0].qText]={};
+
+					}
+					//console.log(layout.qHyperCube.qMeasureInfo);
+					
+					for (var i=0; i<numberOfMeasures;i++){
+						newStructure[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]=layout.qHyperCube.qMeasureInfo[i].qMax;
+					}
+				}
+					
+					
+				var palette = createPalette(numberOfItems,newStructure,newStructureDim2);
+					
+				
+					
+				/** TODO Pedir decimal e milhar do QS **/
+				var  measArrayNum2 = [];
+				var paletteKeep = [];
+				var valueBelow = "--";
+				if(layout.valueBelow)
+					valueBelow = "\\n";
+
+
+				if(numberOfDimensions==2 && numberOfMeasures <= 1){				
+					for(var  i  in newStructure){
+						//console.log(i);
+						for(var  j  in newStructureDim2){
+							newStructure[i][j]=0;
+						}
+					}				
+
+
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructure[qMatrix[i][0].qText][qMatrix[i][1].qText]=qMatrix[i][2].qNum;
+						//console.log(qMatrix[i][0].qText);
+						//console.log(qMatrix[i][1].qText);
+						//[qMatrix[i][1].qText]=qMatrix[i][2].qNum;
+					}
+
+					var  toolTipsArray = [];
+					var ix=0;
+					var itpx=0
+					for(var  i  in newStructure){
+						//console.log(i);
+						var arrayValuesDim2=[]
+						var tpuniq = [];
+						var jx=0;
+						for(var  j  in newStructureDim2){
+							total = total + parseFloat(newStructure[i][j]);
+							arrayValuesDim2[jx]=newStructure[i][j];
+							//tpuniq[jx]= i+" - " + j + " - " + newStructure[i][j];
+							
+							jx++;
+							toolTipsArray[itpx]=i+" - " + j + " - " + newStructure[i][j];
+							itpx++;
+						}
+						measArrayNum2[ix]=arrayValuesDim2;
+						//toolTipsArray[ix]=tpuniq;
+						ix++;
+					}
+
+					
+				}
+				else if(numberOfDimensions==1 && numberOfMeasures <= 1){
+					
+					for(var  i  in newStructure){
+						newStructure[i]=0;
+					}	
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructure[qMatrix[i][0].qText]=qMatrix[i][1].qNum;
+						//console.log(qMatrix[i]);
+
+					}
+					
+					var  toolTipsArray = [];
+					var ix=0;
+					var itpx=0
+					for(var  i  in newStructure){
+						total = total + parseFloat(newStructure[i]);
+						
+						//console.log(i);
+						var arrayValuesDim2//=[];
+
+						//arrayValuesDim2[ix]
+						=  newStructure[i];
+
+						toolTipsArray[itpx]=i+" - " + newStructure[i];
+						itpx++;
+						
+						measArrayNum2[ix]=arrayValuesDim2;
+						ix++;
+					}					
+					
+					
+				}
+				else
+				{
+					
+					var maxValue=0;
+					/*
+					for(var  i  in newStructure){
+						newStructure[i]=0;
+					}	
+					for (var i=0; i<numberOfDimValues;i++){
+						newStructure[qMatrix[i][0].qText]=qMatrix[i][1].qNum;
+
+					}
+					*/
+					var  toolTipsArray = [];
+					var ix=0;
+					var itpx=0
+					for(var  i  in newStructure){
+						total = total + parseFloat(newStructure[i]);
+						//console.log(i);
+						var arrayValuesDim2//=[];
+
+						//arrayValuesDim2[ix]
+						=  newStructure[i];
+
+						toolTipsArray[itpx]=i+" - " + newStructure[i];
+						itpx++;
+						
+						measArrayNum2[ix]=arrayValuesDim2;
+						if(arrayValuesDim2>maxValue)
+							maxValue=arrayValuesDim2;
+						ix++;
+					}					
+					
+					
+				}	
+				//console.log(toolTipsArray);				
+				
+
+				//console.log("new");
+				//console.log(newStructure);
+
+				//console.log("num dim values " + numberOfDimValues);
+				for (var i=0; i<numberOfDimValues;i++){
+
+					//paletteKeep[i]=palette[layout.qHyperCube.qDataPages[0].qMatrix[i][0].qElemNumber];
+					paletteKeep[i]=palette[qMatrix[i][0].qElemNumber];
+					//dimArray[i] = layout.qHyperCube.qDataPages[0].qMatrix[i][0].qText;
+					dimArray[i] = qMatrix[i][0].qText;
+					//console.log(qMatrix[i][1].qText+qMatrix[i][0].qText)
+					//if(dimArray[i]=="Thresh")
+					//console.log("Thresh  tem elem  number "  + qMatrix[i][0].qElemNumber);
+					//measArrayNum[i] = layout.qHyperCube.qDataPages[0].qMatrix[i][1].qNum;
+					measArrayNum[i] = qMatrix[i][1].qNum;
+					
+					//measArrayNum2[]
+					
+					//measArrayNum2[i]=[qMatrix[i][1].qNum,qMatrix[i][1].qNum/2];
+					
+					
+					//console.log(qMatrix[i][0]);
+					//console.log(qMatrix[i]);
+					//measArrayText[i] = layout.qHyperCube.qDataPages[0].qMatrix[i][1].qText;
+					measArrayText[i] = qMatrix[i][1].qText;
+					//dimMeasArray[i] = dimArray[i] + valueBelow +measArrayText[i];
+					dimMeasArray[i] = dimArray[i] + valueBelow +measArrayText[i];
+					
+					//total=total+parseFloat(measArrayNum[i]);	
+					//console.log(dimArray[i]+"-"+measArrayNum[i]);
+					
+				}
+
+
+				//console.log(qMatrix);
+				var valuesFormatted=[];
+				var valueFormatted=[];
+						
+						
+						
+				if(layout.qHyperCube.qDimensionInfo.length==0 && layout.qHyperCube.qMeasureInfo.length>1){
+					for (var i=0; i<layout.qHyperCube.qMeasureInfo.length;i++){
+						
+						valueFormatted.push(qMatrix[0][i].qText);
+						//newStructure[qMatrix[i][0].qText]=qMatrix[i][1].qNum;
+						//console.log(qMatrix[i]);
+						//console.log(qMatrix[i][1].qText);
+
+					}
+					valuesFormatted.push(valueFormatted);
+				}						
+				if(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1){
+					for (var i=0; i<numberOfDimValues;i++){
+						
+						valueFormatted.push(qMatrix[i][1].qText);
+						//newStructure[qMatrix[i][0].qText]=qMatrix[i][1].qNum;
+						//console.log(qMatrix[i]);
+						//console.log(qMatrix[i][1].qText);
+
+					}
+					valuesFormatted.push(valueFormatted);
+				}
+						
+						
+				if(layout.qHyperCube.qDimensionInfo.length==2){
+							
+					toolTipsArray=[];
+					var dim1Structure = {};
+					var dim1StructureValuesFormatted = {};
+					for(var i = 0; i< qMatrix.length;i++)
+					{
+						dim1Structure[qMatrix[i][1].qText]={};
+						dim1StructureValuesFormatted[qMatrix[i][1].qText]={};
+					}
+					var dim1StructureKeys = Object.keys(dim1Structure);
+					
+					
+					palette=createPalette(dim1StructureKeys.length,{},{});
+					
+					for(var i = 0; i< dim1StructureKeys.length;i++)
+					{
+						for(var j = 0; j< qMatrix.length;j++)
+						{									
+							dim1Structure[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+							dim1StructureValuesFormatted[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+						}
+					}
+					var max = 0;
+					for(var i = 0; i< qMatrix.length;i++)
+					{
+						dim1Structure[qMatrix[i][1].qText][qMatrix[i][0].qText]=qMatrix[i][2].qNum;
+						dim1StructureValuesFormatted[qMatrix[i][1].qText][qMatrix[i][0].qText]=qMatrix[i][2].qText;
+						//console.log(qMatrix[i][2]);
+						if(max<qMatrix[i][2].qNum)
+							max=qMatrix[i][2].qNum;
+					}
+					max=max*1.1;
+					//console.log(dim1Structure);
+					var measArrays2 =[];
+					
+					//console.log(palette);
+					for(var i = 0; i< dim1StructureKeys.length;i++)
+					{
+						var measArrayNumTeste =[];
+						var valueFormatted =[];
+						var dim2StructureKeys = Object.keys(dim1Structure[dim1StructureKeys[i]]);
+						//console.log(palette[i]);
+
+
+
+						for(var j = 0; j< dim2StructureKeys.length;j++){
+							if(i>0)
+								toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ dim1StructureKeys[i]+' - <div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>";
+							else
+								toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ dim1StructureKeys[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>");
+							
+							measArrayNumTeste.push(dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+							valueFormatted.push(dim1StructureValuesFormatted[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+							
+						}
+						measArrays2.push(measArrayNumTeste);
+						valuesFormatted.push(valueFormatted);
+						
+					}
+					
+				
+					
+				}
+				//console.log(measArrays2);
+						
+
+				if(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1){
+						//console.log(qMatrix);
+
+					toolTipsArray=[];
+					var dim1Structure = {};
+					var dim1StructureValuesFormatted={};
+					for(var i = 0; i< layout.qHyperCube.qMeasureInfo.length;i++)
+					{
+						dim1Structure[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
+						dim1StructureValuesFormatted[layout.qHyperCube.qMeasureInfo[i].qFallbackTitle]={};
+					}
+					var dim1StructureKeys = Object.keys(dim1Structure);
+					
+
+					
+					palette=createPalette(dim1StructureKeys.length,{},{});
+					
+					for(var i = 0; i< dim1StructureKeys.length;i++)
+					{
+						for(var j = 0; j< qMatrix.length;j++)
+						{									
+							dim1Structure[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+							dim1StructureValuesFormatted[dim1StructureKeys[i]][qMatrix[j][0].qText]=0;
+						}
+					}
+					
+					//console.log(dim1Structure);
+					var max = 0;
+					
+					for(var i = 0; i< qMatrix.length;i++)
+					{
+						for(j=0;j<dim1StructureKeys.length;j++){
+							dim1Structure[dim1StructureKeys[j]][qMatrix[i][0].qText]=qMatrix[i][j+1].qNum;
+							dim1StructureValuesFormatted[dim1StructureKeys[j]][qMatrix[i][0].qText]=qMatrix[i][j+1].qText;
+							if(max<qMatrix[i][j+1].qNum)
+								max=qMatrix[i][j+1].qNum;
+						}
+					}
+					//console.log(dim1Structure);
+					
+					max=max*1.1;
+					//console.log(dim1Structure);
+					var measArrays2 =[];
+					
+					//console.log(palette);
+					for(var i = 0; i< dim1StructureKeys.length;i++)
+					{
+						var measArrayNumTeste =[];
+						var valueFormatted =[];
+						var dim2StructureKeys = Object.keys(dim1Structure[dim1StructureKeys[i]]);
+						//console.log(palette[i]);
+
+
+
+						for(var j = 0; j< dim2StructureKeys.length;j++){
+							if(i>0)
+								toolTipsArray[j]=toolTipsArray[j]+"</br>"+'<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - </div>"+ dim1StructureKeys[i]+' - <div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>";
+							else
+								toolTipsArray.push('<div  style="position:relative;top:3px;left:5px;float:left;display:inline-block;width: 10px;height: 10px;background-color: '+palette[i]+';"></div><div style="text-align:left;padding-left: 20px;display:inline;">'+dim2StructureKeys[j]+" - "+ dim1StructureKeys[i]+' - </div><div style="display:inline;color:'+palette[i]+'">'+dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]+"</div>");
+							
+							measArrayNumTeste.push(dim1Structure[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+							valueFormatted.push(dim1StructureValuesFormatted[dim1StructureKeys[i]][dim2StructureKeys[j]]);
+							
+						}
+						measArrays2.push(measArrayNumTeste);
+						valuesFormatted.push(valueFormatted);
+					}
+						
+					
+				}
+
+				var name="";
+				var measArrays =[];
+				var keysLegends = keys;
+				
+				if((layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length==1) ||
+				(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)){
+					//max=null;
+					while(measArrayNum2.length<3)
+					{
+						name=name+" ";
+						measArrayNum2.push(0);
+						keys.push(name);
+					}
+					measArrays.push(measArrayNum2);
+					
+					max = 0;
+					for(var i = 0; i< measArrayNum2.length;i++)
+					{
+						if(max<measArrayNum2[i])
+							max=measArrayNum2[i];
+					}
+					max=max*1.1;
+					
+					//qFallbackTitle
+					//console.log(layout.qHyperCube.qMeasureInfo);
+					keysLegends = [];
+					keysLegends.push(layout.qHyperCube.qMeasureInfo[0].qFallbackTitle);
+					
+					
+				}
+				
+				if(layout.qHyperCube.qDimensionInfo.length==2 || 
+				(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==1)
+				){
+					while(measArrays2[0].length<3)
+					{
+						name=name+" ";
+						for(var i = 0; i < measArrays2.length;i++)
+						{
+							measArrays2[i].push(0);
+						}									
+						dim2StructureKeys.push(name);
+						toolTipsArray.push("");
+					}
+					measArrays=measArrays2;
+					keys=dim2StructureKeys;
+					keysLegends=dim1StructureKeys;
+					spokes = measArrays[0].length;
+				}
+							
 			
+							
+											 
+				 
+				 
+			 }
 			 
 			 
 			function getHtml(chartTypeMessage){

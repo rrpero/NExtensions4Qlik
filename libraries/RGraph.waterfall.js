@@ -64,6 +64,10 @@
         this.properties =
         {
             'chart.show.values':true,
+			'chart.show.values.decimal.char':null,
+			'chart.show.values.thousand.char':null,
+			'chart.show.values.decimal.places':null,
+			'chart.show.values.array':null,
 			'chart.background.barcolor1':   'rgba(0,0,0,0)',
             'chart.background.barcolor2':   'rgba(0,0,0,0)',
             'chart.background.grid':        true,
@@ -849,9 +853,14 @@
                 co.stroke();
                 co.fill();
 				
+			
+				
 				//print chart values
 				if(prop['chart.show.values']){
 					//DRAW DOTS
+					
+
+					
 					var dotSize=3;
 					co.beginPath();
 					co.arc(x+(w/2), ma.floor(y),dotSize, 0, 2 * Math.PI);
@@ -871,7 +880,8 @@
 						'color':this.pSBC(-0.6,co.strokeStyle),
 						'x':x+(w/2),
 						'y':ma.floor(y)-8,
-						'text':this.data[i],
+						//'text':this.data[i],
+						'text':prop['chart.show.values.array'][i],
 						'valign':'center',
 						'halign':'center',
 						'bounding':false,
@@ -932,8 +942,34 @@
                 // this point, is actually THIS iterations coords 
                 this.coords.push(previousCoords);
 				
+				
+				function numberWithCommas(x) {
+					if(prop['chart.show.values.decimal.places']!= null){
+						var parts = x.toFixed(prop['chart.show.values.decimal.places'].length).toString().split(".");
+						var thsdChar = prop['chart.show.values.thousand.char'];
+						if(thsdChar==null)
+							thsdChar="";
+							
+						parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thsdChar);
+						return parts.join(prop['chart.show.values.decimal.char']);
+					}
+					else
+						return  x;
+						
+				}	
+				
 				//print chart values
-				if(prop['chart.show.values']){				
+				if(prop['chart.show.values']){	
+
+
+					//console.log(this.total);
+					if(
+						(prop['chart.show.values.decimal.char'] != null ) &&
+						(prop['chart.show.values.decimal.char'] != prop['chart.show.values.thousand.char'])){
+					
+						this.total=numberWithCommas(this.total);
+					}
+				
 					//DRAW DOT TOAL
 					var dotSize=3;
 					co.beginPath();

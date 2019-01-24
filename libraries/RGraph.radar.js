@@ -1030,7 +1030,7 @@
 						co.lineWidth = 1;
 						co.strokeStyle = prop['chart.colors'][dataset] ? prop['chart.colors'][dataset] : 'rgba(0,0,0,0)';
 						co.stroke();
-						
+						//console.log(prop['chart.show.values.array'][dataset][i]);
 						//print chart values
 						if(prop['chart.show.values']){
 							RG.text2(this, {

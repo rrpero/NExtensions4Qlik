@@ -110,6 +110,23 @@ define( [
 
 			}				
 	};
+
+	show['options']['factor']=["radar","funnel","polar"];
+	var factor = {
+			type: "integer",
+			label: messages[language].FACTOR,
+			ref: "factor",
+			//component: "slider",
+			min: 0,
+			//max: 200,
+			//step: 1,			
+			//expression: "always",
+			defaultValue: 0,
+			show: function (d){
+				return showTo(show['options']['factor'],d);
+
+			}
+	};	
 	
 
 	show['options']['minTextSize']=["wordCloudChart"];
@@ -521,7 +538,26 @@ define( [
 				return showTo(show['options']["chartLabels"],d);
 			}	
 	};
-	
+/*	
+	show['options']['valueInLabels']=["radar"];
+	var valueInLabels = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].VALUE_IN_LABELS,
+			ref: "valueInLabels",
+			options: [{
+				value: true,
+				label: messages[language].ON
+			}, {
+				value: false,
+				label: messages[language].OFF
+			}],
+			defaultValue: false,
+			show: function (d) {
+				return showTo(show['options']["valueInLabels"],d);
+			}	
+	};	
+*/	
 
 	show['options']['fontColor']=["biPartite"];
 	var fontColor = {
@@ -646,6 +682,7 @@ define( [
 		items: {			
 
 			polar:polar,
+			factor:factor,
 			rotateType:rotateType,
 			minTextSize:minTextSize,
 			maxTextSize:maxTextSize,
@@ -664,6 +701,7 @@ define( [
 			axes:axes,
 			backgroundColor:backgroundColor,
 			chartLabels:chartLabels,
+//			valueInLabels:valueInLabels,
 			fontColor:fontColor,
 			showvalues:showvalues,
 			labelTextSize:labelTextSize,
@@ -1021,6 +1059,7 @@ define( [
 	};		
 	
 
+	show['size']['chartSize']=["funnel","polar","waterfall","radar","biPartite"];	
 	var chartSize = {
 		type:"items",
 		label:messages[language].ITEM_SIZE,
@@ -1031,6 +1070,9 @@ define( [
 			//,
 			//donutWidth:donutWidth		
 
+		},
+		show: function (d) {
+			return showTo(show['size']['chartSize'],d);
 		}
 	
 	};
