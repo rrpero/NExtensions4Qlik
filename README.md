@@ -12,6 +12,6 @@
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/bipartite.png)
 
 ### 5. Word Cloud Chart
-![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/wordcloud.png)
+![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/wordcloudb.png)
 ### 6. Radar Chart
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/radar.png)
