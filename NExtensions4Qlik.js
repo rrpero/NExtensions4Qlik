@@ -83,6 +83,11 @@ define( [
 		//window.RGraph={isRGraph: true};
 		//Inject Stylesheet into header of current document
 		$( '<style>' ).html(css).appendTo( 'head' );
+		var language = navigator.language || navigator.userLanguage; 
+		language = language.replace("-","_");
+
+		if(language!="pt_BR" && language!="en_US")
+			language = "en_US";		
 		
         return {
 			//window.RGraph=RGraph;
@@ -740,7 +745,16 @@ define( [
 						(layout.qHyperCube.qMeasureInfo.length>1 && layout.qHyperCube.qDimensionInfo.length==0)
 						){
 							// Create the Funnel chart. Note the the values start at the maximum and decrease to the minimum.
-
+							var  name=""
+							while(measArrayNum2.length<2)
+							{
+								name=name+" ";
+								measArrayNum2.push(measArrayNum2[0]-(measArrayNum2[0]*0.99));
+								measArrayNum2ValuesFormatted.push("");
+																
+								labelsArray.push(name);
+								toolTipsArray.push("");
+							}
 							
 							var rose = new RGraph.Funnel({
 								id: tmpCVSID,

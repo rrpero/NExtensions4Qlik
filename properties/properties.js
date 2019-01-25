@@ -11,8 +11,15 @@ define( [
     'use strict';
 	//Define the current application
 
-	var language="pt_BR";
-	//var language="en_US";
+	//var language="pt-BR";
+	//var language="en-US";
+	var language = navigator.language || navigator.userLanguage; 
+	language = language.replace("-","_");
+
+	if(language!="pt_BR" && language!="en_US")
+		language = "en_US";
+	
+	
 	var app = qlik.currApp();
 
 	var maxDimensions=2;
@@ -1124,7 +1131,7 @@ define( [
 	var graphGutter = {
 			type: "string",
 			component: "switch",
-			label: messages[language].ORIENTATION,
+			label: messages[language].ORIENT,
 			ref: "graphGutter",
 			options: [{
 				value: "graph",
