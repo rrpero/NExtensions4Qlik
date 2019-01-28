@@ -665,7 +665,11 @@ define( [
 
 						
 					}
-
+					var	qDec = null;
+					var	qFmt = null;
+					var	qThou = null;
+					
+/*
 					var qDec = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qDec;
 					var qThou = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qThou;
 					var qFmt = layout.qHyperCube.qMeasureInfo[0].qNumFormat.qFmt;
@@ -683,6 +687,7 @@ define( [
 						qThou = null;
 						//console.log("nao teve" + dcmPlcs);
 					}
+					*/
 					if(layout.polar=="waterfall"){
 						
 						
