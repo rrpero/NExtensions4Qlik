@@ -580,7 +580,7 @@ define( [
 	};		
 
 
-	show['options']['showvalues']=["polar","funnel","radar","waterfall"];
+	show['options']['showvalues']=["polar","funnel","radar","waterfall","biPartite"];
 	var showvalues = {
 			type: "boolean",
 			component: "switch",
@@ -593,7 +593,7 @@ define( [
 				value: false,
 				label: messages[language].OFF
 			}],
-			defaultValue: false,
+			defaultValue: true,
 			show: function (d) {
 				return showTo(show['options']["showvalues"],d);
 			}	
@@ -868,7 +868,38 @@ define( [
 			},{
 				value: 50,
 				label: 10
+			},{
+				value: 60,
+				label: 11
+			},{
+				value: 70,
+				label: 12
+			},{
+				value: 80,
+				label: 13
+			},{
+				value: 90,
+				label: 14
+			},{
+				value: 100,
+				label: 15
+			},{
+				value: 110,
+				label: 16
+			},{
+				value: 120,
+				label: 17
+			},{
+				value: 130,
+				label: 18
+			},{
+				value: 140,
+				label: 19
+			},{
+				value: 150,
+				label: 20
 			}
+
 			
 			],
 			defaultValue: 0,

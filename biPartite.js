@@ -560,7 +560,7 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 						fontLabel = labelSize + "px QlikView Sans";
 						
 						
-						if(layout.labelIn=="in"){
+						if(layout.labelIn=="in" && (layout.showvalues) ){
 						//if(true){
 							//var yUp=-(bpWidth*0.01)-(labelSize*0.15);
 							//var yDown=(bpWidth*0.01)+(labelSize*0.15);	
@@ -579,12 +579,28 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 						}
 						else{
 							var yUp=6;
+
+								//fazer aqui algo
 							var xUpL=(barSize/2)+10;
 							var xUpR=(barSize/2)+10;
+							
+
+							
 							//var xUpR=barSize*1.2;
 							var yDown=6;
 							var fatorAfastamentoL = layout.spaceLabelLeft*(labelSize);
 							var fatorAfastamentoR = layout.spaceLabelRight*(labelSize);
+							
+							//console.log(layout.showvalues);
+							if(layout.labelIn=="in" && !layout.showvalues){
+								fatorAfastamentoL=0;
+								fatorAfastamentoR=0;
+								xUpL=0;
+								xUpR=0;
+								yUp=5;
+								//console.log("passei?")
+							}							
+							
 							if(orient=="horizontal"){
 								yUp=yUp-fatorAfastamentoL;
 								yDown=yDown+fatorAfastamentoR;
@@ -610,7 +626,16 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 								//.attr("y",d=>+6)
 								.attr("y",function(d){return yDown})
 								//.attr("x",function(d){return (d.part=="primary"? -xUp: xUp)})
-								.text(function(d){ return /*d.value*/d3.format("0.0%")(d.percent)}).style("font",fontLabel).style("font-weight",layout.bold)
+								
+								
+								.text(function(d){
+										
+										if(layout.showvalues) 
+											return /*d.value*/d3.format("0.0%")(d.percent)
+										return "";
+									
+									}).style("font",fontLabel).style("font-weight",layout.bold)
+								
 								.style("fill",layout.fontColor.color)
 								//.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
 								.attr("text-anchor",function(d){return (d.part=="primary"? "end": "start")});
