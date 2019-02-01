@@ -30,7 +30,7 @@ define( [
     var dimensions = {
         uses: "dimensions",
         min: 0,
-        max: 2,
+        max: 5,
 		show:function(d){
 			console.log(d);
 		}
@@ -38,7 +38,7 @@ define( [
 
     var measures = {
         uses: "measures",
-        min: 1,
+        min: 0,
         max: 20
     };
 
@@ -198,6 +198,9 @@ define( [
 		}, {
 			value: "wordCloudChart",
 			label: messages[language].WORDCLOUD
+		}, {
+			value: "gantt",
+			label: messages[language].GANTT
 		}],
 		defaultValue: "polar"
 	};	
@@ -599,6 +602,78 @@ define( [
 			}	
 	};
 	
+	show['options']['modeOneSticker']=["gantt"];
+	var modeOneSticker = {
+			type: "boolean",
+			component: "switch",
+			label: messages[language].MODE_ONE_STICKER,
+			ref: "modeOneSticker",
+			options: [{
+				value: true,
+				label: messages[language].ON
+			}, {
+				value: false,
+				label: messages[language].OFF
+			}],
+			defaultValue: false,
+			show: function (d) {
+				return showTo(show['options']["modeOneSticker"],d);
+			}	
+	};	
+	
+	show['options']['timeFormat']=["gantt"];
+	var timeFormat = {
+			type: "string",
+			component: "dropdown",
+			label: messages[language].TIME_FORMAT,
+			ref: "timeFormat",
+			options: [{
+				value: "%m/%Y",
+				label: messages[language].MONTH_BAR_YEAR
+			}, {
+				value: "%Y-%m-%dT%I:%M:%S",
+				label: messages[language].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND
+			}],
+			defaultValue: "%m/%Y",
+			show: function (d) {
+				return showTo(show['options']["timeFormat"],d);
+			}	
+	};	
+
+	show['options']['ticks']=["gantt"];		
+	var ticks = {
+		type: "integer",
+		label: messages[language].TICKS,
+		ref: "ticks",
+		component: "slider",
+		min: 1,
+		max: 40,
+		step: 1,			
+		//expression: "always",
+		defaultValue: 5,
+		show: function (d){
+			return showTo(show['options']['ticks'],d);
+
+		}
+	};	
+
+	show['options']['spaceTasksLeft']=["gantt"];
+	var spaceTasksLeft = {
+			type: "float",
+			label: messages[language].SPACE_TASKS_LEFT,
+			ref: "spaceTasksLeft",
+			component: "slider",
+			min: 1,
+			max: 30,
+			step: 0.5,			
+			//expression: "always",
+			defaultValue: 6,
+			show: function (d) {
+				return showTo(show['options']["spaceTasksLeft"],d);
+			}	
+	};		
+	
+	
 
 	show['options']['labelsApprox']=["polar"];
 	var labelsApprox = {
@@ -715,7 +790,11 @@ define( [
 			labelIn:labelIn,
 			bold:bold,
 			labelsApprox:labelsApprox,
-			max:max
+			max:max,
+			modeOneSticker:modeOneSticker,
+			timeFormat:timeFormat,
+			ticks:ticks,
+			spaceTasksLeft:spaceTasksLeft
 			
 			//,keepColors:keepColors
 

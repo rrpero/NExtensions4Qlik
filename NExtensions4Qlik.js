@@ -59,6 +59,7 @@ define( [
 		,'viz'	
 		,'cloud'
 		,"text!./border.css"
+		,"text!./gantt.css"
 		,"RGraph"
 		,"RGraph.rosemv"
 		,"RGraph.radar"
@@ -71,18 +72,20 @@ define( [
 		,'./libraries/rainbowvis'
 		,'./biPartite'
 		,'./wordCloudChart'
+		,'./gantt'
 
 
 
 		
     ],
 	
-    function ( $, qlik, props, initProps,d3,viz,cloud,css) {
+    function ( $, qlik, props, initProps,d3,viz,cloud,css,cssGantt) {
         'use strict';	
 		window.d3=d3;
 		//window.RGraph={isRGraph: true};
 		//Inject Stylesheet into header of current document
 		$( '<style>' ).html(css).appendTo( 'head' );
+		$( '<style>' ).html(cssGantt).appendTo( 'head' );
 		var language = navigator.language || navigator.userLanguage; 
 		language = language.replace("-","_");
 
@@ -184,6 +187,14 @@ define( [
 						$element.html(getHtml(messages[language].WORDCLOUDCHART_DIMENSIONMEASURE));
 					}					
 				}
+				else if(layout.polar=="gantt"){
+					if(numberOfDimensions==5 && numberOfMeasures<=1)
+						ganttChart(app,$element,layout,qMatrix,d3,cloud,createPalette);
+					else{
+						//To generate random numbers to allow multiple charts to present on one sheet:						
+						$element.html(getHtml(messages[language].GANTT_DIMENSIONMEASURE));
+					}					
+				}				
 				else 
 				{
 				

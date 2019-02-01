@@ -27,6 +27,9 @@ messages["en_US"].RADAR_DIMENSIONMEASURE ="Radar: Select 1 or 2 Dimensions and 1
 messages["pt_BR"].POLAR_DIMENSIONMEASURE ="Polar: Selecione até 1 Dimensão e 1 Medida / Selecione 2 ou mais Medidas sem Dimensões";
 messages["en_US"].POLAR_DIMENSIONMEASURE ="Polar:  Select 1 Dimension and 1 Measure / Select 2 or more measures without Dimensions";
 
+messages["pt_BR"].GANTT_DIMENSIONMEASURE ="Gantt: Selecione 5 Dimensões e 1 ou nenhuma Medida";
+messages["en_US"].GANTT_DIMENSIONMEASURE ="Gantt:  Select 5 Dimensions and 1 or 0 Measures";
+
 
 messages["pt_BR"].ROTATE_TYPE= "Tipo Rotação";
 messages["pt_BR"].RANDOM2 = "Aleatório 2";
@@ -64,6 +67,7 @@ messages["pt_BR"].FUNNEL = "Pirâmide";
 messages["pt_BR"].WATERFALL = "Cascata";			
 messages["pt_BR"].BIPARTITE = "Bipartido";
 messages["pt_BR"].WORDCLOUD = "Word Cloud";
+messages["pt_BR"].GANTT= "Gantt";
 
 messages["en_US"].CHART_TYPE = "Chart Type";
 messages["en_US"].POLAR = "Polar";
@@ -72,6 +76,7 @@ messages["en_US"].FUNNEL = "Funnel";
 messages["en_US"].WATERFALL = "Waterfall";			
 messages["en_US"].BIPARTITE = "BiPartite";
 messages["en_US"].WORDCLOUD = "Word Cloud";
+messages["en_US"].GANTT= "Gantt Chart";
 
 
 messages["pt_BR"].ANALOGUE1 =  "Análogas 1";
@@ -159,6 +164,22 @@ messages["en_US"].FONT_COLOR = "Font Color";
 
 messages["pt_BR"].SHOW_VALUES="Mostrar Valores";
 messages["en_US"].SHOW_VALUES="Show Values";
+
+messages["pt_BR"].MODE_ONE_STICKER="Modo de Uma Etiqueta";
+messages["en_US"].MODE_ONE_STICKER="One Sticker Mode";
+
+messages["pt_BR"].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND="2018-10-27T16:05:00";
+messages["en_US"].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND="2018-10-27T16:05:00";
+
+messages["pt_BR"].TICKS="Intervalos";
+messages["en_US"].TICKS="Ticks";
+
+messages["pt_BR"].SPACE_TASKS_LEFT="Espaçamento De Tasks a Esquerda";
+messages["en_US"].SPACE_TASKS_LEFT="Tasks Left";
+
+messages["pt_BR"].MONTH_BAR_YEAR="10/2018";
+messages["pt_BR"].MONTH_BAR_YEAR="10/2018";
+
 
 messages["pt_BR"].APPROX="Aproximação Labels";
 messages["en_US"].APPROX="Label Distance";
