@@ -211,7 +211,10 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				// add canvas for chart
 				var  backgroundFixo = layout.backgroundColor.color;
 				backgroundFixo="#000000";
-				html+='<div id="canvas-wrapper-'+tmpCVSID+'" style="height: '+height+'px; width: '+width+'px; overflow: scroll;">';				
+				if(layout.advancedScroll)
+					html+='<div id="canvas-wrapper-'+tmpCVSID+'" style="height: '+height+'px; width: '+width+'px; overflow: scroll;">';				
+				else
+					html+='<div id="canvas-wrapper-'+tmpCVSID+'" style="height: '+height+'px; width: '+width+'px; overflow: hidden;">';				
 
 
 				
@@ -230,8 +233,17 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				 var w = width;
 				 w=w*0.98;
 				 var h = height;
-				 if(qMatrix.length>20){			 
-					h = h+(20*qMatrix.length);
+				 
+				 if(qMatrix.length>20  && layout.advancedScroll){			 
+					
+					h = h+(30*(qMatrix.length-20));
+					//if((height/qMatrix.length)< (h/qMatrix.length))
+					//	h=height*0.98;
+					//console.log("Taxa do H novo "+h/qMatrix.length);
+					//console.log("Taxa do H QV "+height/qMatrix.length);
+					//if(h<height)
+					//	h=height;
+					
 					//w = w+(20*qMatrix.length);
 				 }
 				else{
@@ -240,7 +252,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				}
 				
 				var color ={Elite:"#3366CC", Grand:"#DC3912",  Lite:"#FF9900", Medium:"#109618", Plus:"#990099", Small:"#0099C6"};
-				var svg = d3.select('#canvas-wrapper-'+tmpCVSID).append("svg").attr("width", w).attr("height", h).attr("class", "svg");;
+				var svg = d3.select('#canvas-wrapper-'+tmpCVSID).append("svg").attr("width", w).attr("height", h).attr("class", "svg").attr("id", "svg-"+tmpCVSID);
 
 				
 
@@ -260,8 +272,9 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				  var taskArray = [];
 				  var maxLength =0;
 				  for(var i = 0; i < qMatrix.length;i++){
-					  if(qMatrix[i][3] != undefined){
+					  if(qMatrix[i][3] != undefined && (qMatrix[i][0].qNum<qMatrix[i][1].qNum)){
 						  var experience = {};
+						  
 						  experience['startTime']=qMatrix[i][0].qText;
 						  experience['endTime']=qMatrix[i][1].qText;						  
 						  experience['task']=qMatrix[i][2].qText;
@@ -362,7 +375,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				//var parseTime = d3.timeParse("%Y-%m-%d");
 				//var parseTime = d3.timeParse("%m/%Y");
 				//var parseTime = d3.timeParse("%Y-%m-%dT%I:%M:%S");
-				console.log(layout.spaceTasksLeft);
+				//console.log(layout.spaceTasksLeft);
 				var parseTime = d3.timeParse(layout.timeFormat);
 				var timeScale = d3.scaleTime()
 						.domain([d3.min(taskArray, function(d) {/*console.log(parseTime(d.startTime));*/return parseTime(d.startTime);}),
@@ -545,7 +558,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 						else
 						{
 							   
-								/*				  
+												  
 							rectText.on('mouseover', function(e) {
 							 //console.log(this.x.animVal.getItem(this));
 							//console.log(e);
@@ -567,25 +580,63 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 									 //var output = document.getElementById('canvas-wrapper-'+tmpCVSID);
 									 var output = document.getElementById('tag-'+tmpCVSID);
 
-									 var x = (this.x.animVal.value) + "px";
-									 var y = this.y.animVal.value + 25 + "px";
-									 if(((this.x.animVal.value)+200)>w){
-										 x= (w-200)+ "px";;
-										 if(x<0)
-											 x=0+ "px";
-									 }
+									 var tagWidth=200;
+									 var tagHeight=300;
+									
+									
 
 									 output.innerHTML = tag;
+									 
+									//console.log("Antigo X " + x);
+									//console.log("Antigo Y" + e.y);									 
+									 
+									 //console.log(document.getElementById('svg-'+tmpCVSID).getBoundingClientRect());
+									var x = d3.event.pageX - document.getElementById('svg-'+tmpCVSID).getBoundingClientRect().left + 10;
+									//- document.getElementById("canvas-wrapper-"+tmpCVSID).scrollTop;
+									var y = d3.event.pageY - document.getElementById('svg-'+tmpCVSID).getBoundingClientRect().top + 10
+									- document.getElementById("canvas-wrapper-"+tmpCVSID).scrollTop;
+									 
+
+									 if(((x)+(tagWidth/2))>w){
+										 x= (w-(tagWidth/1.5));
+										 if(x<0)
+											 x=0;
+									 }
+									 x=x+ "px";
+									 
+									 //console.log(y);
+									 if(((y)+(tagHeight))>height){
+										 y= (y-(tagHeight/1.5));
+										 if(y<0)
+											 y=0;
+									 }	
+									 //console.log(y);
+									 //console.log(height);
+									 //console.log(h);
+									 
+									 
+									y=y+ "px";
+									 
+									//console.log("Novo X " + x);
+									//console.log("Novo Y" + y);
 									 output.style.top = y;
-									 output.style.left = x;
-									 output.style.width = "200px";
+									 output.style.left = x;									 
+									 //output.style.top = (e.y+theBarHeight)+"px";
+									 //output.style.left = x;
+									 
+									 output.style.width = tagWidth+"px";
+									 output.style.width = tagHeight+"px";
 									 output.style.display = "block";
+									 var content = window.getComputedStyle(
+										document.querySelector('.tag'), ':before'
+									)
+							 
 								   }).on('mouseout', function() {
 									 var output = document.getElementById('tag-'+tmpCVSID);
 									 output.style.display = "none";
 										 });
 
-*/
+
 							innerRects.on('mouseover', function(e) {
 							 //console.log(e);
 									//console.log("INNER  RECTs");
@@ -635,7 +686,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 									 
 
 									 //console.log(x);
-									// console.log(w);
+									 //console.log(w);
 									 
 								
 									

@@ -805,6 +805,52 @@ define( [
 	
 	};
 	
+	show['advanced']={};
+	var advancedInstanceLimit = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].ADVANCED_INSTANCE_LIMIT,
+		ref: "advancedInstanceLimit",
+		defaultValue: "300",
+		min: "0",
+		max: "100000",
+		show: true			
+	};
+	
+	show['advanced']['advancedScroll']=["gantt"];		
+	var advancedScroll = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].ADVANCED_SCROLL,
+		ref: "advancedScroll",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d){
+			return showTo(show['advanced']['advancedScroll'],d);
+
+		}	
+	};	
+	
+	var Advanced = {
+		type:"items",
+		label:messages[language].ITEM_ADVANCED,
+		items: {			
+
+			advancedInstanceLimit:advancedInstanceLimit,
+			advancedScroll:advancedScroll
+		},
+		show: true
+	
+	};	
+	
+	
+	
 	
 
 	show['biPartite']={};
@@ -1336,7 +1382,8 @@ define( [
 			chartSize:chartSize,
 			legends:legends,
 			Scale:Scale,
-			BiPartite:BiPartite
+			BiPartite:BiPartite,
+			Advanced:Advanced
 			
 		}
 	

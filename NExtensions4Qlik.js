@@ -117,42 +117,56 @@ define( [
 			 var lastrow = 0, me = this;
 			 //loop through the rows we have and render
 			 var rowCount=this.backendApi.getRowCount();
+			 console.log(rowCount);
 			 var qMatrix =[];
-			 this.backendApi.eachDataRow( function ( rownum, row ) {
-						lastrow = rownum;
-						if(typeof row[1] !== 'undefined')
-							qMatrix[rownum]=row;
-						//do something with the row..	
-						if((lastrow+1)==rowCount){
-							//console.log("row "  + row);
-							//console.log("last "  + lastrow);
-							//console.log("Row Count " +rowCount);
+			 if(rowCount<=layout.advancedInstanceLimit){
+				 this.backendApi.eachDataRow( function ( rownum, row ) {
+							lastrow = rownum;
+							if(typeof row[1] !== 'undefined')
+								qMatrix[rownum]=row;
+							//do something with the row..	
+							//if((lastrow+1)==rowCount    || (lastrow+1)>= 200){
+							if((lastrow+1)==rowCount   ){							
+								//console.log("row "  + row);
+								//console.log("last "  + lastrow);
+								//console.log("Row Count " +rowCount);
+								
+								paintAll($element,layout,qMatrix,me);
+								//console.log("New qMatrix " +qMatrix.length);
+								
+							}
 							
-							paintAll($element,layout,qMatrix,me);
-							//console.log("New qMatrix " +qMatrix.length);
-							
-						}
-						
-			 });
-			 //console.log("last "  + lastrow);
-			 //console.log("Row Count " +this.backendApi.getRowCount());
-			 if(this.backendApi.getRowCount() > lastrow +1){
-					 //we havent got all the rows yet, so get some more, 1000 rows
-					  var requestPage = [{
-							qTop: lastrow + 1,
-							qLeft: 0,
-							qWidth: 3, //should be # of columns
-							qHeight: Math.min( 100, this.backendApi.getRowCount() - lastrow )
-						}];
-					   this.backendApi.getData( requestPage ).then( function ( dataPages ) {
-								//when we get the result trigger paint again
-								me.paint( $element,layout );
-					   } );
-			 }
-			 else{
+				 });
+				 //console.log("last "  + lastrow);
+				 //console.log("Row Count " +this.backendApi.getRowCount());
+				 //if(this.backendApi.getRowCount() > lastrow +1 && lastrow+1< 200){
+				 if(this.backendApi.getRowCount() > lastrow +1){
+						 //we havent got all the rows yet, so get some more, 1000 rows
+						 //console.log("Math min  " +Math.min( 100, this.backendApi.getRowCount() - lastrow ));
+						  var requestPage = [{
+								qTop: lastrow + 1,
+								qLeft: 0,
+								qWidth: 6, //should be # of columns
+								qHeight: Math.min( 100, this.backendApi.getRowCount() - lastrow )
+							}];
+						   this.backendApi.getData( requestPage ).then( function ( dataPages ) {
+									//when we get the result trigger paint again
+									me.paint( $element,layout );
+						   } );
+				 }
+				 else{
 
-				 
-			 }
+					 
+				 }
+			}
+			else
+			{
+				var app = qlik.currApp(this);
+				
+				$element.html(getHtml(messages[language].NEXTENSIONS_INSTANCE_LIMIT_1 + layout.advancedInstanceLimit +messages[language].NEXTENSIONS_INSTANCE_LIMIT_2));
+				return qlik.Promise.resolve();	
+				
+			}
 			 
 			 function paintAll($element,layout,qMatrix,me)
 			 {

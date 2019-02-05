@@ -202,6 +202,21 @@ messages["en_US"].LABEL_OUT = "Label Out";
 messages["pt_BR"].ITEM_OPTIONS="Opções";
 messages["en_US"].ITEM_OPTIONS="Item Options";
 
+messages["pt_BR"].ITEM_ADVANCED="Avançado";
+messages["en_US"].ITEM_ADVANCED="Advanced";
+
+messages["pt_BR"].NEXTENSIONS_INSTANCE_LIMIT_1="Este gráfico passou do limite de linhas retornadas. No momento está instância tem limite de ";
+messages["en_US"].NEXTENSIONS_INSTANCE_LIMIT_1="This chart lines returned is out of limit. This instance has the limit of ";
+
+messages["pt_BR"].NEXTENSIONS_INSTANCE_LIMIT_2=" linhas. Para alterar o limite vá em Avançado, lembrando que travamentos inesperados podem acontecer com esse aumento.";
+messages["en_US"].NEXTENSIONS_INSTANCE_LIMIT_2=" lines. To change the limit go to advanced options. Be careful with this option because it may cause problems.";
+
+messages["pt_BR"].ADVANCED_SCROLL="Barra Rolagem";
+messages["en_US"].ADVANCED_SCROLL="Scrolbar";
+
+messages["pt_BR"].ADVANCED_INSTANCE_LIMIT="Limite de Linhas Retornadas desta instância(Padrão 300)";
+messages["en_US"].ADVANCED_INSTANCE_LIMIT="Instance Returned Lines Limit(Std 300)";
+
 messages["pt_BR"].EDGE_MODE = "Tipo de Linha";
 messages["pt_BR"].STRAIGHT =  "Reto";
 messages["pt_BR"].CURVED = "Curvado";
