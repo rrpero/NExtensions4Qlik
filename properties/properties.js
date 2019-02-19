@@ -639,6 +639,20 @@ define( [
 				return showTo(show['options']["timeFormat"],d);
 			}	
 	};	
+	
+	show['options']['offset']=["gantt"];
+	var offset = {
+			type: "integer",
+			//component: "switch",
+			label: messages[language].OFFSET,
+			ref: "offset",
+			defaultValue: "1",
+			min: "0",
+			max: "100000",
+			show: function (d) {
+				return showTo(show['options']["offset"],d);
+			}	
+	};	
 
 	show['options']['ticks']=["gantt"];		
 	var ticks = {
@@ -793,6 +807,7 @@ define( [
 			max:max,
 			modeOneSticker:modeOneSticker,
 			timeFormat:timeFormat,
+			offset:offset,
 			ticks:ticks,
 			spaceTasksLeft:spaceTasksLeft
 			

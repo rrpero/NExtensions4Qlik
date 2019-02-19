@@ -674,7 +674,13 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 						g[i].selectAll(".viz-biPartite-mainBar").select(".cima")
 						.text(function(d){ return d.key/*d3.format("0.0%")(d.percent)*/});
 						g[i].selectAll(".viz-biPartite-mainBar").select(".baixo")
-						.text(function(d){ return /*d.value*/d3.format("0.0%")(d.percent)});						
+						.text(function(d){
+										if(layout.showvalues) 
+											return /*d.value*/d3.format("0.0%")(d.percent)
+										return "";
+							
+							//return /*d.value*/d3.format("0.0%")(d.percent)
+							});						
 					});
 				}
 				function mouseout(d){
@@ -686,7 +692,15 @@ function biPartite(app,$element,layout,qMatrix,d3,viz){
 						g[i].selectAll(".viz-biPartite-mainBar").select(".cima")
 						.text(function(d){ return d.key/*d3.format("0.0%")(d.percent)*/});
 						g[i].selectAll(".viz-biPartite-mainBar").select(".baixo")
-						.text(function(d){ return /*d.value*/d3.format("0.0%")(d.percent)});						
+						.text(function(d){ 
+					
+								if(layout.showvalues) 
+									return /*d.value*/d3.format("0.0%")(d.percent)
+								return "";
+						
+								//return /*d.value*/d3.format("0.0%")(d.percent)
+								
+								});						
 					});
 				}
 				

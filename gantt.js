@@ -275,8 +275,8 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 					  if(qMatrix[i][3] != undefined && (qMatrix[i][0].qNum<qMatrix[i][1].qNum)){
 						  var experience = {};
 						  
-						  experience['startTime']=qMatrix[i][0].qText;
-						  experience['endTime']=qMatrix[i][1].qText;						  
+						  experience['startTime']=qMatrix[i][0].qText.split(".")[0];
+						  experience['endTime']=qMatrix[i][1].qText.split(".")[0];						  
 						  experience['task']=qMatrix[i][2].qText;
 						  if(maxLength < qMatrix[i][2].qText.length){
 							  maxLength=qMatrix[i][2].qText.length;
@@ -377,10 +377,18 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				//var parseTime = d3.timeParse("%Y-%m-%dT%I:%M:%S");
 				//console.log(layout.spaceTasksLeft);
 				var parseTime = d3.timeParse(layout.timeFormat);
+				//console.log(layout.timeFormat);
+				//console.log(taskArray);
 				var timeScale = d3.scaleTime()
 						.domain([d3.min(taskArray, function(d) {/*console.log(parseTime(d.startTime));*/return parseTime(d.startTime);}),
-								 d3.max(taskArray, function(d) {/*console.log(parseTime(d.endTime));*/return parseTime(d.endTime);})])
-						.range([0,w-(maxLength*(layout.spaceTasksLeft+0.2))]);
+								 d3.max(taskArray, function(d) {/*console.log(parseTime(d.endTime));*/
+								 if(layout.timeFormat=="%Y-%m-%dT%I:%M:%S")								 
+									return  d3.timeHour.offset(parseTime(d.endTime), layout.offset);
+								 else if (layout.timeFormat=="%m/%Y")
+									return  d3.timeMonth.offset(parseTime(d.endTime), layout.offset);
+								 return parseTime(d.endTime)
+								 ;})])
+						.range([0,w-(maxLength*(layout.spaceTasksLeft+0.1))]);
 	
 
 				var categories = new Array();

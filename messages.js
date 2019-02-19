@@ -178,7 +178,14 @@ messages["pt_BR"].SPACE_TASKS_LEFT="Espaçamento De Tasks a Esquerda";
 messages["en_US"].SPACE_TASKS_LEFT="Tasks Left";
 
 messages["pt_BR"].MONTH_BAR_YEAR="10/2018";
-messages["pt_BR"].MONTH_BAR_YEAR="10/2018";
+messages["en_US"].MONTH_BAR_YEAR="10/2018";
+
+messages["pt_BR"].TIME_FORMAT="Formatação da Data";
+messages["en_US"].TIME_FORMAT="Time Format";
+
+messages["pt_BR"].OFFSET="Offset";
+messages["en_US"].OFFSET="Offset";
+
 
 
 messages["pt_BR"].APPROX="Aproximação Labels";

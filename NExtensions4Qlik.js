@@ -117,7 +117,7 @@ define( [
 			 var lastrow = 0, me = this;
 			 //loop through the rows we have and render
 			 var rowCount=this.backendApi.getRowCount();
-			 console.log(rowCount);
+			 //console.log(rowCount);
 			 var qMatrix =[];
 			 if(rowCount<=layout.advancedInstanceLimit){
 				 this.backendApi.eachDataRow( function ( rownum, row ) {
