@@ -171,6 +171,9 @@ messages["en_US"].MODE_ONE_STICKER="One Sticker Mode";
 messages["pt_BR"].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND="2018-10-27T16:05:00";
 messages["en_US"].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND="2018-10-27T16:05:00";
 
+messages["pt_BR"].DAY_BAR_MONTH_BAR_YEAR="27/10/2018";
+messages["en_US"].DAY_BAR_MONTH_BAR_YEAR="27/10/2018";
+
 messages["pt_BR"].TICKS="Intervalos";
 messages["en_US"].TICKS="Ticks";
 

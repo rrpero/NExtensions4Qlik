@@ -272,11 +272,14 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				  var taskArray = [];
 				  var maxLength =0;
 				  for(var i = 0; i < qMatrix.length;i++){
-					  if(qMatrix[i][3] != undefined && (qMatrix[i][0].qNum<qMatrix[i][1].qNum)){
+					  if(qMatrix[i][3] != undefined && (qMatrix[i][0].qNum<=qMatrix[i][1].qNum)){
 						  var experience = {};
 						  
 						  experience['startTime']=qMatrix[i][0].qText.split(".")[0];
-						  experience['endTime']=qMatrix[i][1].qText.split(".")[0];						  
+						  //console.log(experience['startTime']);
+						  
+						  experience['endTime']=qMatrix[i][1].qText.split(".")[0];
+						 //console.log(experience['endTime']);						  
 						  experience['task']=qMatrix[i][2].qText;
 						  if(maxLength < qMatrix[i][2].qText.length){
 							  maxLength=qMatrix[i][2].qText.length;
@@ -380,8 +383,8 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				//console.log(layout.timeFormat);
 				//console.log(taskArray);
 				var timeScale = d3.scaleTime()
-						.domain([d3.min(taskArray, function(d) {/*console.log(parseTime(d.startTime));*/return parseTime(d.startTime);}),
-								 d3.max(taskArray, function(d) {/*console.log(parseTime(d.endTime));*/
+						.domain([d3.min(taskArray, function(d) {/*//console.log(parseTime(d.startTime));*/return parseTime(d.startTime);}),
+								 d3.max(taskArray, function(d) {/*//console.log(parseTime(d.endTime));*/
 								 if(layout.timeFormat=="%Y-%m-%dT%I:%M:%S")								 
 									return  d3.timeHour.offset(parseTime(d.endTime), layout.offset);
 								 else if (layout.timeFormat=="%m/%Y")
@@ -463,6 +466,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 
 				function drawRects(theArray, theGap, theTopPad, theSidePad, theBarHeight, theColorScale, w, h){
 
+				
 				var bigRects = svg.append("g")
 					.selectAll("rect")
 				   .data(theArray)
@@ -473,7 +477,9 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 					  return i*theGap + theTopPad - 2;
 				  })
 				   .attr("width", function(d){
-					  return w/*-theSidePad/3*/;
+					  return w
+					  //-theSidePad/3
+					  ;
 				   })
 				   .attr("height", theGap)
 				   .attr("stroke", "none")
@@ -488,12 +494,14 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 				   .attr("opacity", 0.4);
 
 
+					
 					 var rectangles = svg.append('g')
 					 .selectAll("rect")
 					 .data(theArray)
 					 .enter();
+					 
 
-
+					
 				   var innerRects = rectangles.append("rect")
 							 .attr("rx", 3)
 							 .attr("ry", 3)
@@ -519,7 +527,10 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 								  }
 							  }
 							 })
+							 
 				   
+				  
+						
 						//var fontSize = theArray.length
 						 var rectText = rectangles.append("text")
 							   .text(function(d){
@@ -536,6 +547,7 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 							   .attr("text-anchor", "middle")
 							   .attr("text-height", theBarHeight)
 							   .attr("fill", "#000");
+							   
 							   
 						if(layout.modeOneSticker){
 							var tag = "";
@@ -726,24 +738,65 @@ function ganttChart(app,$element,layout,qMatrix,d3,viz,createPalette){
 					.tickSize(-h+theTopPad+100, 0, 0)
 					//.tickFormat(d3.timeFormat("%Y-%m"));
 					//.tickFormat(d3.timeFormat("%Y-%m-%dT%I:%M:%S"));
-					.tickFormat(d3.timeFormat(layout.timeFormat));
+					.tickFormat(d3.timeFormat(layout.timeFormat))
+
+							;
 					
 					
 				
+				//console.log(timeScale);
 				
 				var grid = svg.append('g')
 					.attr('class', 'grid')
 					.attr('transform', 'translate(' +theSidePad + ', ' + (h - 100) + ')')
 					.call(xAxis)
+			
 					.selectAll("text")  
 							.style("text-anchor", "middle")
 							.attr("fill", "#000")
-							.attr("stroke", "none")
+							.attr("stroke",// "none"
+							
+							function(d){
+								//console.log(d);
+								var today = new Date();
+								if(d.getFullYear()==today.getFullYear()   && d.getMonth()==today.getMonth()&& d.getDate()==today.getDate())
+									return "red";
+								return "gray";
+							}
+							)
 							.attr("font-size", 10)
 							.attr("dy", "1em")
 							.attr('transform', 'translate(-40, 35) rotate(-45)')
+
 							//.attr("transform", "rotate(-45)")
 							;
+							
+							
+					svg.selectAll(".tick line").attr("stroke", function(d){
+								//
+								//console.log(today.getDay() +" "  + today.getMonth()+" "  + today.getYear());
+								//console.log(d);
+								//console.log(d.getDate() +" "  + d.getMonth()+" "  + d.getFullYear());
+								//console.log(new Date().getMonth());
+								var today = new Date();
+								if(d.getFullYear()==today.getFullYear()   && d.getMonth()==today.getMonth()&& d.getDate()==today.getDate())
+									return "red";
+								
+								//if(today.getDay() ==  d.getDay() && today.getMonth() ==  d.getMonth() && today.getYear() ==  d.getYear())
+								//	return "red";
+								return "gray";
+								//console.log(Date());
+								//console.log(d.getMonth());
+								
+							});
+					/*grid					.selectAll("line")
+							.attr("stroke",// "none"
+							
+							function(d){
+								//console.log(d);
+								return "red";
+							}
+							)*/
 				}
 
 				function vertLabels(theGap, theTopPad, theSidePad, theBarHeight, theColorScale){

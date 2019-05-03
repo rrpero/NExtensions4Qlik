@@ -40,6 +40,17 @@ define( [
         uses: "measures",
         min: 0,
         max: 20
+		/*,
+		items: {
+			labelColor: {
+                        type: "string",
+                        ref: "qDef.labelColor",
+                        label: "Label color",
+                        expression: "always",
+                        defaultValue: "#545352"
+                    }
+		}
+		*/
     };
 
     // *****************************************************************************
@@ -633,6 +644,9 @@ define( [
 			}, {
 				value: "%Y-%m-%dT%I:%M:%S",
 				label: messages[language].YEAR_DASH_MONTH_DASH_DAY_T_HOUR_MINUTE_SECOND
+			}, {
+				value: "%d/%m/%Y",
+				label: messages[language].DAY_BAR_MONTH_BAR_YEAR
 			}],
 			defaultValue: "%m/%Y",
 			show: function (d) {
