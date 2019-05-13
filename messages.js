@@ -68,6 +68,7 @@ messages["pt_BR"].WATERFALL = "Cascata";
 messages["pt_BR"].BIPARTITE = "Bipartido";
 messages["pt_BR"].WORDCLOUD = "Word Cloud";
 messages["pt_BR"].GANTT= "Gantt";
+messages["pt_BR"].BUMPS= "Bumps";
 
 messages["en_US"].CHART_TYPE = "Chart Type";
 messages["en_US"].POLAR = "Polar";
@@ -77,6 +78,7 @@ messages["en_US"].WATERFALL = "Waterfall";
 messages["en_US"].BIPARTITE = "BiPartite";
 messages["en_US"].WORDCLOUD = "Word Cloud";
 messages["en_US"].GANTT= "Gantt Chart";
+messages["en_US"].BUMPS= "Bumps";
 
 
 messages["pt_BR"].ANALOGUE1 =  "Análogas 1";
@@ -153,6 +155,24 @@ messages["en_US"].AXES = "Axes";
 
 messages["pt_BR"].BACKGROUND_COLOR = "Cor de Fundo";
 messages["en_US"].BACKGROUND_COLOR = "Background Color";
+
+messages["pt_BR"].MAX_ITEM_PER_PERIOD = "Max Items por período";
+messages["en_US"].MAX_ITEM_PER_PERIOD = "Max Items per period";
+
+messages["pt_BR"].LAST_PERIODS = "Periodos";
+messages["en_US"].LAST_PERIODS = "Periods";
+
+messages["pt_BR"].BAR_CURVE = "Curvatura";
+messages["en_US"].BAR_CURVE = "Bar Curve";
+
+messages["pt_BR"].BAR_HEIGHT = "Altura da Barra";
+messages["en_US"].BAR_HEIGHT = "Bar Height";
+
+messages["pt_BR"].BAR_WIDTH = "Largura da Barra";
+messages["en_US"].BAR_WIDTH = "Bar Width";
+
+messages["pt_BR"].SHOW_LINKS = "Mostrar Links";
+messages["en_US"].SHOW_LINKS = "Show Links";
 
 messages["pt_BR"].SHOW_LABELS="Mostrar Labels";
 messages["en_US"].SHOW_LABELS="Show Labels";

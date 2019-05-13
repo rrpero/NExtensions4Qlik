@@ -15,14 +15,23 @@ requirejs.config({
 		"RGraph.radar": "../extensions/NExtensions4Qlik/libraries/RGraph.radar",
 		"RGraph.funnel": "../extensions/NExtensions4Qlik/libraries/RGraph.funnel",
 		"RGraph.waterfall": "../extensions/NExtensions4Qlik/libraries/RGraph.waterfall",
+		"RGraph.bar": "../extensions/NExtensions4Qlik/libraries/RGraph.bar",
 		"RGraph.common.key": "../extensions/NExtensions4Qlik/libraries/RGraph.common.key",
 		"d32":'../extensions/NExtensions4Qlik/libraries/d3',
+		
 		"viz":'../extensions/NExtensions4Qlik/libraries/viz'
 		,
 		"cloud":'../extensions/NExtensions4Qlik/libraries/d3.layout.cloud'
 		,
-		"RGraph.drawing.rect":'../extensions/NExtensions4Qlik/libraries/RGraph.drawing.rect'		
+		"RGraph.drawing.rect":'../extensions/NExtensions4Qlik/libraries/RGraph.drawing.rect'
+	
     },
+	 /*shim: {
+		  "plottable": {
+           deps: ["d32"]
+           , exports: "Plottable"
+        },
+	 },*/
  /*   shim: {
         "RGraph": {
          //   deps: ["RGraph.rose"],
@@ -59,12 +68,13 @@ define( [
 		,'viz'	
 		,'cloud'
 		,"text!./border.css"
-		,"text!./gantt.css"
+		,"text!./gantt.css",
 		,"RGraph"
 		,"RGraph.rosemv"
 		,"RGraph.radar"
 		,"RGraph.funnel"
 		,"RGraph.waterfall",	
+		,"RGraph.bar",
 		,"RGraph.common.dynamic"
 		,"RGraph.common.tooltips"
 		,"RGraph.common.key"
@@ -73,6 +83,8 @@ define( [
 		,'./biPartite'
 		,'./wordCloudChart'
 		,'./gantt'
+		,'./bumps'
+
 
 
 
@@ -81,11 +93,15 @@ define( [
 	
     function ( $, qlik, props, initProps,d3,viz,cloud,css,cssGantt) {
         'use strict';	
+
 		window.d3=d3;
+		
 		//window.RGraph={isRGraph: true};
 		//Inject Stylesheet into header of current document
 		$( '<style>' ).html(css).appendTo( 'head' );
 		$( '<style>' ).html(cssGantt).appendTo( 'head' );
+		
+		
 		var language = navigator.language || navigator.userLanguage; 
 		language = language.replace("-","_");
 
@@ -208,7 +224,16 @@ define( [
 						//To generate random numbers to allow multiple charts to present on one sheet:						
 						$element.html(getHtml(messages[language].GANTT_DIMENSIONMEASURE));
 					}					
-				}				
+				}
+				/*
+				else if(layout.polar=="bumps"){
+					if(numberOfDimensions==2 && numberOfMeasures==1)
+						bumpsChart(app,$element,layout,qMatrix,d3,plott,createPalette);
+					else{
+						//To generate random numbers to allow multiple charts to present on one sheet:						
+						$element.html(getHtml(messages[language].BIPARTITE_DIMENSIONMEASURE));
+					}					
+				}*/				
 				else 
 				{
 				
@@ -713,7 +738,174 @@ define( [
 						//console.log("nao teve" + dcmPlcs);
 					}
 					*/
-					if(layout.polar=="waterfall"){
+					if(layout.polar=="bumps"){
+						if(layout.qHyperCube.qDimensionInfo.length==2 && layout.qHyperCube.qMeasureInfo.length==1){
+							//bumpsChart(app,$element,layout,qMatrix,d3,plott,createPalette);
+							
+							    var data = [[4,0,3],[4,8,6],[4,2,4],[4,2,3],[1,2,3],[8,8,4],[4,8,6]];
+
+				var data = [];
+				var data2 = {};
+				var data2Labels = {};
+				var data2Colors = {};
+				var data2Values = {};
+				var countries ={};
+				var countPeriods = {};
+				var totalPeriods = {};
+				
+				//console.log("oi? " + Object.keys(totalPeriods).length);
+								
+				
+				for(var  i =0;i<qMatrix.length;i++)
+				{
+					if(Object.keys(totalPeriods).length<layout.lastPeriods){
+						totalPeriods[qMatrix[i][1].qText]=1;
+						//console.log(qMatrix[i][1].qText);
+					}					
+					
+					if(totalPeriods[qMatrix[i][1].qText]  !==undefined)
+					{
+						if(countPeriods[qMatrix[i][1].qText]!== undefined)
+							countPeriods[qMatrix[i][1].qText]++;
+						else
+							countPeriods[qMatrix[i][1].qText]=1;
+						
+						
+						
+						var dataI ={};
+						dataI['country']=qMatrix[i][0].qText;					
+						dataI['year']=qMatrix[i][1].qText;	
+						//dataI['money']=qMatrix[i][2].qNum;
+						//dataI['money']=countPeriods[qMatrix[i][1].qText];
+						dataI['money']=1;
+						dataI['value']=qMatrix[i][2].qNum;
+						
+
+						
+						if(countPeriods[qMatrix[i][1].qText]<=layout.maxItemsPerPeriod ){
+							
+							
+							countries[dataI['country']]=1;
+							dataI['color']=Object.keys(countries).indexOf(dataI['country']);
+							
+							
+							data.push(dataI);
+							
+							if(data2[dataI['year']] === undefined)
+							{
+								var yearArrays = [];
+								var labelsArrays = [];
+								var colorsArrays = [];
+								var valuesArrays = [];
+								data2[dataI['year']]=yearArrays;
+								data2Labels[dataI['year']]=labelsArrays;
+								data2Colors[dataI['year']]=colorsArrays;								
+								data2Values[dataI['year']]=valuesArrays;	
+							}
+							data2[dataI['year']].push(dataI['money']);
+							data2Labels[dataI['year']].push(dataI['country']);
+							data2Colors[dataI['year']].push(dataI['color']);
+							data2Values[dataI['year']].push(dataI['value']);
+							
+						}
+					}
+					
+					
+				}
+				
+				
+				var arrayKeys = Object.keys(data2);
+				var data3 = [];
+				var data3Labels = [];
+				var data3Colors = [];
+				var data3Values = [];
+				for(var i = 0; i < arrayKeys.length; i++)
+				{
+					data3.push(data2[arrayKeys[i]]);
+					data3Labels.push(data2Labels[arrayKeys[i]]);
+					data3Colors.push(data2Colors[arrayKeys[i]]);
+					data3Values.push(data2Values[arrayKeys[i]]);
+				}
+				//console.log(data3Labels);
+				var connections = [];
+				
+				for(var i = 0;  i< data3Labels.length-1; i++)
+				{
+					//connections[arrayKeys[i]]=[];
+					var connectionYear=[];
+					connections.push(connectionYear);
+					for(var j = 0; j< data3Labels[i].length; j++)
+					{
+						var indexProx = data3Labels[i+1].indexOf(data3Labels[i][j])
+						if(indexProx != -1)
+						{
+							
+							//var connection = [j,indexProx];
+							//connections[arrayKeys[i]].push(connection);
+							var connection =[];
+							connection.push(j);
+							connection.push(indexProx);
+							connections[i].push(connection);
+						}
+						
+					}
+				}
+				//console.log(connections);
+				
+				//console.log(data3);
+				//console.log(data3Labels);
+				//console.log(data3Colors);
+				//console.log(Object.keys(data2));
+				var barWidth = (100-layout.barWidth)/200;
+				var barHeight = (100-layout.barHeight)/100;
+				palette=createPalette(Object.keys(countries).length,{},{});			
+								
+								new RGraph.Bar({
+									id: tmpCVSID,
+									data: data3,
+									options: {
+										labels: Object.keys(totalPeriods)/*[
+											'Mondays',
+											'Tuesdays',
+											'Wednesdays',
+											'Thursdays',
+											'Fridays',
+											'Saturdays',
+											'Sundays'
+										]*/,
+										backgroundGrid:false,
+										//hmargin: barWidth,
+										barWidth: barWidth,
+										//vmargin: 15,
+										colors: palette,
+										grouping: 'stacked',
+										marginLeft: 100,
+										marginTop: 10,
+										marginBottom: 250,
+										marginRight: 5,
+										//labelsAboveAngle: 45,
+										//labelsAbove: true,
+										colorsStroke: 'rgba(0,0,0,0)',
+										dataLabels: data3Labels,
+										dataColors: data3Colors,
+										dataValues: data3Values,
+										dataConnections: connections,
+										tooltipsEvent: 'onmousemove',
+										barHeight:barHeight,
+										barCurve:layout.barCurve,
+										showLinks:layout.showLinks
+										//chart.data.connections
+									}
+								}).draw();
+						}
+						else{
+							//To generate random numbers to allow multiple charts to present on one sheet:						
+							$element.html(getHtml(messages[language].BIPARTITE_DIMENSIONMEASURE));
+						}
+						
+						
+					}
+					else if(layout.polar=="waterfall"){
 						
 						
 						
@@ -931,7 +1123,7 @@ define( [
 									showValuesArray:valuesFormatted,
 									showValuesTextSize:labelTextSize-2//,
 									
-									//eventsClick: function(){console.log('oi');}
+									//eventsClick: function(){//console.log('oi');}
 								}
 							}).draw();
 							
@@ -1239,6 +1431,41 @@ define( [
 					//layout.fontColor['color']="white;"
 					layout.fontColor['color']="#190000;"
 				}
+				
+				if(typeof(layout.maxItemsPerPeriod) == "undefined"){
+					layout.maxItemsPerPeriod=10;				
+
+				}
+
+				if(typeof(layout.lastPeriods) == "undefined"){
+					layout.lastPeriods=5;			
+
+				}	
+
+				if(typeof(layout.barCurve) == "undefined"){
+					layout.barCurve=20;			
+
+				}
+
+				if(typeof(layout.barHeight) == "undefined"){
+					layout.barHeight=0.2;			
+
+				}
+
+				if(typeof(layout.barWidth) == "undefined"){
+					layout.barWidth=20;			
+
+				}	
+
+				if(typeof(layout.showLinks) == "undefined"){
+					layout.showLinks=false;			
+
+				}					
+
+				
+				
+				
+
 				/*
 				//inicio bipartite
 				if(typeof(layout.pad) == "undefined"){

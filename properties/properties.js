@@ -212,6 +212,9 @@ define( [
 		}, {
 			value: "gantt",
 			label: messages[language].GANTT
+		}, {
+			value: "bumps",
+			label: messages[language].BUMPS
 		}],
 		defaultValue: "polar"
 	};	
@@ -781,8 +784,97 @@ define( [
 			show: function (d) {
 				return showTo(show['options']["labelIn"],d);
 			}	
+	};
+
+	show['options']['lastPeriods']=["bumps"];	
+	var lastPeriods = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].LAST_PERIODS,
+		ref: "lastPeriods",
+		defaultValue: "5",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['options']["lastPeriods"],d);
+		}				
+	};
+
+	show['options']['maxItemsPerPeriod']=["bumps"];	
+	var maxItemsPerPeriod = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].MAX_ITEM_PER_PERIOD,
+		ref: "maxItemsPerPeriod",
+		defaultValue: "10",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['options']["maxItemsPerPeriod"],d);
+		}				
 	};	
 	
+	
+	show['options']['barCurve']=["bumps"];	
+	var barCurve = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_CURVE,
+		ref: "barCurve",
+		defaultValue: "20",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['options']["barCurve"],d);
+		}				
+	};
+
+	show['options']['barHeight']=["bumps"];	
+	var barHeight = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_HEIGHT,
+		ref: "barHeight",
+		defaultValue: "100",
+		min: "0",
+		max: "100",
+		show: function (d) {
+			return showTo(show['options']["barHeight"],d);
+		}				
+	};
+
+	show['options']['barWidth']=["bumps"];	
+	var barWidth = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_WIDTH,
+		ref: "barWidth",
+		defaultValue: "0",
+		min: "0",
+		max: "100",
+		show: function (d) {
+			return showTo(show['options']["barWidth"],d);
+		}				
+	};
+
+	show['options']['showLinks']=["bumps"];	
+	var showLinks = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SHOW_LINKS,
+		ref: "showLinks",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d) {
+			return showTo(show['options']["showLinks"],d);
+		}				
+	};	
 
 	
 	
@@ -823,7 +915,14 @@ define( [
 			timeFormat:timeFormat,
 			offset:offset,
 			ticks:ticks,
-			spaceTasksLeft:spaceTasksLeft
+			spaceTasksLeft:spaceTasksLeft,
+			lastPeriods:lastPeriods,
+			maxItemsPerPeriod:maxItemsPerPeriod,
+			barWidth:barWidth,
+			barHeight:barHeight,
+			
+			barCurve:barCurve,
+			showLinks:showLinks
 			
 			//,keepColors:keepColors
 

@@ -1,4 +1,4 @@
-// version: 2018-08-14
+// version: 2018-02-24
     /**
     * o--------------------------------------------------------------------------------o
     * | This file is part of the RGraph package - you can learn more at:               |
@@ -100,17 +100,6 @@
             'chart.gutter.bottom':          35,
             'chart.gutter.left':            25,
             'chart.gutter.right':           25,
-			
-			'chart.data.colors':			null,
-			'chart.data.labels':			null,
-			'chart.data.values':			null,
-			'chart.data.connections':		null,				
-			
-			'chart.bar.curve':		20,
-			'chart.bar.height':		0.2,
-			'chart.bar.width':		0.2,
-			'chart.show.links':		false,			
-			
             'chart.labels':                 null,
             'chart.labels.bold':            false,
             'chart.labels.color':           null,
@@ -1354,27 +1343,7 @@ co.lineTo(
                             alert("[ERROR] Stacked Bar charts with a Y min are not supported");
                         }
 
-						/*if(width - (2 * hmargin)<0){
-							console.log(width);
-							console.log(hmargin);
-							hmargin=(width/2)-5;
-							
-						}*/
-						hmargin =  prop['chart.bar.width']*width;
-						//console.log(width);
-						//console.log(hmargin);						
-						
-						if(width - (2 * hmargin)<=10){
-							console.log(width);
-							console.log(hmargin);
-							hmargin=(width/2)-5;
-							
-						}						
                         var barWidth     = width - (2 * hmargin);
-
-
-						
-						
                         var redrawCoords = [];// Necessary to draw if the shadow is enabled
                         var startY       = 0;
                         var dataset      = this.data[i];
@@ -1404,23 +1373,8 @@ co.lineTo(
                             * Set the fill and stroke colors
                             */
                             co.strokeStyle = strokeStyle
-							
                             co.fillStyle = colors[j];
-							
-							
-							//console.log(prop['chart.data.colors']);
-							var dataColors = prop['chart.data.colors'];
-							var dataLabels = prop['chart.data.labels'];
-							var dataValues = prop['chart.data.values'];
-							var dataConnections = prop['chart.data.connections'];
-							//console.log(dataConnections);
-							var labels2 = prop['chart.labels'];
-							//console.log(labels2);
-							//console.log(labels2[i]);
-							//console.log(dataColors[i]);
-							co.fillStyle = colors[dataColors[i][j]];
-							
-							
+
                             if (prop['chart.colors.reverse']) {
                                 co.fillStyle = colors[this.data[i].length - j - 1];
                             }
@@ -1447,8 +1401,6 @@ co.lineTo(
                             if (typeof this.coords2[i] == 'undefined') {
                                 this.coords2[i] = [];
                             }
-							
-													
                             this.coords2[i].push([x + hmargin, y, width - (2 * hmargin), height]);
 
                             // MSIE shadow
@@ -1456,45 +1408,9 @@ co.lineTo(
                                 this.DrawIEShadow([x + hmargin, y, width - (2 * hmargin), height + 1]);
                             }
 
-							
-						
-							
-							
                             if (height > 0) {
-								//var labelSpace = 0.5;
-								var labelSpace = prop['chart.bar.height'];
-								
-								
-								//var radius=30;
-								var radius = prop['chart.bar.curve'];
-								
-                                //co.strokeRect(x + hmargin, y+((height*labelSpace)/2), width - (2 * hmargin), height-(height*labelSpace));
-                                //co.fillRect(x + hmargin, y+((height*labelSpace)/2), width - (2 * hmargin), height-(height*labelSpace));
-								
-								var x1=x + hmargin;
-								var y1=y+((height*labelSpace)/2);
-								var w1=width - (2 * hmargin);
-								var h1=height-(height*labelSpace);
-								if((radius*2)>h1)
-									radius=h1/2;
-								//console.log(h1);
-								var r = x1 + w1;
-								var b = y1 + h1;
-								
-								co.beginPath();
-								co.strokeStyle=colors[dataColors[i][j]];
-								co.lineWidth="2";
-								co.moveTo(x1+radius, y1);
-								co.lineTo(r-radius, y1);
-								co.quadraticCurveTo(r, y1, r, y1+radius);
-								co.lineTo(r, y1+h1-radius);//h
-								co.quadraticCurveTo(r, b, r-radius, b);
-								co.lineTo(x1+radius, b);
-								co.quadraticCurveTo(x1, b, x1, b-radius);
-								co.lineTo(x1, y1+radius);
-								co.quadraticCurveTo(x1, y1, x1+radius, y1);
-								co.fill();
-								co.stroke();								
+                                co.strokeRect(x + hmargin, y, width - (2 * hmargin), height);
+                                co.fillRect(x + hmargin, y, width - (2 * hmargin), height);
                             }
 
 
@@ -1502,31 +1418,6 @@ co.lineTo(
                                 var startY = y;
                                 var startX = x;
                             }
-							co.fillStyle ='black';
-							
-							
-							
-							
-							/*
-							                            co.beginPath();
-                            co.moveTo(x + (width / 2), y);
-                            co.lineTo(x + (width / 2), y + height);
-                            co.stroke();
-							*/
-							
-
-							
-							RG.text2(this, {
-								'font': 'Arial',
-								'size': 7,
-								'x': x+(width*0.1)+(hmargin/2),
-								'y': y+((height)*0.55),
-								'text': String(dataValues[i][j]+" | "+dataLabels[i][j].slice(0,12)),
-								'valign': 'center',
-								//'halign': align,
-								//'bordered':boxed,
-								'tag': 'scale'
-							});
 
                             /**
                             * Store the redraw coords if the shadow is enabled
@@ -1600,8 +1491,6 @@ co.lineTo(
 
                             y += height;
                         }
-						
-						
 
 
 
@@ -1836,83 +1725,10 @@ co.lineTo(
                     } else {
                         this.coords.push([]);
                     }
-				
+
                 co.closePath();
             }
-			
-			
-			
-			if (this.data[0] && typeof(this.data[0]) == 'object' && prop['chart.grouping'] == 'stacked'  && prop['chart.show.links'] ) {
-				//console.log(this.coords2);
 
-				//print lines in grouped
-				for(var i = 0;  i < this.data.length-1; i++){
-				
-					for(var j = 0; j<this.data[i].length;j++){
-						
-						for(var conns = 0; conns<dataConnections[i].length;conns++)
-						{
-							if(j==dataConnections[i][conns][0])
-							{
-								//console.log(dataConnections);
-								//console.log(this.coords2[i][dataConnections[i][conns][0]]);
-								var coordFrom=this.coords2[i][dataConnections[i][conns][0]];
-								var xFrom=coordFrom[0]+coordFrom[2];
-								var yFrom=coordFrom[1]+(coordFrom[3]/2);
-								
-								var coordTo=this.coords2[i+1][dataConnections[i][conns][1]];
-								var xTo=coordTo[0];
-								var yTo=coordTo[1]+(coordTo[3]/2);
-								
-								//console.log(xFrom);
-								//console.log(yFrom);
-								//console.log(xTo);
-								//console.log(yTo);							
-								
-								
-								//console.log("Conexao de " 
-								//+ dataLabels[i][dataConnections[i][conns][0]]
-								//+ " para " 
-								//+ dataLabels[i+1][dataConnections[i][conns][1]]
-								//+ " em " 
-								//+ labels2[i]
-								//+ " e "
-								//+ labels2[i+1]);
-								
-								/*
-								co.beginPath();
-								co.lineWidth = 2;	
-								co.strokeStyle = prop['chart.strokecolor'];
-									co.moveTo(xFrom, yFrom);
-									co.lineTo(xTo, yTo);
-									//co.lineTo(startX + prop['chart.variant.threed.offsetx'] + barWidth + hmargin, y - prop['chart.variant.threed.offsety']);
-									//co.lineTo(startX + barWidth + hmargin, y);
-								
-
-
-								//co.fill();
-								co.stroke();
-								co.closePath();	
-								*/
-								co.beginPath();
-								co.strokeStyle = colors[dataColors[i][j]];
-								co.lineWidth = 3;
-								co.moveTo(xFrom, yFrom);
-								co.lineTo(xTo, yTo);
-								co.stroke();
-														
-								
-							}
-							
-							
-						}
-					}
-				}
-			}
-			
-			
-			
-			
             // If 3D, redraw the right hand Y axis
             if (prop['chart.variant'] === '3d' && prop['chart.yaxispos'] === 'right') {
                 RG.draw3DYAxis(this);
