@@ -83,7 +83,7 @@ define( [
 		,'./biPartite'
 		,'./wordCloudChart'
 		,'./gantt'
-		,'./bumps'
+		//,'./bumps'
 
 
 
@@ -814,7 +814,9 @@ define( [
 				}
 				
 				
-				var arrayKeys = Object.keys(data2);
+				
+				
+				var arrayKeys = Object.keys(data2).reverse();
 				var data3 = [];
 				var data3Labels = [];
 				var data3Colors = [];
@@ -864,7 +866,7 @@ define( [
 									id: tmpCVSID,
 									data: data3,
 									options: {
-										labels: Object.keys(totalPeriods)/*[
+										labels: Object.keys(totalPeriods).reverse()/*[
 											'Mondays',
 											'Tuesdays',
 											'Wednesdays',
@@ -873,6 +875,11 @@ define( [
 											'Saturdays',
 											'Sundays'
 										]*/,
+										ylabels:false,
+										noyaxis:true,
+										gutterLeft:50,
+										gutterRight:50,
+										
 										backgroundGrid:false,
 										//hmargin: barWidth,
 										barWidth: barWidth,
@@ -883,6 +890,7 @@ define( [
 										marginTop: 10,
 										marginBottom: 250,
 										marginRight: 5,
+										
 										//labelsAboveAngle: 45,
 										//labelsAbove: true,
 										colorsStroke: 'rgba(0,0,0,0)',
@@ -893,7 +901,11 @@ define( [
 										tooltipsEvent: 'onmousemove',
 										barHeight:barHeight,
 										barCurve:layout.barCurve,
-										showLinks:layout.showLinks
+										showLinks:layout.showLinks,
+										showValues:layout.showvalues,
+										showLabels:layout.chartLabels,
+										showOnlyFirstLast:layout.showOnlyFirstLast,
+										maxItemsPerPeriod:layout.maxItemsPerPeriod
 										//chart.data.connections
 									}
 								}).draw();

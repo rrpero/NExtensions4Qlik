@@ -177,6 +177,9 @@ messages["en_US"].SHOW_LINKS = "Show Links";
 messages["pt_BR"].SHOW_LABELS="Mostrar Labels";
 messages["en_US"].SHOW_LABELS="Show Labels";
 
+messages["pt_BR"].SHOW_ONLY_FIRST_LAST="Mostrar Primeira e Últimas";
+messages["en_US"].SHOW_ONLY_FIRST_LAST="Show Only First Last Labels";
+
 //messages["pt_BR"].VALUE_IN_LABELS="Valor Nas Labels";
 
 messages["pt_BR"].FONT_COLOR = "Cor da Letra";

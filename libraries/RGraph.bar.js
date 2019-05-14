@@ -104,12 +104,17 @@
 			'chart.data.colors':			null,
 			'chart.data.labels':			null,
 			'chart.data.values':			null,
-			'chart.data.connections':		null,				
+			'chart.data.connections':		null,	
+
+			'chart.show.values':			true,
+			'chart.show.labels':			true,			
 			
 			'chart.bar.curve':		20,
 			'chart.bar.height':		0.2,
 			'chart.bar.width':		0.2,
-			'chart.show.links':		false,			
+			'chart.show.links':		false,
+			'chart.max.items.per.period':		10,
+			
 			
             'chart.labels':                 null,
             'chart.labels.bold':            false,
@@ -1350,13 +1355,23 @@ co.lineTo(
                     */
                     } else if (this.data[i] && typeof(this.data[i]) == 'object' && prop['chart.grouping'] == 'stacked') {
 
+						if(prop['chart.max.items.per.period']>this.scale2.max)
+							prop['chart.max.items.per.period']=this.scale2.max;
+						var toUp = prop['chart.max.items.per.period']-this.data[i].length;
+						
+						//for(var toUpI = 0; toUpI < toUp; toUpI++)
+						var height = (1 / this.scale2.max) * (ca.height - this.gutterTop - this.gutterBottom );
+						y=y-(toUp*height);
+						//console.log(toUp + " - "+y);
+						//console.log(this.scale2.max);
+						
                         if (this.scale2.min) {
                             alert("[ERROR] Stacked Bar charts with a Y min are not supported");
                         }
 
 						/*if(width - (2 * hmargin)<0){
-							console.log(width);
-							console.log(hmargin);
+							//console.log(width);
+							//console.log(hmargin);
 							hmargin=(width/2)-5;
 							
 						}*/
@@ -1365,8 +1380,8 @@ co.lineTo(
 						//console.log(hmargin);						
 						
 						if(width - (2 * hmargin)<=10){
-							console.log(width);
-							console.log(hmargin);
+							//console.log(width);
+							//console.log(hmargin);
 							hmargin=(width/2)-5;
 							
 						}						
@@ -1379,6 +1394,7 @@ co.lineTo(
                         var startY       = 0;
                         var dataset      = this.data[i];
 
+						
                         /**
                         * Check for a negative bar width
                         */
@@ -1513,20 +1529,33 @@ co.lineTo(
                             co.lineTo(x + (width / 2), y + height);
                             co.stroke();
 							*/
+							var labelShow = "";
+							if(prop['chart.show.labels'] && prop['chart.show.values'])
+								labelShow = String(dataValues[i][j]+" | "+dataLabels[i][j].slice(0,12));
+							else if(prop['chart.show.labels'])
+								labelShow = String(dataLabels[i][j].slice(0,12));
+							else if(prop['chart.show.values'])
+								labelShow = String(dataValues[i][j]);
 							
-
-							
-							RG.text2(this, {
-								'font': 'Arial',
-								'size': 7,
-								'x': x+(width*0.1)+(hmargin/2),
-								'y': y+((height)*0.55),
-								'text': String(dataValues[i][j]+" | "+dataLabels[i][j].slice(0,12)),
-								'valign': 'center',
-								//'halign': align,
-								//'bordered':boxed,
-								'tag': 'scale'
-							});
+							var xCenter = (x + (width/2)) - ((labelShow.length)*(2));
+							//console.log(width);
+							//console.log(ca.width);
+							//console.log(labelShow.length/width);
+							//xCenter =xCenter -  ((labelShow.length/width));
+							if(labelShow != "" && (i==0 || i==this.data.length-1)){
+								RG.text2(this, {
+									'font': 'Arial',
+									'size': 7,
+									//'x': x+(width*(0.3))+(hmargin/2),
+									'x': xCenter,
+									'y': y+((height)*0.55),
+									'text': labelShow,
+									'valign': 'center',
+									//'halign': align,
+									//'bordered':boxed,
+									'tag': 'scale'
+								});
+							}
 
                             /**
                             * Store the redraw coords if the shadow is enabled
@@ -1600,6 +1629,80 @@ co.lineTo(
 
                             y += height;
                         }
+						
+						var y = xaxispos == 'center' ? ((ca.height - this.gutterTop - this.gutterBottom) / 2) + this.gutterTop - height
+							 : ca.height - height - this.gutterBottom;
+							 
+						for(var rankI = prop['chart.max.items.per.period']; rankI>=1; rankI-- ){
+							
+								//var coordFrom=this.coords2[0][rankI];
+								//var xFrom=coordFrom[0]+coordFrom[2];
+								var xFrom=prop['chart.yaxispos'] == 'left' ? this.gutterLeft + 5 : ca.width - this.gutterRight - 5;
+								xFrom=xFrom/1.5;
+								//var xpos  = prop['chart.yaxispos'] == 'left' ? this.gutterLeft + 5 : ca.width - this.gutterRight - 5;
+								//var yFrom=coordFrom[1]+(coordFrom[3]/2);
+								
+								/*
+								RG.text2(this, {
+									'font': 'Arial',
+									'size': 7,
+									'x': xFrom,
+									'y': y+((height)*0.55),
+									'text': String(rankI),
+									'valign': 'center',
+									//'halign': align,
+									//'bordered':boxed,
+									'tag': 'scale'
+								});*/
+								var raioRank = ((height-(height*labelSpace))/2);
+								if(raioRank>15)
+									raioRank=15;
+								co.beginPath();
+								
+								var colorRank = "white";
+								
+								//if(rankI<=dataColors[0].length)
+								//	colorRank = colors[dataColors[0][rankI-1]];								
+								
+								co.fillStyle = colorRank;
+								co.strokeStyle = "black";
+								//co.font = "9px Georgia";
+								co.lineWidth = 1;
+								co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
+								//x,y,r,sAngle,eAngle,counterclockwise
+								co.fill();
+								co.beginPath();
+								co.fillStyle = "black";								
+								var  raio4y = ((raioRank*1.05)/4);								
+								var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
+								co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
+								co.fill();
+								
+								
+								xFrom = ca.width - (this.gutterRight*0.8);
+								co.beginPath();
+								colorRank = "white";
+								
+								//if(rankI<=dataColors[dataColors.length-1].length)
+								//	colorRank = colors[dataColors[dataColors.length-1][rankI-1]];
+								co.fillStyle = colorRank;
+								co.strokeStyle = "black";
+								//co.font = "9px Georgia";
+								co.lineWidth = 1;
+								co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
+								//x,y,r,sAngle,eAngle,counterclockwise
+								co.fill();
+								co.beginPath();
+								co.fillStyle = "black";								
+								var  raio4y = ((raioRank*1.05)/4);								
+								var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
+								co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
+								co.fill();								
+								
+								y-=height;
+						}
+						
+						
 						
 						
 
@@ -1909,6 +2012,10 @@ co.lineTo(
 					}
 				}
 			}
+			
+			
+			
+
 			
 			
 			

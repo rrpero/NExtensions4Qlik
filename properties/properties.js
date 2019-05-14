@@ -544,7 +544,7 @@ define( [
 	};		*/
 	
 
-	show['options']['chartLabels']=["polar","funnel"];
+	show['options']['chartLabels']=["polar","funnel","bumps"];
 	var chartLabels = {
 			type: "boolean",
 			component: "switch",
@@ -597,7 +597,7 @@ define( [
 	};		
 
 
-	show['options']['showvalues']=["polar","funnel","radar","waterfall","biPartite"];
+	show['options']['showvalues']=["polar","funnel","radar","waterfall","biPartite","bumps"];
 	var showvalues = {
 			type: "boolean",
 			component: "switch",
@@ -874,7 +874,27 @@ define( [
 		show: function (d) {
 			return showTo(show['options']["showLinks"],d);
 		}				
+	};
+
+	show['options']['showOnlyFirstLast']=["bumps"];	
+	var showOnlyFirstLast = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SHOW_ONLY_FIRST_LAST,
+		ref: "showOnlyFirstLast",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d) {
+			return showTo(show['options']["showOnlyFirstLast"],d);
+		}				
 	};	
+	
 
 	
 	
