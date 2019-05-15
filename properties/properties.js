@@ -786,114 +786,7 @@ define( [
 			}	
 	};
 
-	show['options']['lastPeriods']=["bumps"];	
-	var lastPeriods = {
-		type: "integer",
-		//component: "switch",
-		label: messages[language].LAST_PERIODS,
-		ref: "lastPeriods",
-		defaultValue: "5",
-		min: "1",
-		max: "100000",
-		show: function (d) {
-			return showTo(show['options']["lastPeriods"],d);
-		}				
-	};
 
-	show['options']['maxItemsPerPeriod']=["bumps"];	
-	var maxItemsPerPeriod = {
-		type: "integer",
-		//component: "switch",
-		label: messages[language].MAX_ITEM_PER_PERIOD,
-		ref: "maxItemsPerPeriod",
-		defaultValue: "10",
-		min: "1",
-		max: "100000",
-		show: function (d) {
-			return showTo(show['options']["maxItemsPerPeriod"],d);
-		}				
-	};	
-	
-	
-	show['options']['barCurve']=["bumps"];	
-	var barCurve = {
-		type: "integer",
-		//component: "switch",
-		label: messages[language].BAR_CURVE,
-		ref: "barCurve",
-		defaultValue: "20",
-		min: "1",
-		max: "100000",
-		show: function (d) {
-			return showTo(show['options']["barCurve"],d);
-		}				
-	};
-
-	show['options']['barHeight']=["bumps"];	
-	var barHeight = {
-		type: "integer",
-		//component: "switch",
-		label: messages[language].BAR_HEIGHT,
-		ref: "barHeight",
-		defaultValue: "100",
-		min: "0",
-		max: "100",
-		show: function (d) {
-			return showTo(show['options']["barHeight"],d);
-		}				
-	};
-
-	show['options']['barWidth']=["bumps"];	
-	var barWidth = {
-		type: "integer",
-		//component: "switch",
-		label: messages[language].BAR_WIDTH,
-		ref: "barWidth",
-		defaultValue: "0",
-		min: "0",
-		max: "100",
-		show: function (d) {
-			return showTo(show['options']["barWidth"],d);
-		}				
-	};
-
-	show['options']['showLinks']=["bumps"];	
-	var showLinks = {
-		type: "boolean",
-		component: "switch",
-		label: messages[language].SHOW_LINKS,
-		ref: "showLinks",
-		options: [{
-			value: true,
-			label: messages[language].YES
-		}, {
-			value: false,
-			label: messages[language].NO
-		}],
-		defaultValue: false,
-		show: function (d) {
-			return showTo(show['options']["showLinks"],d);
-		}				
-	};
-
-	show['options']['showOnlyFirstLast']=["bumps"];	
-	var showOnlyFirstLast = {
-		type: "boolean",
-		component: "switch",
-		label: messages[language].SHOW_ONLY_FIRST_LAST,
-		ref: "showOnlyFirstLast",
-		options: [{
-			value: true,
-			label: messages[language].YES
-		}, {
-			value: false,
-			label: messages[language].NO
-		}],
-		defaultValue: false,
-		show: function (d) {
-			return showTo(show['options']["showOnlyFirstLast"],d);
-		}				
-	};	
 	
 
 	
@@ -935,14 +828,7 @@ define( [
 			timeFormat:timeFormat,
 			offset:offset,
 			ticks:ticks,
-			spaceTasksLeft:spaceTasksLeft,
-			lastPeriods:lastPeriods,
-			maxItemsPerPeriod:maxItemsPerPeriod,
-			barWidth:barWidth,
-			barHeight:barHeight,
-			
-			barCurve:barCurve,
-			showLinks:showLinks
+			spaceTasksLeft:spaceTasksLeft
 			
 			//,keepColors:keepColors
 
@@ -1200,6 +1086,189 @@ define( [
 		}
 
 	};	
+
+	show['bumps']={};
+	show['bumps']['lastPeriods']=["bumps"];	
+	var lastPeriods = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].LAST_PERIODS,
+		ref: "lastPeriods",
+		defaultValue: "5",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['bumps']["lastPeriods"],d);
+		}				
+	};
+
+	show['bumps']['maxItemsPerPeriod']=["bumps"];	
+	var maxItemsPerPeriod = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].MAX_ITEM_PER_PERIOD,
+		ref: "maxItemsPerPeriod",
+		defaultValue: "10",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['bumps']["maxItemsPerPeriod"],d);
+		}				
+	};	
+	
+
+	show['bumps']['barCurve']=["bumps"];	
+	var barCurve = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_CURVE,
+		ref: "barCurve",
+		defaultValue: "20",
+		min: "1",
+		max: "100000",
+		show: function (d) {
+			return showTo(show['bumps']["barCurve"],d);
+		}				
+	};
+
+
+
+	show['bumps']['barHeight']=["bumps"];	
+	var barHeight = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_HEIGHT,
+		ref: "barHeight",
+		defaultValue: "100",
+		min: "0",
+		max: "100",
+		show: function (d) {
+			return showTo(show['bumps']["barHeight"],d);
+		}				
+	};
+
+	show['bumps']['barWidth']=["bumps"];	
+	var barWidth = {
+		type: "integer",
+		//component: "switch",
+		label: messages[language].BAR_WIDTH,
+		ref: "barWidth",
+		defaultValue: "80",
+		min: "0",
+		max: "100",
+		show: function (d) {
+			return showTo(show['bumps']["barWidth"],d);
+		}				
+	};
+
+	show['bumps']['showLinks']=["bumps"];	
+	var showLinks = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SHOW_LINKS,
+		ref: "showLinks",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d) {
+			return showTo(show['bumps']["showLinks"],d);
+		}				
+	};
+
+	show['bumps']['showOnlyFirstLast']=["bumps"];	
+	var showOnlyFirstLast = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SHOW_ONLY_FIRST_LAST,
+		ref: "showOnlyFirstLast",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d) {
+			return showTo(show['bumps']["showOnlyFirstLast"],d);
+		}				
+	};
+
+	show['bumps']['showRanks']=["bumps"];	
+	var showRanks = {
+			type: "string",
+			component: "dropdown",
+			label: messages[language].SHOW_RANKS,
+			ref: "showRanks",
+			options: [{
+				value: "firstAndLast",
+				label: messages[language].FIRST_AND_LAST
+			},{
+				value: "onlyFirst",
+				label: messages[language].ONLY_FIRST
+			},{
+				value: "onlyLast",
+				label: messages[language].ONLY_LAST
+			},{
+				value: "none",
+				label: messages[language].NONE
+			}
+			
+			],
+			defaultValue: "firstAndLast",
+			show: function (d) {
+				return showTo(show['bumps']["showRanks"],d);
+			}				
+	};	
+	
+	
+	show['bumps']['showRankColors']=["bumps"];	
+	var showRankColors = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SHOW_RANK_COLORS,
+		ref: "showRankColors",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: true,
+		show: function (d) {
+			return showTo(show['bumps']["showRankColors"],d);
+		}				
+	};		
+
+	show['bumps']['bumps']=["bumps"];
+	var Bumps = {
+		type:"items",
+		label:messages[language].BUMPS,
+		items: {			
+			lastPeriods,
+			maxItemsPerPeriod,
+			showOnlyFirstLast,
+			showLinks,
+			barWidth,
+			barHeight,
+			barCurve,
+			showRanks,
+			showRankColors
+			
+			
+		},
+		show: function (d) {
+			return showTo(show['bumps']["bumps"],d);
+			
+		}
+
+	};		
 	
 
 	show['scale']={};
@@ -1531,6 +1600,7 @@ define( [
 			legends:legends,
 			Scale:Scale,
 			BiPartite:BiPartite,
+			Bumps:Bumps,
 			Advanced:Advanced
 			
 		}

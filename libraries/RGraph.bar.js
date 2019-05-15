@@ -114,6 +114,9 @@
 			'chart.bar.width':		0.2,
 			'chart.show.links':		false,
 			'chart.max.items.per.period':		10,
+			'chart.show.only.first.last':		false,			
+			'chart.show.ranks':				"firstAndLast",
+			'chart.show.rank.colors':		true,
 			
 			
             'chart.labels':                 null,
@@ -1536,16 +1539,27 @@ co.lineTo(
 								labelShow = String(dataLabels[i][j].slice(0,12));
 							else if(prop['chart.show.values'])
 								labelShow = String(dataValues[i][j]);
+
+
+							var fontSize=5;
+							//if(ca.width/ca.height>1.7 || ca.height/ca.width >1.7)
 							
-							var xCenter = (x + (width/2)) - ((labelShow.length)*(2));
+							fontSize=fontSize + parseInt(ca.width/200);							
+							var xCenter = (x + (width/2)) - ((labelShow.length)*(fontSize/3));
 							//console.log(width);
 							//console.log(ca.width);
 							//console.log(labelShow.length/width);
 							//xCenter =xCenter -  ((labelShow.length/width));
+
+										
+						//console.log(ca.width);
+							//console.log(ca.height);
 							if(labelShow != "" && (i==0 || i==this.data.length-1)){
 								RG.text2(this, {
-									'font': 'Arial',
-									'size': 7,
+									'font': 'QlikView Sans',
+									'size': fontSize,
+									'color':'rgba(0, 0, 0,0.6)',
+									'bold': true,
 									//'x': x+(width*(0.3))+(hmargin/2),
 									'x': xCenter,
 									'y': y+((height)*0.55),
@@ -1555,6 +1569,24 @@ co.lineTo(
 									//'bordered':boxed,
 									'tag': 'scale'
 								});
+							}
+							else if(labelShow != "" && !prop['chart.show.only.first.last']){
+								xCenter = (x + (width/2)) - ((labelShow.length)*(2.5));
+								RG.text2(this, {
+									'font': 'QlikView Sans',
+									'size': 7,
+									'color':'rgba(0, 0, 0,0.5)',
+									'bold': true,
+									//'x': x+(width*(0.3))+(hmargin/2),
+									'x': xCenter,
+									'y': y+((height)*0.55),
+									'text': labelShow,
+									'valign': 'center',
+									//'halign': align,
+									//'bordered':boxed,
+									'tag': 'scale'
+								});								
+								
 							}
 
                             /**
@@ -1632,13 +1664,15 @@ co.lineTo(
 						
 						var y = xaxispos == 'center' ? ((ca.height - this.gutterTop - this.gutterBottom) / 2) + this.gutterTop - height
 							 : ca.height - height - this.gutterBottom;
-							 
+						
+
+						
 						for(var rankI = prop['chart.max.items.per.period']; rankI>=1; rankI-- ){
 							
 								//var coordFrom=this.coords2[0][rankI];
 								//var xFrom=coordFrom[0]+coordFrom[2];
 								var xFrom=prop['chart.yaxispos'] == 'left' ? this.gutterLeft + 5 : ca.width - this.gutterRight - 5;
-								xFrom=xFrom/1.5;
+								xFrom=xFrom/2.6;
 								//var xpos  = prop['chart.yaxispos'] == 'left' ? this.gutterLeft + 5 : ca.width - this.gutterRight - 5;
 								//var yFrom=coordFrom[1]+(coordFrom[3]/2);
 								
@@ -1657,47 +1691,54 @@ co.lineTo(
 								var raioRank = ((height-(height*labelSpace))/2);
 								if(raioRank>15)
 									raioRank=15;
-								co.beginPath();
+								else if(raioRank<7)
+									raioRank=7;
 								
-								var colorRank = "white";
+								if(prop['chart.show.ranks']=="firstAndLast" || prop['chart.show.ranks']=="onlyFirst")
+								{
+									co.beginPath();								
+									var colorRank = "rgba(255,255,255,0)";								
+									if(rankI<=dataColors[0].length &&  prop['chart.show.rank.colors'])
+										colorRank = colors[dataColors[0][rankI-1]];								
+									
+									co.fillStyle = colorRank;
+									co.strokeStyle = "black";
+									//co.font = "9px Georgia";
+									co.lineWidth = 1;
+									co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
+									//x,y,r,sAngle,eAngle,counterclockwise
+									co.fill();
+									co.beginPath();
+									co.fillStyle = "black";								
+									var  raio4y = ((raioRank*1.05)/4);								
+									var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
+									co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
+									co.fill();
+								}
 								
-								//if(rankI<=dataColors[0].length)
-								//	colorRank = colors[dataColors[0][rankI-1]];								
 								
-								co.fillStyle = colorRank;
-								co.strokeStyle = "black";
-								//co.font = "9px Georgia";
-								co.lineWidth = 1;
-								co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
-								//x,y,r,sAngle,eAngle,counterclockwise
-								co.fill();
-								co.beginPath();
-								co.fillStyle = "black";								
-								var  raio4y = ((raioRank*1.05)/4);								
-								var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
-								co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
-								co.fill();
+								xFrom = ca.width - (this.gutterRight*0.5);
 								
-								
-								xFrom = ca.width - (this.gutterRight*0.8);
-								co.beginPath();
-								colorRank = "white";
-								
-								//if(rankI<=dataColors[dataColors.length-1].length)
-								//	colorRank = colors[dataColors[dataColors.length-1][rankI-1]];
-								co.fillStyle = colorRank;
-								co.strokeStyle = "black";
-								//co.font = "9px Georgia";
-								co.lineWidth = 1;
-								co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
-								//x,y,r,sAngle,eAngle,counterclockwise
-								co.fill();
-								co.beginPath();
-								co.fillStyle = "black";								
-								var  raio4y = ((raioRank*1.05)/4);								
-								var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
-								co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
-								co.fill();								
+								if(prop['chart.show.ranks']=="firstAndLast" || prop['chart.show.ranks']=="onlyLast")
+								{
+									co.beginPath();
+									colorRank = "rgba(255,255,255,0)";								
+									if(rankI<=dataColors[dataColors.length-1].length &&  prop['chart.show.rank.colors'])
+										colorRank = colors[dataColors[dataColors.length-1][rankI-1]];
+									co.fillStyle = colorRank;
+									co.strokeStyle = "black";
+									//co.font = "9px Georgia";
+									co.lineWidth = 1;
+									co.arc(xFrom, y+((height)*0.5), raioRank*1.05, 0, 2 * Math.PI, false);
+									//x,y,r,sAngle,eAngle,counterclockwise
+									co.fill();
+									co.beginPath();
+									co.fillStyle = "black";								
+									var  raio4y = ((raioRank*1.05)/4);								
+									var  raio4x = ((raioRank*1.05)/4) * String(rankI).length;								
+									co.fillText(String(rankI), xFrom-raio4x, y+((height)*0.5)+raio4y);
+									co.fill();
+								}									
 								
 								y-=height;
 						}

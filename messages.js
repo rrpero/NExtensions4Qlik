@@ -177,8 +177,27 @@ messages["en_US"].SHOW_LINKS = "Show Links";
 messages["pt_BR"].SHOW_LABELS="Mostrar Labels";
 messages["en_US"].SHOW_LABELS="Show Labels";
 
+messages["pt_BR"].SHOW_RANKS="Mostrar Ranks";
+messages["en_US"].SHOW_RANKS="Show Ranks";
+
+messages["pt_BR"].SHOW_RANK_COLORS="Mostrar Cores nos Ranks";
+messages["en_US"].SHOW_RANK_COLORS="Show Rank Colors";
+
 messages["pt_BR"].SHOW_ONLY_FIRST_LAST="Mostrar Primeira e Últimas";
 messages["en_US"].SHOW_ONLY_FIRST_LAST="Show Only First Last Labels";
+
+messages["pt_BR"].NONE="Nenhum";
+messages["en_US"].NONE="Nenhum";
+
+messages["pt_BR"].FIRST_AND_LAST="Primeiro e Último";
+messages["en_US"].FIRST_AND_LAST="First and Last";
+
+messages["pt_BR"].ONLY_FIRST="Somente Primeiro";
+messages["en_US"].ONLY_FIRST="Only First";
+
+messages["pt_BR"].ONLY_LAST="Somente Último";
+messages["en_US"].ONLY_LAST="Only Last";
+
 
 //messages["pt_BR"].VALUE_IN_LABELS="Valor Nas Labels";
 

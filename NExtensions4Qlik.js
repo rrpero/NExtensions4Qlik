@@ -821,9 +821,14 @@ define( [
 				var data3Labels = [];
 				var data3Colors = [];
 				var data3Values = [];
+				
+				var yMax = 0;
+				
 				for(var i = 0; i < arrayKeys.length; i++)
 				{
 					data3.push(data2[arrayKeys[i]]);
+					if(yMax<data2[arrayKeys[i]].length)
+						yMax=data2[arrayKeys[i]].length;
 					data3Labels.push(data2Labels[arrayKeys[i]]);
 					data3Colors.push(data2Colors[arrayKeys[i]]);
 					data3Values.push(data2Values[arrayKeys[i]]);
@@ -860,6 +865,19 @@ define( [
 				//console.log(Object.keys(data2));
 				var barWidth = (100-layout.barWidth)/200;
 				var barHeight = (100-layout.barHeight)/100;
+				var gutterLeft = 5;
+				var gutterRight = 5;				
+				if(layout.showRanks=="firstAndLast"){
+					gutterLeft = 35;
+					gutterRight = 35;
+				}
+				else if(layout.showRanks=="onlyFirst"){
+					gutterLeft = 35;					
+				}
+				else if(layout.showRanks=="onlyLast"){
+					gutterRight = 35;					
+				}					
+				//console.log(layout.barCurve);
 				palette=createPalette(Object.keys(countries).length,{},{});			
 								
 								new RGraph.Bar({
@@ -877,8 +895,9 @@ define( [
 										]*/,
 										ylabels:false,
 										noyaxis:true,
-										gutterLeft:50,
-										gutterRight:50,
+										ymax:yMax,
+										gutterLeft:gutterLeft,
+										gutterRight:gutterRight,
 										
 										backgroundGrid:false,
 										//hmargin: barWidth,
@@ -900,12 +919,15 @@ define( [
 										dataConnections: connections,
 										tooltipsEvent: 'onmousemove',
 										barHeight:barHeight,
-										barCurve:layout.barCurve,
+										barCurve:parseInt(layout.barCurve),
 										showLinks:layout.showLinks,
 										showValues:layout.showvalues,
 										showLabels:layout.chartLabels,
 										showOnlyFirstLast:layout.showOnlyFirstLast,
-										maxItemsPerPeriod:layout.maxItemsPerPeriod
+										maxItemsPerPeriod:layout.maxItemsPerPeriod,
+										showRanks:layout.showRanks,
+										showRankColors:layout.showRankColors
+										
 										//chart.data.connections
 									}
 								}).draw();
@@ -1471,6 +1493,16 @@ define( [
 
 				if(typeof(layout.showLinks) == "undefined"){
 					layout.showLinks=false;			
+
+				}
+
+				if(typeof(layout.showRankColors) == "undefined"){
+					layout.showRankColors=true;			
+
+				}
+
+				if(typeof(layout.showRanks) == "undefined"){
+					layout.showRanks="firstAndLast";			
 
 				}					
 
