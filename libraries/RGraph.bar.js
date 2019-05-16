@@ -177,6 +177,7 @@
             'chart.title.halign':           null,
             'chart.title.valign':           null,
             'chart.colors':                 ['red','#0f0','blue','pink','orange','cyan','black','white','green','magenta'],
+			'chart.colors.temp':            ['red','#0f0','blue','pink','orange','cyan','black','white','green','magenta'],
             'chart.colors.sequential':      false,
             'chart.colors.reverse':         false,
             'chart.grouping':               'grouped',
@@ -649,7 +650,7 @@
                 RG.AllowResizing(this);
             }
 
-
+			
             /**
             * This installs the event listeners
             */
@@ -1035,7 +1036,9 @@
                 sequentialColorIndex = 0
 
             var height;
+			
 
+			
             for (i=0,len=this.data.length; i<len; i+=1) {
 
 
@@ -1358,6 +1361,9 @@ co.lineTo(
                     */
                     } else if (this.data[i] && typeof(this.data[i]) == 'object' && prop['chart.grouping'] == 'stacked') {
 
+						
+
+						
 						if(prop['chart.max.items.per.period']>this.scale2.max)
 							prop['chart.max.items.per.period']=this.scale2.max;
 						var toUp = prop['chart.max.items.per.period']-this.data[i].length;
@@ -2612,7 +2618,19 @@ co.lineTo(
                 canvas  = obj.canvas,
                 context = obj.context,
                 coords  = obj.coords
-
+			/*
+			var testeTemp =[];
+			for(var testeI=0;testeI<obj.properties['chart.colors'].length;testeI++){
+				testeTemp.push(obj.properties['chart.colors'][testeI]);
+			}
+			*/
+			/*
+			this.properties['chart.colors.temp'] =[];
+			for(var testeI=0;testeI<this.properties['chart.colors'].length;testeI++){
+				this.properties['chart.colors.temp'].push(this.properties['chart.colors'][testeI]);
+			}				
+			*/
+			
             for (var i=0,len=coords.length; i<len; i+=1) {
 
                 if (obj.coords[i].length == 0) {
@@ -2623,7 +2641,10 @@ co.lineTo(
                     top    = coords[i][1],
                     width  = coords[i][2],
                     height = coords[i][3],
-                    prop   = obj.properties
+                    prop   = obj.properties;
+					
+				
+					
 
                 // Old way of testing
                 //if (mouseX >= left && mouseX <= (left + width) && mouseY >= top && mouseY <= (top + height)) {
@@ -2647,12 +2668,17 @@ co.lineTo(
                         height
                     );
                 }
+				
 
-                if (co.isPointInPath(mouseX, mouseY)) {
+				
+                if (co.isPointInPath(mouseX, mouseY)) 
+				{
 
 
                     if (prop['chart.tooltips']) {
                         var tooltip = RG.parseTooltipText ? RG.parseTooltipText(prop['chart.tooltips'], i) : prop['chart.tooltips'][i];
+						//console.log(tooltip);
+						//tooltip='<div style="display:none;"></div>';
                     }
 
                     // Work out the dataset
@@ -2671,6 +2697,18 @@ co.lineTo(
 
                         dataset++;
                     }
+					//console.log(prop['chart.data.colors']);
+					//prop['chart.data.colors'][0]='black';
+					//prop['chart.colors']=testeTemp;	
+					//console.log(this.properties['chart.colors']);					
+					this.properties['chart.colors'] =[];
+					//console.log(this.properties['chart.colors.temp']);
+					for(var testeI=0;testeI<this.properties['chart.colors.temp'].length;testeI++){
+						this.properties['chart.colors'].push(this.properties['chart.colors.temp'][testeI]);
+					}					
+					this.properties['chart.colors'][this.properties['chart.data.colors'][dataset][idx]]="RGB(200,200,200)";
+					//console.log(RGraph.arrayLinearize(prop['chart.data.colors']));
+					//console.log(RGraph.arrayLinearize(prop['chart.data.colors'])[idx]);
 
                     if (typeof(obj.data[dataset]) == 'number') {
                         idx = null;
@@ -2696,8 +2734,10 @@ co.lineTo(
                    dataset: dataset
                     };
                 }
+				
+					
             }
-
+			
             return null;
         };
 

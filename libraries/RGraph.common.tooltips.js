@@ -30,7 +30,7 @@
     */
     RG.tooltips     = {};
     RG.tooltips.style = {
-        display:    'inline-block',
+        //display:    'inline-block',
         position:   'absolute',
         padding:    '6px',
         fontFamily: 'Arial',

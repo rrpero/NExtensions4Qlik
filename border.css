@@ -44,3 +44,8 @@
   text-transform:capitalize;
 }
 
+.RGraph_tooltipNone{
+	display:none;
+}
+
+

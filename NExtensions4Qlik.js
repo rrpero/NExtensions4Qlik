@@ -880,7 +880,7 @@ define( [
 				//console.log(layout.barCurve);
 				palette=createPalette(Object.keys(countries).length,{},{});			
 								
-								new RGraph.Bar({
+								var bumps = new RGraph.Bar({
 									id: tmpCVSID,
 									data: data3,
 									options: {
@@ -898,12 +898,15 @@ define( [
 										ymax:yMax,
 										gutterLeft:gutterLeft,
 										gutterRight:gutterRight,
+										gutterTop:5,
+										gutterBottom:20,										
 										
 										backgroundGrid:false,
 										//hmargin: barWidth,
 										barWidth: barWidth,
 										//vmargin: 15,
 										colors: palette,
+										colorsTemp: palette,
 										grouping: 'stacked',
 										marginLeft: 100,
 										marginTop: 10,
@@ -918,6 +921,15 @@ define( [
 										dataValues: data3Values,
 										dataConnections: connections,
 										tooltipsEvent: 'onmousemove',
+										tooltips:function (idx)
+										{
+											//console.log(idx);
+											
+											return '<div></div>';//'<div id="__tooltip_div__"></div>';
+												   //'s stats<br/><canvas id="__tooltip_canvas__" width="400" height="150">='
+												   //'[No canvas support]</canvas>';
+										},
+										tooltipsCssClass:     'RGraph_tooltipNone',										
 										barHeight:barHeight,
 										barCurve:parseInt(layout.barCurve),
 										showLinks:layout.showLinks,
@@ -931,6 +943,21 @@ define( [
 										//chart.data.connections
 									}
 								}).draw();
+								
+								
+								bumps.canvas.onmouseout = function (e)
+								{
+									// Hide the tooltip
+									//console.log(bumps.properties);
+									bumps.properties['chart.colors']=bumps.properties['chart.colors.temp'];
+									RGraph.hideTooltip();
+									
+									// Redraw the canvas so that any highlighting is gone
+									RGraph.redraw();
+								}
+								
+								
+
 						}
 						else{
 							//To generate random numbers to allow multiple charts to present on one sheet:						
