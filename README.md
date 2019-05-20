@@ -17,4 +17,4 @@
 ### 7. Gantt Chart
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/gantt.png)
 ### 8. Bumps/Rank Chart
-![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/gantt.png)
+![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/bumps.png)
