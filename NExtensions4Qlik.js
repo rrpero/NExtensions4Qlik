@@ -16,6 +16,7 @@ requirejs.config({
 		"RGraph.funnel": "../extensions/NExtensions4Qlik/libraries/RGraph.funnel",
 		"RGraph.waterfall": "../extensions/NExtensions4Qlik/libraries/RGraph.waterfall",
 		"RGraph.bar": "../extensions/NExtensions4Qlik/libraries/RGraph.bar",
+		"RGraph.hprogress": "../extensions/NExtensions4Qlik/libraries/RGraph.hprogress",
 		"RGraph.common.key": "../extensions/NExtensions4Qlik/libraries/RGraph.common.key",
 		"d32":'../extensions/NExtensions4Qlik/libraries/d3',
 		
@@ -75,6 +76,7 @@ define( [
 		,"RGraph.funnel"
 		,"RGraph.waterfall",	
 		,"RGraph.bar",
+		,"RGraph.hprogress"
 		,"RGraph.common.dynamic"
 		,"RGraph.common.tooltips"
 		,"RGraph.common.key"
@@ -738,226 +740,440 @@ define( [
 						//console.log("nao teve" + dcmPlcs);
 					}
 					*/
-					if(layout.polar=="bumps"){
+					if(layout.polar=="hprogress"){
+						if(layout.qHyperCube.qDimensionInfo.length>0 || layout.qHyperCube.qMeasureInfo.length>0){
+							width = $element.width();
+							console.log(qMatrix);
+							
+							html = '<div class="divTable" style="width: '+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableBody">';
+
+							var htmlNovo = '<div  style="height:'+parseInt(height*0.99)+'px;overflow: auto;"><div class="divTable" style="width: '+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableBody">';
+							//var width = $element.width(), height = $element.height();
+							//console.log(qMatrix);
+							var backgroundColor='rgb(200,200,200)';
+							var totalColumns = layout.qHyperCube.qDimensionInfo.length+layout.qHyperCube.qMeasureInfo.length;
+							var htmlHeader='<div class="divTableRow" style="font-weight: bold;background-color:'+backgroundColor+';">';
+							for(var i=0; i< layout.qHyperCube.qDimensionInfo.length;i++)
+							{
+								//console.log(layout.qHyperCube.qDimensionInfo[i]);
+								
+								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+layout.qHyperCube.qDimensionInfo[i].qFallbackTitle+'</div>';
+								
+							}
+							
+							
+							for(var i=0; i< layout.qHyperCube.qMeasureInfo.length;i++)
+							{
+								//console.log(layout.qHyperCube.qMeasureInfo[i]);
+								
+								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
+								
+							}
+							htmlHeader+="</div>";							
+							//console.log(htmlHeader);
+							
+							var htmlBody="";
+							height = 20;
+							var guidsNovo = [];
+							var guidsNovoValues = [];
+							for(var i=0; i< qMatrix.length;i++)
+							{
+								//console.log(layout.qHyperCube.qDimensionInfo[i]);
+								
+								backgroundColor = 'white';
+								if(i%2==1)
+									backgroundColor='rgb(200,200,200)';
+								htmlBody+='<div class="divTableRow" style="background-color:'+backgroundColor+';">';
+								
+								
+								for(var j = 0; j<qMatrix[i].length;j++)
+								{
+									//eh medida
+									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress){
+										console.log("tem q mostrar");
+										console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
+										guidsNovo.push(guid());
+										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[i]+'"><canvas id="' + guidsNovo[i] + '" width="'+parseInt(width*0.99)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
+										
+										var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
+										var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
+										var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
+										var hpseg2=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment2;
+										var hpseg3=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment3;
+										guidsNovoValues.push(qMatrix[i][j].qNum);																			
+										
+									}
+									else
+										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+										
+								}
+
+								htmlBody+='</div>';
+								
+							}
+							//console.log(htmlBody);							
+							
+							htmlNovo=htmlNovo+htmlHeader+htmlBody+'</div></div></div>';
+							
+							
+							
+							var teste1=parseInt(width*0.99)*0.05;
+							var teste2=parseInt(width*0.99)*0.4;
+							var teste3=parseInt(width*0.99)*0.15;
+							var teste4=parseInt(width*0.99)*0.4;
+							var backgroundColor='rgb(200,200,200)';
+							html+='<div class="divTableRow" style="font-weight: bold;background-color:'+backgroundColor+';">';
+							//html+= '<div class="divTableHeading" >';						
+							html+='<div class="divTableHead" style="width: '+teste1+'px;" >Opas</div>'+
+									'<div class="divTableHead" style="width: '+teste2+' px;" >Dims</div>'+
+									'<div class="divTableHead" style="width: '+teste3+' px;" >Value</div>'+
+								'<div class="divTableHead" style="width: '+teste4+' px;" >HProgress</div>';
+							html+= '</div>';	
+							
+							
+							var widthBar = width*0.6;
+							var guids = [];
+							for(var i =0;i<8;i++)
+							{
+								backgroundColor = 'white';
+								if(i%2==1)
+									backgroundColor='rgb(200,200,200)';
+								html+='<div class="divTableRow" style="background-color:'+backgroundColor+';">';
+								guids.push(guid());
+								html+='<div class="divTableCell" style="width: 5%;" >opa'+i+'</div>'+
+									'<div class="divTableCell" style="width: 40%;" >dim'+i+'</div>'+
+									'<div class="divTableCell" style="width: 15%;" >'+((i+1)*15)+'</div>'+
+								'<div class="divTableCell" style="width: 40%; background-color: '+ layout.backgroundColor.color +';" id="canvas-wrapper-'+guids[i]+'"><canvas id="' + guids[i] + '" width="'+widthBar+'" height="'+height+'">[No canvas support]</canvas></div>';
+
+								html+='</div>';
+							}
+							html+='</div></div>';
+							//console.log("oi2");
+							// add canvas for chart			
+
+			//onsole.log(html);
+
+
+							//$element.html(html);
+							$element.html(htmlNovo);
+							console.log(((hpseg1-hpmin)/(hpmax-hpmin))*100);
+							console.log((((hpseg2-hpseg1))/(hpmax-hpmin))*100);
+							console.log((((hpseg3-hpseg2))/(hpmax-hpmin))*100);
+							for(var i =0;i<guidsNovo.length;i++){
+								
+									
+									//var 
+									var  hprogress =  new RGraph.HProgress({
+										id: guidsNovo[i],
+										min: 0,
+										max: 100,
+										value: [((hpseg1-hpmin)/(hpmax-hpmin))*100,(((hpseg2-hpseg1))/(hpmax-hpmin))*100,(((hpseg3-hpseg2))/(hpmax-hpmin))*100],
+										options: {
+											vmargin: 7,
+											bevelled: true,
+											textColor: 'rgba(0,0,0,0)',
+											tooltips: [
+												'An example tooltip!',
+												'Foo',
+												'bar'
+											],
+											colors: ['green','yellow','red']
+										}
+									}).draw();
+								var getX = ((guidsNovoValues[i]-hpmin)/(hpmax-hpmin))*100;
+								if(getX>100)
+									getX=100;
+								else if(getX<0)
+									getX=0;
+								var x = hprogress.getXCoord(getX);
+								
+								//console.log(x);
+								
+								//console.log(hprogress.canvas.height);// - hprogress.marginTop - hprogress.marginBottom - 0);
+								//console.log(hprogress.canvas.marginTop);
+								//console.log(hprogress.canvas.marginBottom);
+								// Create the rect object that indicates the target
+								var rect = new RGraph.Drawing.Rect({
+									id: guidsNovo[i],
+									x: x - 2,
+									y: (hprogress.canvas.height*0.6)/3,
+									width: 4,
+									height: hprogress.canvas.height*0.6,
+									options: {
+										fillstyle: 'rgba(0,0,0,0.9)',
+										highlightStroke: 'rgba(0,0,0,0)',
+										tooltips: ['The target was 95% of eveything, everywhere']
+									}
+								}).draw();								
+							}							
+							
+							/*
+							for(var i =0;i<guids.length;i++){
+								
+								
+									var  hprogress =  new RGraph.HProgress({
+										id: guids[i],
+										min: 0,
+										max: 100,
+										value: [20,20,60],
+										options: {
+											vmargin: 7,
+											bevelled: true,
+											textColor: 'rgba(0,0,0,0)',
+											tooltips: [
+												'An example tooltip!',
+												'Foo',
+												'bar'
+											],
+											colors: ['red','yellow','green']
+										}
+									}).draw();
+								var getX = (i+1)*15;
+								if(getX>100)
+									getX=100;
+								var x = hprogress.getXCoord(getX);
+								
+								//console.log(x);
+								
+								//console.log(hprogress.canvas.height);// - hprogress.marginTop - hprogress.marginBottom - 0);
+								//console.log(hprogress.canvas.marginTop);
+								//console.log(hprogress.canvas.marginBottom);
+								// Create the rect object that indicates the target
+								var rect = new RGraph.Drawing.Rect({
+									id: guids[i],
+									x: x - 2,
+									y: (hprogress.canvas.height*0.6)/3,
+									width: 4,
+									height: hprogress.canvas.height*0.6,
+									options: {
+										fillstyle: 'rgba(0,0,0,0.9)',
+										highlightStroke: 'rgba(0,0,0,0)',
+										tooltips: ['The target was 95% of eveything, everywhere']
+									}
+								}).draw();								
+							}*/
+						}
+					}
+					else if(layout.polar=="bumps"){
 						if(layout.qHyperCube.qDimensionInfo.length==2 && layout.qHyperCube.qMeasureInfo.length==1){
 							//bumpsChart(app,$element,layout,qMatrix,d3,plott,createPalette);
 							
-							    var data = [[4,0,3],[4,8,6],[4,2,4],[4,2,3],[1,2,3],[8,8,4],[4,8,6]];
+							var data = [[4,0,3],[4,8,6],[4,2,4],[4,2,3],[1,2,3],[8,8,4],[4,8,6]];
 
-				var data = [];
-				var data2 = {};
-				var data2Labels = {};
-				var data2Colors = {};
-				var data2Values = {};
-				var countries ={};
-				var countPeriods = {};
-				var totalPeriods = {};
-				
-				//console.log("oi? " + Object.keys(totalPeriods).length);
-								
-				
-				for(var  i =0;i<qMatrix.length;i++)
-				{
-					if(Object.keys(totalPeriods).length<layout.lastPeriods){
-						totalPeriods[qMatrix[i][1].qText]=1;
-						//console.log(qMatrix[i][1].qText);
-					}					
-					
-					if(totalPeriods[qMatrix[i][1].qText]  !==undefined)
-					{
-						if(countPeriods[qMatrix[i][1].qText]!== undefined)
-							countPeriods[qMatrix[i][1].qText]++;
-						else
-							countPeriods[qMatrix[i][1].qText]=1;
-						
-						
-						
-						var dataI ={};
-						dataI['country']=qMatrix[i][0].qText;					
-						dataI['year']=qMatrix[i][1].qText;	
-						//dataI['money']=qMatrix[i][2].qNum;
-						//dataI['money']=countPeriods[qMatrix[i][1].qText];
-						dataI['money']=1;
-						dataI['value']=qMatrix[i][2].qNum;
-						
-
-						
-						if(countPeriods[qMatrix[i][1].qText]<=layout.maxItemsPerPeriod ){
+							var data = [];
+							var data2 = {};
+							var data2Labels = {};
+							var data2Colors = {};
+							var data2Values = {};
+							var countries ={};
+							var countPeriods = {};
+							var totalPeriods = {};
 							
-							
-							countries[dataI['country']]=1;
-							dataI['color']=Object.keys(countries).indexOf(dataI['country']);
-							
-							
-							data.push(dataI);
-							
-							if(data2[dataI['year']] === undefined)
-							{
-								var yearArrays = [];
-								var labelsArrays = [];
-								var colorsArrays = [];
-								var valuesArrays = [];
-								data2[dataI['year']]=yearArrays;
-								data2Labels[dataI['year']]=labelsArrays;
-								data2Colors[dataI['year']]=colorsArrays;								
-								data2Values[dataI['year']]=valuesArrays;	
-							}
-							data2[dataI['year']].push(dataI['money']);
-							data2Labels[dataI['year']].push(dataI['country']);
-							data2Colors[dataI['year']].push(dataI['color']);
-							data2Values[dataI['year']].push(dataI['value']);
-							
-						}
-					}
-					
-					
-				}
-				
-				
-				
-				
-				var arrayKeys = Object.keys(data2).reverse();
-				var data3 = [];
-				var data3Labels = [];
-				var data3Colors = [];
-				var data3Values = [];
-				
-				var yMax = 0;
-				
-				for(var i = 0; i < arrayKeys.length; i++)
-				{
-					data3.push(data2[arrayKeys[i]]);
-					if(yMax<data2[arrayKeys[i]].length)
-						yMax=data2[arrayKeys[i]].length;
-					data3Labels.push(data2Labels[arrayKeys[i]]);
-					data3Colors.push(data2Colors[arrayKeys[i]]);
-					data3Values.push(data2Values[arrayKeys[i]]);
-				}
-				//console.log(data3Labels);
-				var connections = [];
-				
-				for(var i = 0;  i< data3Labels.length-1; i++)
-				{
-					//connections[arrayKeys[i]]=[];
-					var connectionYear=[];
-					connections.push(connectionYear);
-					for(var j = 0; j< data3Labels[i].length; j++)
-					{
-						var indexProx = data3Labels[i+1].indexOf(data3Labels[i][j])
-						if(indexProx != -1)
-						{
-							
-							//var connection = [j,indexProx];
-							//connections[arrayKeys[i]].push(connection);
-							var connection =[];
-							connection.push(j);
-							connection.push(indexProx);
-							connections[i].push(connection);
-						}
-						
-					}
-				}
-				//console.log(connections);
-				
-				//console.log(data3);
-				//console.log(data3Labels);
-				//console.log(data3Colors);
-				//console.log(Object.keys(data2));
-				var barWidth = (100-layout.barWidth)/200;
-				var barHeight = (100-layout.barHeight)/100;
-				var gutterLeft = 5;
-				var gutterRight = 5;				
-				if(layout.showRanks=="firstAndLast"){
-					gutterLeft = 35;
-					gutterRight = 35;
-				}
-				else if(layout.showRanks=="onlyFirst"){
-					gutterLeft = 35;					
-				}
-				else if(layout.showRanks=="onlyLast"){
-					gutterRight = 35;					
-				}					
-				//console.log(layout.barCurve);
-				palette=createPalette(Object.keys(countries).length,{},{});	
-				//console.log(palette);
-								
-								var bumps = new RGraph.Bar({
-									id: tmpCVSID,
-									data: data3,
-									options: {
-										labels: Object.keys(totalPeriods).reverse()/*[
-											'Mondays',
-											'Tuesdays',
-											'Wednesdays',
-											'Thursdays',
-											'Fridays',
-											'Saturdays',
-											'Sundays'
-										]*/,
-										ylabels:false,
-										noyaxis:true,
-										ymax:yMax,
-										gutterLeft:gutterLeft,
-										gutterRight:gutterRight,
-										gutterTop:5,
-										gutterBottom:20,										
-										
-										backgroundGrid:false,
-										//hmargin: barWidth,
-										barWidth: barWidth,
-										//vmargin: 15,
-										colors: palette,
-										colorsTemp: palette,
-										grouping: 'stacked',
-										marginLeft: 100,
-										marginTop: 10,
-										marginBottom: 250,
-										marginRight: 5,
-										
-										//labelsAboveAngle: 45,
-										//labelsAbove: true,
-										colorsStroke: 'rgba(0,0,0,0)',
-										dataLabels: data3Labels,
-										dataColors: data3Colors,
-										dataValues: data3Values,
-										dataConnections: connections,
-										tooltipsEvent: 'onmousemove',
-										tooltips:function (idx)
-										{
-											//console.log(idx);
+							//console.log("oi? " + Object.keys(totalPeriods).length);
 											
-											return '<div></div>';//'<div id="__tooltip_div__"></div>';
-												   //'s stats<br/><canvas id="__tooltip_canvas__" width="400" height="150">='
-												   //'[No canvas support]</canvas>';
-										},
-										tooltipsCssClass:     'RGraph_tooltipNone',										
-										barHeight:barHeight,
-										barCurve:parseInt(layout.barCurve),
-										showLinks:layout.showLinks,
-										showValues:layout.showvalues,
-										showLabels:layout.chartLabels,
-										showOnlyFirstLast:layout.showOnlyFirstLast,
-										maxItemsPerPeriod:layout.maxItemsPerPeriod,
-										showRanks:layout.showRanks,
-										showRankColors:layout.showRankColors
-										
-										//chart.data.connections
-									}
-								}).draw();
+							
+							for(var  i =0;i<qMatrix.length;i++)
+							{
+								if(Object.keys(totalPeriods).length<layout.lastPeriods){
+									totalPeriods[qMatrix[i][1].qText]=1;
+									//console.log(qMatrix[i][1].qText);
+								}					
 								
-								
-								bumps.canvas.onmouseout = function (e)
+								if(totalPeriods[qMatrix[i][1].qText]  !==undefined)
 								{
-									// Hide the tooltip
-									//console.log(bumps.properties);
-									bumps.properties['chart.colors']=bumps.properties['chart.colors.temp'];
-									RGraph.hideTooltip();
+									if(countPeriods[qMatrix[i][1].qText]!== undefined)
+										countPeriods[qMatrix[i][1].qText]++;
+									else
+										countPeriods[qMatrix[i][1].qText]=1;
 									
-									// Redraw the canvas so that any highlighting is gone
-									RGraph.redraw();
+									
+									
+									var dataI ={};
+									dataI['country']=qMatrix[i][0].qText;					
+									dataI['year']=qMatrix[i][1].qText;	
+									//dataI['money']=qMatrix[i][2].qNum;
+									//dataI['money']=countPeriods[qMatrix[i][1].qText];
+									dataI['money']=1;
+									dataI['value']=qMatrix[i][2].qNum;
+									
+
+									
+									if(countPeriods[qMatrix[i][1].qText]<=layout.maxItemsPerPeriod ){
+										
+										
+										countries[dataI['country']]=1;
+										dataI['color']=Object.keys(countries).indexOf(dataI['country']);
+										
+										
+										data.push(dataI);
+										
+										if(data2[dataI['year']] === undefined)
+										{
+											var yearArrays = [];
+											var labelsArrays = [];
+											var colorsArrays = [];
+											var valuesArrays = [];
+											data2[dataI['year']]=yearArrays;
+											data2Labels[dataI['year']]=labelsArrays;
+											data2Colors[dataI['year']]=colorsArrays;								
+											data2Values[dataI['year']]=valuesArrays;	
+										}
+										data2[dataI['year']].push(dataI['money']);
+										data2Labels[dataI['year']].push(dataI['country']);
+										data2Colors[dataI['year']].push(dataI['color']);
+										data2Values[dataI['year']].push(dataI['value']);
+										
+									}
 								}
 								
 								
+							}
+							
+							
+							
+							
+							var arrayKeys = Object.keys(data2).reverse();
+							var data3 = [];
+							var data3Labels = [];
+							var data3Colors = [];
+							var data3Values = [];
+							
+							var yMax = 0;
+							
+							for(var i = 0; i < arrayKeys.length; i++)
+							{
+								data3.push(data2[arrayKeys[i]]);
+								if(yMax<data2[arrayKeys[i]].length)
+									yMax=data2[arrayKeys[i]].length;
+								data3Labels.push(data2Labels[arrayKeys[i]]);
+								data3Colors.push(data2Colors[arrayKeys[i]]);
+								data3Values.push(data2Values[arrayKeys[i]]);
+							}
+							//console.log(data3Labels);
+							var connections = [];
+							
+							for(var i = 0;  i< data3Labels.length-1; i++)
+							{
+								//connections[arrayKeys[i]]=[];
+								var connectionYear=[];
+								connections.push(connectionYear);
+								for(var j = 0; j< data3Labels[i].length; j++)
+								{
+									var indexProx = data3Labels[i+1].indexOf(data3Labels[i][j])
+									if(indexProx != -1)
+									{
+										
+										//var connection = [j,indexProx];
+										//connections[arrayKeys[i]].push(connection);
+										var connection =[];
+										connection.push(j);
+										connection.push(indexProx);
+										connections[i].push(connection);
+									}
+									
+								}
+							}
+							//console.log(connections);
+							
+							//console.log(data3);
+							//console.log(data3Labels);
+							//console.log(data3Colors);
+							//console.log(Object.keys(data2));
+							var barWidth = (100-layout.barWidth)/200;
+							var barHeight = (100-layout.barHeight)/100;
+							var gutterLeft = 5;
+							var gutterRight = 5;				
+							if(layout.showRanks=="firstAndLast"){
+								gutterLeft = 35;
+								gutterRight = 35;
+							}
+							else if(layout.showRanks=="onlyFirst"){
+								gutterLeft = 35;					
+							}
+							else if(layout.showRanks=="onlyLast"){
+								gutterRight = 35;					
+							}					
+							//console.log(layout.barCurve);
+							palette=createPalette(Object.keys(countries).length,{},{});	
+							//console.log(palette);
+											
+											var bumps = new RGraph.Bar({
+												id: tmpCVSID,
+												data: data3,
+												options: {
+													labels: Object.keys(totalPeriods).reverse()/*[
+														'Mondays',
+														'Tuesdays',
+														'Wednesdays',
+														'Thursdays',
+														'Fridays',
+														'Saturdays',
+														'Sundays'
+													]*/,
+													ylabels:false,
+													noyaxis:true,
+													ymax:yMax,
+													gutterLeft:gutterLeft,
+													gutterRight:gutterRight,
+													gutterTop:5,
+													gutterBottom:20,										
+													
+													backgroundGrid:false,
+													//hmargin: barWidth,
+													barWidth: barWidth,
+													//vmargin: 15,
+													colors: palette,
+													colorsTemp: palette,
+													grouping: 'stacked',
+													marginLeft: 100,
+													marginTop: 10,
+													marginBottom: 250,
+													marginRight: 5,
+													
+													//labelsAboveAngle: 45,
+													//labelsAbove: true,
+													colorsStroke: 'rgba(0,0,0,0)',
+													dataLabels: data3Labels,
+													dataColors: data3Colors,
+													dataValues: data3Values,
+													dataConnections: connections,
+													tooltipsEvent: 'onmousemove',
+													tooltips:function (idx)
+													{
+														//console.log(idx);
+														
+														return '<div></div>';//'<div id="__tooltip_div__"></div>';
+															   //'s stats<br/><canvas id="__tooltip_canvas__" width="400" height="150">='
+															   //'[No canvas support]</canvas>';
+													},
+													tooltipsCssClass:     'RGraph_tooltipNone',										
+													barHeight:barHeight,
+													barCurve:parseInt(layout.barCurve),
+													showLinks:layout.showLinks,
+													showValues:layout.showvalues,
+													showLabels:layout.chartLabels,
+													showOnlyFirstLast:layout.showOnlyFirstLast,
+													maxItemsPerPeriod:layout.maxItemsPerPeriod,
+													showRanks:layout.showRanks,
+													showRankColors:layout.showRankColors
+													
+													//chart.data.connections
+												}
+											}).draw();
+											
+											
+											bumps.canvas.onmouseout = function (e)
+											{
+												// Hide the tooltip
+												//console.log(bumps.properties);
+												bumps.properties['chart.colors']=bumps.properties['chart.colors.temp'];
+												RGraph.hideTooltip();
+												
+												// Redraw the canvas so that any highlighting is gone
+												RGraph.redraw();
+											}
+											
+											
 
 						}
 						else{

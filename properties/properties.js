@@ -11,6 +11,13 @@ define( [
     'use strict';
 	//Define the current application
 
+	var showTo =  function (a,d){
+				if(a.indexOf(d.polar) >=0)
+					return true;
+				return false;
+	};	
+	var show={};	
+	
 	//var language="pt-BR";
 	//var language="en-US";
 	var language = navigator.language || navigator.userLanguage; 
@@ -36,10 +43,122 @@ define( [
 		}
     };
 
+	
+	show['measures']={};
+	show['measures']['showHProgress']=["hprogress"];
+	var showHProgress = {
+									//type: "string",
+									ref: "qDef.showHProgress",
+									label: "Show HProgress",
+									type: "boolean",
+									component: "switch",
+									options: [{
+										value: true,
+										label: messages[language].YES
+									}, {
+										value: false,
+										label: messages[language].NO
+									}],
+									defaultValue: false,
+									show: function (d,a){
+										//console.log(d);
+										//console.log(a);
+										
+										return showTo(show['measures']['showHProgress'],a.layout);
+
+									}
+						};
+						
+	show['measures']['minHProgress']=["hprogress"];						
+	var minHProgress = {
+			type: "string",
+			label: "Mín",
+			ref: "qDef.minHProgress",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "0",
+			show: function (d,a) {
+				//console.log(d.qDef);
+				//console.log(a);
+				//return showTo(show['measures']['minHProgress'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};
+
+	show['measures']['maxHProgress']=["hprogress"];						
+	var maxHProgress = {
+			type: "string",
+			label: "Max",
+			ref: "qDef.maxHProgress",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "1",
+			show: function (d,a) {
+				//return showTo(show['measures']['maxHProgress'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};
+
+	show['measures']['segment1']=["hprogress"];						
+	var segment1 = {
+			type: "string",
+			label: "Segment One",
+			ref: "qDef.segment1",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "0.2",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment1'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};	
+	
+	show['measures']['segment2']=["hprogress"];						
+	var segment2 = {
+			type: "string",
+			label: "Segment One",
+			ref: "qDef.segment2",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "0.4",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment2'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};
+
+	show['measures']['segment3']=["hprogress"];						
+	var segment3 = {
+			type: "string",
+			label: "Segment One",
+			ref: "qDef.segment3",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "1",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment3'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};	
+	
     var measures = {
         uses: "measures",
         min: 0,
-        max: 20
+        max: 20,
+		items: {
+			showHProgress:showHProgress,
+			minHProgress:minHProgress,
+			maxHProgress:maxHProgress,
+			segment1:segment1,
+			segment2:segment2,
+			segment3:segment3
+			
+					}
 		/*,
 		items: {
 			labelColor: {
@@ -71,12 +190,8 @@ define( [
     // Options Section
     // *****************************************************************************
 
-	var showTo =  function (a,d){
-				if(a.indexOf(d.polar) >=0)
-					return true;
-				return false;
-	};
-	var show={};
+
+
 	
 
 	show['options']={};
@@ -215,6 +330,9 @@ define( [
 		}, {
 			value: "bumps",
 			label: messages[language].BUMPS
+		}, {
+			value: "hprogress",
+			label: messages[language].HPROGRESS
 		}],
 		defaultValue: "polar"
 	};	

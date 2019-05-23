@@ -69,6 +69,7 @@ messages["pt_BR"].BIPARTITE = "Bipartido";
 messages["pt_BR"].WORDCLOUD = "Word Cloud";
 messages["pt_BR"].GANTT= "Gantt";
 messages["pt_BR"].BUMPS= "Bumps";
+messages["pt_BR"].HPROGRESS= "HProgress";
 
 messages["en_US"].CHART_TYPE = "Chart Type";
 messages["en_US"].POLAR = "Polar";
@@ -79,6 +80,7 @@ messages["en_US"].BIPARTITE = "BiPartite";
 messages["en_US"].WORDCLOUD = "Word Cloud";
 messages["en_US"].GANTT= "Gantt Chart";
 messages["en_US"].BUMPS= "Bumps";
+messages["en_US"].HPROGRESS= "HProgress";
 
 
 messages["pt_BR"].ANALOGUE1 =  "Análogas 1";
