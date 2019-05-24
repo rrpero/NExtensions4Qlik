@@ -746,10 +746,13 @@ define( [
 							width = $element.width();
 							//console.log(qMatrix);
 							
-							var htmlNovo = '<div  style="height:'+parseInt(height*0.99)+
+							var taxHeight=0.98;
+							var taxWidth=0.98;
+							
+							var htmlNovo = '<div  style="height:'+parseInt(height*taxHeight)+
 							//'px;overflow: auto;"><div class="divTable" style="width: '
 							'px;"><div class="divTable" style="width: '
-							+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableHeadings">';
+							+parseInt(width*taxWidth)+'px;border: 0px solid #000;" ><div class="divTableHeadings">';
 							//var width = $element.width(), height = $element.height();
 							//console.log(qMatrix);
 							var backgroundColor='rgb(200,200,200)';
@@ -759,7 +762,7 @@ define( [
 							{
 								//console.log(layout.qHyperCube.qDimensionInfo[i]);
 								
-								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+layout.qHyperCube.qDimensionInfo[i].qFallbackTitle+'</div>';
+								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*taxWidth)/totalColumns+'px;" >'+layout.qHyperCube.qDimensionInfo[i].qFallbackTitle+'</div>';
 								
 							}
 							
@@ -769,14 +772,14 @@ define( [
 							{
 								//console.log(layout.qHyperCube.qMeasureInfo[i]);
 								
-								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
+								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*taxWidth)/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
 								
 							}
 							htmlHeader+="</div>";
 							htmlHeader+="</div>";							
 							//console.log(htmlHeader);
 							
-							var htmlBody='<div  style="overflow:auto;width: '+parseInt(width*1)+'px;height:'+parseInt(height*0.97)+'px">';
+							var htmlBody='<div  style="overflow:auto;width: '+parseInt(width*taxWidth)+'px;height:'+parseInt(height*(taxHeight-0.02))+'px">';
 							height = 20;
 							var guidsNovo = {};
 							var guidsNovoValues = {};
@@ -813,7 +816,7 @@ define( [
 										//guidsNovo.push([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
 										guidsNovo[String(j-layout.qHyperCube.qDimensionInfo.length)].push(guid());
 										var k=String(j-layout.qHyperCube.qDimensionInfo.length);
-										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*0.99)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
+										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*taxWidth)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*taxWidth)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
 										
 										var arrayConfVales=[]
 										
@@ -864,7 +867,7 @@ define( [
 											var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
 										else
 											var htmlItem='<i class="'+circleArrow+'" style="color: '+color+';"></i>';
-										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*0.99)/totalColumns+'px;" >'+htmlItem+'</div>';										
+										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*taxWidth)/totalColumns+'px;" >'+htmlItem+'</div>';										
 									}
 									else
 									{
@@ -873,7 +876,7 @@ define( [
 										if(qMatrix[i][j].qAttrExps !== undefined)
 											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
 										
-										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*0.99)/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*taxWidth)/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
 									}
 										
 								}
