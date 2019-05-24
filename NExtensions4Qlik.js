@@ -777,8 +777,21 @@ define( [
 							
 							var htmlBody='<div  style="overflow:auto;width: '+parseInt(width*1)+'px;height:'+parseInt(height*0.97)+'px">';
 							height = 20;
-							var guidsNovo = [];
-							var guidsNovoValues = [];
+							var guidsNovo = {};
+							var guidsNovoValues = {};
+							
+							for(var i=0; i<layout.qHyperCube.qMeasureInfo.length;i++)
+							{
+								if(layout.qHyperCube.qMeasureInfo[i].showHProgress)
+								{
+									
+									var array = [];
+									guidsNovoValues[String(i)]=array;
+									var array2 = [];
+									guidsNovo[String(i)]=array2;									
+								}
+							}
+							
 							for(var i=0; i< qMatrix.length;i++)
 							{
 								//console.log(layout.qHyperCube.qDimensionInfo[i]);
@@ -795,8 +808,11 @@ define( [
 									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress){
 										//console.log("tem q mostrar");
 										//console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
-										guidsNovo.push(guid());
-										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[i]+'"><canvas id="' + guidsNovo[i] + '" width="'+parseInt(width*0.99)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
+										//console.log([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
+										//guidsNovo.push([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
+										guidsNovo[String(j-layout.qHyperCube.qDimensionInfo.length)].push(guid());
+										var k=String(j-layout.qHyperCube.qDimensionInfo.length);
+										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*0.99)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
 										
 										var arrayConfVales=[]
 										
@@ -826,7 +842,7 @@ define( [
 										//console.log(arrayConfVales);
 										arrayConfVales.push(qMatrix[i][j].qNum);
 										//guidsNovoValues.push(qMatrix[i][j].qNum);																			
-										guidsNovoValues.push(arrayConfVales);																			
+										guidsNovoValues[String(j-layout.qHyperCube.qDimensionInfo.length)].push(arrayConfVales);																			
 										
 									}
 									else{
@@ -848,7 +864,8 @@ define( [
 							
 							htmlNovo=htmlNovo+htmlHeader+htmlBody+'</div></div></div>';
 							
-							
+							console.log(guidsNovoValues);
+							console.log(guidsNovo);
 							
 							
 							
@@ -865,57 +882,60 @@ define( [
 							//console.log(((hpseg1-hpmin)/(hpmax-hpmin))*100);
 							//console.log((((hpseg2-hpseg1))/(hpmax-hpmin))*100);
 							//console.log((((hpseg3-hpseg2))/(hpmax-hpmin))*100);
-							
-							for(var i =0;i<guidsNovo.length;i++){
+							var guidsNovoKeys=Object.keys(guidsNovo);
+							for(var i =0;i<guidsNovoKeys.length;i++){
 								
-									hpmin=guidsNovoValues[i][0];
-									hpmax=guidsNovoValues[i][1];
-									hpseg1=guidsNovoValues[i][2];
-									hpseg2=guidsNovoValues[i][4];
-									hpseg3=guidsNovoValues[i][6];
+								for(var j =0; j< guidsNovoValues[guidsNovoKeys[i]].length;j++){
+									hpmin=guidsNovoValues[guidsNovoKeys[i]][j][0];
+									//console.log(hpmin);
+									hpmax=guidsNovoValues[guidsNovoKeys[i]][j][1];
+									hpseg1=guidsNovoValues[guidsNovoKeys[i]][j][2];
+									hpseg2=guidsNovoValues[guidsNovoKeys[i]][j][4];
+									hpseg3=guidsNovoValues[guidsNovoKeys[i]][j][6];
 									//var 
 									var  hprogress =  new RGraph.HProgress({
-										id: guidsNovo[i],
+										id: guidsNovo[guidsNovoKeys[i]][j],
 										min: 0,
 										max: 100,
 										value: [((hpseg1-hpmin)/(hpmax-hpmin))*100,(((hpseg2-hpseg1))/(hpmax-hpmin))*100,(((hpseg3-hpseg2))/(hpmax-hpmin))*100],
 										options: {
 											vmargin: 7,
-											bevelled: true,
+											//bevelled: true,
 											textColor: 'rgba(0,0,0,0)',
-											tooltips: [
+											/*tooltips: [
 												'An example tooltip!',
 												'Foo',
 												'bar'
-											],
-											colors: [guidsNovoValues[i][3],guidsNovoValues[i][5],guidsNovoValues[i][7]]
+											],*/
+											colors: [guidsNovoValues[guidsNovoKeys[i]][j][3],guidsNovoValues[guidsNovoKeys[i]][j][5],guidsNovoValues[guidsNovoKeys[i]][j][7]]
 										}
 									}).draw();
-								var getX = ((guidsNovoValues[i][8]-hpmin)/(hpmax-hpmin))*100;
-								if(getX>100)
-									getX=100;
-								else if(getX<0)
-									getX=0;
-								var x = hprogress.getXCoord(getX);
-								
-								//console.log(x);
-								
-								//console.log(hprogress.canvas.height);// - hprogress.marginTop - hprogress.marginBottom - 0);
-								//console.log(hprogress.canvas.marginTop);
-								//console.log(hprogress.canvas.marginBottom);
-								// Create the rect object that indicates the target
-								var rect = new RGraph.Drawing.Rect({
-									id: guidsNovo[i],
-									x: x - 2,
-									y: (hprogress.canvas.height*0.6)/3,
-									width: 4,
-									height: hprogress.canvas.height*0.6,
-									options: {
-										fillstyle: 'rgba(0,0,0,0.9)',
-										highlightStroke: 'rgba(0,0,0,0)',
-										tooltips: ['The target was 95% of eveything, everywhere']
-									}
-								}).draw();								
+									var getX = ((guidsNovoValues[guidsNovoKeys[i]][j][8]-hpmin)/(hpmax-hpmin))*100;
+									if(getX>100)
+										getX=100;
+									else if(getX<0)
+										getX=0;
+									var x = hprogress.getXCoord(getX);
+									
+									//console.log(x);
+									
+									//console.log(hprogress.canvas.height);// - hprogress.marginTop - hprogress.marginBottom - 0);
+									//console.log(hprogress.canvas.marginTop);
+									//console.log(hprogress.canvas.marginBottom);
+									// Create the rect object that indicates the target
+									var rect = new RGraph.Drawing.Rect({
+										id: guidsNovo[guidsNovoKeys[i]][j],
+										x: x - 2,
+										y: (hprogress.canvas.height*0.6)/3,
+										width: 4,
+										height: hprogress.canvas.height*0.6,
+										options: {
+											fillstyle: 'rgba(0,0,0,0.9)',
+											highlightStroke: 'rgba(0,0,0,0)'/*,
+											tooltips: ['The target was 95% of eveything, everywhere']*/
+										}
+									}).draw();
+								}									
 							}							
 							
 							/*
