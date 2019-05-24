@@ -65,6 +65,7 @@
 	border: 0px solid #999999;
 	display: table-cell;
 	padding: 3px 10px;
+
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -78,6 +79,42 @@
 }
 .divTableBody {
 	display: table-row-group;
+}
+
+.dot {
+  height: 9px;
+  width: 9px;
+  /*background-color: red;*/
+  border-radius: 40%;
+  border: 1px solid black;
+  display: inline-block;
+}
+
+.arrow{
+  border: solid;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
 }
 
 

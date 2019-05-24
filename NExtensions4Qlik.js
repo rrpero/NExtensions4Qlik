@@ -100,6 +100,7 @@ define( [
 		
 		//window.RGraph={isRGraph: true};
 		//Inject Stylesheet into header of current document
+		
 		$( '<style>' ).html(css).appendTo( 'head' );
 		$( '<style>' ).html(cssGantt).appendTo( 'head' );
 		
@@ -750,7 +751,7 @@ define( [
 							'px;"><div class="divTable" style="width: '
 							+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableHeadings">';
 							//var width = $element.width(), height = $element.height();
-							console.log(qMatrix);
+							//console.log(qMatrix);
 							var backgroundColor='rgb(200,200,200)';
 							var totalColumns = layout.qHyperCube.qDimensionInfo.length+layout.qHyperCube.qMeasureInfo.length;
 							var htmlHeader='<div class="divTableRow" style="font-weight: bold;background-color:'+backgroundColor+';">';
@@ -805,7 +806,7 @@ define( [
 								for(var j = 0; j<qMatrix[i].length;j++)
 								{
 									//eh medida  e tem hprogress
-									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress){
+									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="hprogress"){
 										//console.log("tem q mostrar");
 										//console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
 										//console.log([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
@@ -819,10 +820,16 @@ define( [
 										
 										
 										//var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
-										var hpmin=qMatrix[i][j].qAttrExps.qValues[0].qNum;
+										if(isNaN(qMatrix[i][j].qAttrExps.qValues[0].qNum))
+											var hpmin =  0;
+										else
+											var hpmin=qMatrix[i][j].qAttrExps.qValues[0].qNum;
 										arrayConfVales.push(hpmin);
 										//var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
-										var hpmax=qMatrix[i][j].qAttrExps.qValues[1].qNum;
+										if(isNaN(qMatrix[i][j].qAttrExps.qValues[1].qNum))
+											var hpmax =1;
+										else
+											var hpmax=qMatrix[i][j].qAttrExps.qValues[1].qNum;
 										arrayConfVales.push(hpmax);
 										//var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
 										var hpseg1=qMatrix[i][j].qAttrExps.qValues[2].qNum;
@@ -845,7 +852,22 @@ define( [
 										guidsNovoValues[String(j-layout.qHyperCube.qDimensionInfo.length)].push(arrayConfVales);																			
 										
 									}
-									else{
+									else if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="circleArrow"){
+										//console.log(qMatrix[i][j].qAttrExps.qValues[1].qText);
+										var color='black';
+										var circleArrow = "circle";
+										if(qMatrix[i][j].qAttrExps !== undefined){
+											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
+											circleArrow= qMatrix[i][j].qAttrExps.qValues[1].qText;
+										}
+										if(circleArrow=="circle")
+											var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
+										else
+											var htmlItem='<i class="'+circleArrow+'" style="color: '+color+';"></i>';
+										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*0.99)/totalColumns+'px;" >'+htmlItem+'</div>';										
+									}
+									else
+									{
 										var color='black';
 										
 										if(qMatrix[i][j].qAttrExps !== undefined)
@@ -864,8 +886,8 @@ define( [
 							
 							htmlNovo=htmlNovo+htmlHeader+htmlBody+'</div></div></div>';
 							
-							console.log(guidsNovoValues);
-							console.log(guidsNovo);
+							//console.log(guidsNovoValues);
+							//console.log(guidsNovo);
 							
 							
 							
@@ -930,7 +952,7 @@ define( [
 										width: 4,
 										height: hprogress.canvas.height*0.6,
 										options: {
-											fillstyle: 'rgba(0,0,0,0.9)',
+											fillstyle: 'rgba(0,0,0,1)',
 											highlightStroke: 'rgba(0,0,0,0)'/*,
 											tooltips: ['The target was 95% of eveything, everywhere']*/
 										}

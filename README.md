@@ -18,3 +18,5 @@
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/gantt.png)
 ### 8. Bumps/Rank Chart
 ![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/master/images/bumps.png)
+### 9. Advanced Table ( Option to Add HProgress and Circle/Arrow)
+![alt text](https://raw.githubusercontent.com/rrpero/NExtensions4Qlik/hptable/images/advancedtable.png)

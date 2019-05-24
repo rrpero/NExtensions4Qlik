@@ -50,16 +50,19 @@ define( [
 									//type: "string",
 									ref: "qDef.showHProgress",
 									label: "Show HProgress",
-									type: "boolean",
-									component: "switch",
+									type: "string",
+									component: "dropdown",
 									options: [{
-										value: true,
-										label: messages[language].YES
+										value: "hprogress",
+										label: "HProgress"
 									}, {
-										value: false,
-										label: messages[language].NO
+										value: "circleArrow",
+										label: "Circle/Arrow"
+									}, {
+										value: "text",
+										label: "Text"
 									}],
-									defaultValue: false,
+									defaultValue: "text",
 									show: function (d,a){
 										//console.log(d);
 										//console.log(a);
@@ -77,12 +80,30 @@ define( [
 									label: "Cell Font Color",
 									component:"expression",
 									expressionType:"measure",									
-									defaultValue: 'black',
+									defaultValue: "='black'",
 									show: function (d,a){
 										//console.log(d);
 										//console.log(a);
 										
-										return showTo(show['measures']['cellFontColor'],a.layout)&&!d.qDef.showHProgress;
+										return showTo(show['measures']['cellFontColor'],a.layout)&& !(d.qDef.showHProgress=="hprogress");
+
+									}
+						};	
+
+	show['measures']['circleArrow']=["hprogress"];						
+	var circleArrow = {
+									type: "string",
+									//ref: "qDef.circleArrow",
+									ref: "qAttributeExpressions.1.qExpression",									
+									label: "Circle('circle')/Arrow('arrow')",
+									component:"expression",
+									expressionType:"measure",									
+									defaultValue: "='circle'",
+									show: function (d,a){
+										//console.log(d);
+										//console.log(a);
+										
+										return showTo(show['measures']['circleArrow'],a.layout)&& (d.qDef.showHProgress=="circleArrow");
 
 									}
 						};						
@@ -102,7 +123,7 @@ define( [
 				//console.log(d.qDef);
 				//console.log(a);
 				//return showTo(show['measures']['minHProgress'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};
@@ -120,7 +141,7 @@ define( [
 			defaultValue: "1",
 			show: function (d,a) {
 				//return showTo(show['measures']['maxHProgress'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};
@@ -138,7 +159,7 @@ define( [
 			defaultValue: "0.2",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment1'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};
@@ -152,11 +173,11 @@ define( [
 			//ref: "qDef.segment1Color",
 			ref: "qAttributeExpressions.3.qExpression",
 			//component:"color-picker",
-			expression: "always",
-			defaultValue: "red",
+			expression: "optional",
+			defaultValue: "='red'",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment1Color'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};	
@@ -174,7 +195,7 @@ define( [
 			defaultValue: "0.4",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment2'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};
@@ -189,10 +210,10 @@ define( [
 			ref: "qAttributeExpressions.5.qExpression",
 			//component:"color-picker",
 			expression: "optional",
-			defaultValue: "yellow",
+			defaultValue: "='yellow'",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment2Color'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};	
@@ -210,7 +231,7 @@ define( [
 			defaultValue: "1",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment3'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};	
@@ -225,10 +246,10 @@ define( [
 			ref: "qAttributeExpressions.7.qExpression",
 			//component:"color-picker",
 			expression: "optional",
-			defaultValue: "green",
+			defaultValue: "='green'",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment3Color'],a.layout);
-				return d.qDef.showHProgress;
+				return d.qDef.showHProgress=="hprogress";
 			}				
 			
 	};	
@@ -247,7 +268,8 @@ define( [
 			segment2Color:segment2Color,
 			segment3:segment3,
 			segment3Color:segment3Color,
-			cellFontColor:cellFontColor
+			cellFontColor:cellFontColor,
+			circleArrow:circleArrow
 			
 					}
 		/*,
