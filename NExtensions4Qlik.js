@@ -743,13 +743,14 @@ define( [
 					if(layout.polar=="hprogress"){
 						if(layout.qHyperCube.qDimensionInfo.length>0 || layout.qHyperCube.qMeasureInfo.length>0){
 							width = $element.width();
-							console.log(qMatrix);
-							
-							html = '<div class="divTable" style="width: '+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableBody">';
-
-							var htmlNovo = '<div  style="height:'+parseInt(height*0.99)+'px;overflow: auto;"><div class="divTable" style="width: '+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableBody">';
-							//var width = $element.width(), height = $element.height();
 							//console.log(qMatrix);
+							
+							var htmlNovo = '<div  style="height:'+parseInt(height*0.99)+
+							//'px;overflow: auto;"><div class="divTable" style="width: '
+							'px;"><div class="divTable" style="width: '
+							+parseInt(width*0.99)+'px;border: 0px solid #000;" ><div class="divTableHeadings">';
+							//var width = $element.width(), height = $element.height();
+							console.log(qMatrix);
 							var backgroundColor='rgb(200,200,200)';
 							var totalColumns = layout.qHyperCube.qDimensionInfo.length+layout.qHyperCube.qMeasureInfo.length;
 							var htmlHeader='<div class="divTableRow" style="font-weight: bold;background-color:'+backgroundColor+';">';
@@ -762,6 +763,7 @@ define( [
 							}
 							
 							
+							
 							for(var i=0; i< layout.qHyperCube.qMeasureInfo.length;i++)
 							{
 								//console.log(layout.qHyperCube.qMeasureInfo[i]);
@@ -769,10 +771,11 @@ define( [
 								htmlHeader+='<div class="divTableHead" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
 								
 							}
+							htmlHeader+="</div>";
 							htmlHeader+="</div>";							
 							//console.log(htmlHeader);
 							
-							var htmlBody="";
+							var htmlBody='<div  style="overflow:auto;width: '+parseInt(width*1)+'px;height:'+parseInt(height*0.97)+'px">';
 							height = 20;
 							var guidsNovo = [];
 							var guidsNovoValues = [];
@@ -788,80 +791,88 @@ define( [
 								
 								for(var j = 0; j<qMatrix[i].length;j++)
 								{
-									//eh medida
+									//eh medida  e tem hprogress
 									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress){
-										console.log("tem q mostrar");
-										console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
+										//console.log("tem q mostrar");
+										//console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
 										guidsNovo.push(guid());
 										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[i]+'"><canvas id="' + guidsNovo[i] + '" width="'+parseInt(width*0.99)/totalColumns+'" height="'+height+'">[No canvas support]</canvas></div>';
 										
-										var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
-										var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
-										var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
-										var hpseg2=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment2;
-										var hpseg3=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment3;
-										guidsNovoValues.push(qMatrix[i][j].qNum);																			
+										var arrayConfVales=[]
+										
+										
+										
+										//var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
+										var hpmin=qMatrix[i][j].qAttrExps.qValues[0].qNum;
+										arrayConfVales.push(hpmin);
+										//var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
+										var hpmax=qMatrix[i][j].qAttrExps.qValues[1].qNum;
+										arrayConfVales.push(hpmax);
+										//var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
+										var hpseg1=qMatrix[i][j].qAttrExps.qValues[2].qNum;
+										arrayConfVales.push(hpseg1);
+										var hpseg1Color=qMatrix[i][j].qAttrExps.qValues[3].qText;
+										arrayConfVales.push(hpseg1Color);
+										//var hpseg2=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment2;
+										var hpseg2=qMatrix[i][j].qAttrExps.qValues[4].qNum;
+										arrayConfVales.push(hpseg2);
+										var hpseg2Color=qMatrix[i][j].qAttrExps.qValues[5].qText;
+										arrayConfVales.push(hpseg2Color);
+										//var hpseg3=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment3;
+										var hpseg3=qMatrix[i][j].qAttrExps.qValues[6].qNum;
+										arrayConfVales.push(hpseg3);
+										var hpseg3Color=qMatrix[i][j].qAttrExps.qValues[7].qText;
+										arrayConfVales.push(hpseg3Color);
+										//console.log(arrayConfVales);
+										arrayConfVales.push(qMatrix[i][j].qNum);
+										//guidsNovoValues.push(qMatrix[i][j].qNum);																			
+										guidsNovoValues.push(arrayConfVales);																			
 										
 									}
-									else
-										htmlBody+='<div class="divTableCell" style="width: '+parseInt(width*0.99)/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+									else{
+										var color='black';
+										
+										if(qMatrix[i][j].qAttrExps !== undefined)
+											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
+										
+										htmlBody+='<div class="divTableCell" style="font-weight: bold;color:'+color+';width: '+parseInt(width*0.99)/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+									}
 										
 								}
 
 								htmlBody+='</div>';
 								
 							}
+							htmlBody+='</div>';
 							//console.log(htmlBody);							
 							
 							htmlNovo=htmlNovo+htmlHeader+htmlBody+'</div></div></div>';
 							
 							
 							
-							var teste1=parseInt(width*0.99)*0.05;
-							var teste2=parseInt(width*0.99)*0.4;
-							var teste3=parseInt(width*0.99)*0.15;
-							var teste4=parseInt(width*0.99)*0.4;
-							var backgroundColor='rgb(200,200,200)';
-							html+='<div class="divTableRow" style="font-weight: bold;background-color:'+backgroundColor+';">';
-							//html+= '<div class="divTableHeading" >';						
-							html+='<div class="divTableHead" style="width: '+teste1+'px;" >Opas</div>'+
-									'<div class="divTableHead" style="width: '+teste2+' px;" >Dims</div>'+
-									'<div class="divTableHead" style="width: '+teste3+' px;" >Value</div>'+
-								'<div class="divTableHead" style="width: '+teste4+' px;" >HProgress</div>';
-							html+= '</div>';	
 							
 							
 							var widthBar = width*0.6;
-							var guids = [];
-							for(var i =0;i<8;i++)
-							{
-								backgroundColor = 'white';
-								if(i%2==1)
-									backgroundColor='rgb(200,200,200)';
-								html+='<div class="divTableRow" style="background-color:'+backgroundColor+';">';
-								guids.push(guid());
-								html+='<div class="divTableCell" style="width: 5%;" >opa'+i+'</div>'+
-									'<div class="divTableCell" style="width: 40%;" >dim'+i+'</div>'+
-									'<div class="divTableCell" style="width: 15%;" >'+((i+1)*15)+'</div>'+
-								'<div class="divTableCell" style="width: 40%; background-color: '+ layout.backgroundColor.color +';" id="canvas-wrapper-'+guids[i]+'"><canvas id="' + guids[i] + '" width="'+widthBar+'" height="'+height+'">[No canvas support]</canvas></div>';
-
-								html+='</div>';
-							}
-							html+='</div></div>';
+							
 							//console.log("oi2");
 							// add canvas for chart			
 
-			//onsole.log(html);
+							//onsole.log(html);
 
 
 							//$element.html(html);
 							$element.html(htmlNovo);
-							console.log(((hpseg1-hpmin)/(hpmax-hpmin))*100);
-							console.log((((hpseg2-hpseg1))/(hpmax-hpmin))*100);
-							console.log((((hpseg3-hpseg2))/(hpmax-hpmin))*100);
+							//console.log(((hpseg1-hpmin)/(hpmax-hpmin))*100);
+							//console.log((((hpseg2-hpseg1))/(hpmax-hpmin))*100);
+							//console.log((((hpseg3-hpseg2))/(hpmax-hpmin))*100);
+							
 							for(var i =0;i<guidsNovo.length;i++){
 								
-									
+									hpmin=guidsNovoValues[i][0];
+									hpmax=guidsNovoValues[i][1];
+									hpseg1=guidsNovoValues[i][2];
+									hpseg2=guidsNovoValues[i][4];
+									hpseg3=guidsNovoValues[i][6];
 									//var 
 									var  hprogress =  new RGraph.HProgress({
 										id: guidsNovo[i],
@@ -877,10 +888,10 @@ define( [
 												'Foo',
 												'bar'
 											],
-											colors: ['green','yellow','red']
+											colors: [guidsNovoValues[i][3],guidsNovoValues[i][5],guidsNovoValues[i][7]]
 										}
 									}).draw();
-								var getX = ((guidsNovoValues[i]-hpmin)/(hpmax-hpmin))*100;
+								var getX = ((guidsNovoValues[i][8]-hpmin)/(hpmax-hpmin))*100;
 								if(getX>100)
 									getX=100;
 								else if(getX<0)

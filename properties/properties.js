@@ -68,12 +68,33 @@ define( [
 
 									}
 						};
+
+	show['measures']['cellFontColor']=["hprogress"];						
+	var cellFontColor = {
+									type: "string",
+									//ref: "qDef.cellFontColor",
+									ref: "qAttributeExpressions.0.qExpression",									
+									label: "Cell Font Color",
+									component:"expression",
+									expressionType:"measure",									
+									defaultValue: 'black',
+									show: function (d,a){
+										//console.log(d);
+										//console.log(a);
+										
+										return showTo(show['measures']['cellFontColor'],a.layout)&&!d.qDef.showHProgress;
+
+									}
+						};						
 						
 	show['measures']['minHProgress']=["hprogress"];						
 	var minHProgress = {
 			type: "string",
 			label: "Mín",
-			ref: "qDef.minHProgress",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.minHProgress",
+			ref: "qAttributeExpressions.0.qExpression",
 			//component:"color-picker",
 			expression: "always",
 			defaultValue: "0",
@@ -90,9 +111,12 @@ define( [
 	var maxHProgress = {
 			type: "string",
 			label: "Max",
-			ref: "qDef.maxHProgress",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.maxHProgress",
+			ref: "qAttributeExpressions.1.qExpression",
 			//component:"color-picker",
-			expression: "always",
+			expression: "optional",
 			defaultValue: "1",
 			show: function (d,a) {
 				//return showTo(show['measures']['maxHProgress'],a.layout);
@@ -104,13 +128,34 @@ define( [
 	show['measures']['segment1']=["hprogress"];						
 	var segment1 = {
 			type: "string",
-			label: "Segment One",
-			ref: "qDef.segment1",
+			label: "Segment 1",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.segment1",
+			ref: "qAttributeExpressions.2.qExpression",
 			//component:"color-picker",
-			expression: "always",
+			expression: "optional",
 			defaultValue: "0.2",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment1'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};
+
+	show['measures']['segment1Color']=["hprogress"];						
+	var segment1Color = {
+			type: "string",
+			component:"expression",
+			expressionType:"measure",
+			label: "Segment 1 Color",
+			//ref: "qDef.segment1Color",
+			ref: "qAttributeExpressions.3.qExpression",
+			//component:"color-picker",
+			expression: "always",
+			defaultValue: "red",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment1Color'],a.layout);
 				return d.qDef.showHProgress;
 			}				
 			
@@ -119,10 +164,13 @@ define( [
 	show['measures']['segment2']=["hprogress"];						
 	var segment2 = {
 			type: "string",
-			label: "Segment One",
-			ref: "qDef.segment2",
+			label: "Segment 2",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.segment2",
+			ref: "qAttributeExpressions.4.qExpression",
 			//component:"color-picker",
-			expression: "always",
+			expression: "optional",
 			defaultValue: "0.4",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment2'],a.layout);
@@ -130,17 +178,56 @@ define( [
 			}				
 			
 	};
+	
+	show['measures']['segment2Color']=["hprogress"];						
+	var segment2Color = {
+			type: "string",
+			label: "Segment 2 Color",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.segment2Color",
+			ref: "qAttributeExpressions.5.qExpression",
+			//component:"color-picker",
+			expression: "optional",
+			defaultValue: "yellow",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment2Color'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};	
 
 	show['measures']['segment3']=["hprogress"];						
 	var segment3 = {
 			type: "string",
-			label: "Segment One",
-			ref: "qDef.segment3",
+			label: "Segment 3",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.segment3",
+			ref: "qAttributeExpressions.6.qExpression",
 			//component:"color-picker",
-			expression: "always",
+			expression: "optional",
 			defaultValue: "1",
 			show: function (d,a) {
 				//return showTo(show['measures']['segment3'],a.layout);
+				return d.qDef.showHProgress;
+			}				
+			
+	};	
+	
+	show['measures']['segment3Color']=["hprogress"];						
+	var segment3Color = {
+			type: "string",
+			label: "Segment 3 Color",
+			component:"expression",
+			expressionType:"measure",			
+			//ref: "qDef.segment3Color",
+			ref: "qAttributeExpressions.7.qExpression",
+			//component:"color-picker",
+			expression: "optional",
+			defaultValue: "green",
+			show: function (d,a) {
+				//return showTo(show['measures']['segment3Color'],a.layout);
 				return d.qDef.showHProgress;
 			}				
 			
@@ -155,8 +242,12 @@ define( [
 			minHProgress:minHProgress,
 			maxHProgress:maxHProgress,
 			segment1:segment1,
+			segment1Color:segment1Color,
 			segment2:segment2,
-			segment3:segment3
+			segment2Color:segment2Color,
+			segment3:segment3,
+			segment3Color:segment3Color,
+			cellFontColor:cellFontColor
 			
 					}
 		/*,
