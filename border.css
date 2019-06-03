@@ -51,7 +51,7 @@
 /* DivTable.com */
 .divTable{
 	display: table;
-	width: 100%;
+	width: 80%;
 	
 }
 .divTableRow {
@@ -62,9 +62,9 @@
 	display: table-header-group;
 }
 .divTableCell, .divTableHead {
-	border: 0px solid #999999;
+	/*border: 1px solid #999999;*/
 	display: table-cell;
-	padding: 3px 10px;
+	padding: 3px 3px;
 
 }
 .divTableHeading {

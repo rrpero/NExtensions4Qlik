@@ -747,461 +747,194 @@ define( [
 
 					if(layout.polar=="heatbrick"){
 						
-						var  maxOfMax=0;
-						var totalCharts = {};
-						var structure=[];
 						
-						var structureDimXKeys = [];
-						var structureDimYKeys = [];
-						var alerts = [];	
-							
-						var structureDimX=[];	
-
-						var minScale=[];
+						var minScale = 100000000000;
+						var maxScale = 0;
 						
-						var maxScale=[];
+						var structure={};
 						
-						var palette = [];
+						var structureDimX={};
 						
-						var tamX =[];
-						var tamY=[];
-						html='';
-						var guids=[];
+						var tamY=0;
+						//console.log(qMatrix);
+						
+						//0 all chart
+						//1 name in square
+						//2 y series
+						//3 x series
+						//measure
 						for(var i=0; i< qMatrix.length;i++)
 						{
-							totalCharts[qMatrix[i][0].qText]=qMatrix[i][0].qText;
-						}
-						
-						
-						var totalChartsKeys = Object.keys(totalCharts);
-						
-						for(var it = 0;  it < totalChartsKeys.length; it++)
-						{
-							structure.push({});
-							structureDimX.push({});
-							alerts.push({});
-							guids.push(guid());
-						}
-						
-						var maxLengthInY=0;
-						
-						for(var it = 0;  it < totalChartsKeys.length; it++)
-						{						
-							minScale.push(100000000000);
-							maxScale.push(0);
-							
-							//var structure={};
-							
-							//var structureDimX={};
-							
-							//var tamY=0;
-							//console.log(qMatrix);
-							
-							//0 all chart
-							//1 name in square
-							//2 y series
-							//3 x series
-							//measure
-							for(var i=0; i< qMatrix.length;i++)
-							{
-								if(qMatrix[i][0].qText==totalChartsKeys[it])
-								{	
-									structureDimX[it][qMatrix[i][3].qText]=1; 
-									if(!(qMatrix[i][2].qText in structure[it])){
-										structure[it][qMatrix[i][2].qText]={};
-										//if(qMatrix[i][1].qText in structure[qMatrix[i][0].qText]){
-										
-											
-										//}
-										//else{
-											
-										//}	
-										//structure[Matrix[i][0].qText]={}
-									}
-									//else{
-										
-									//}									
+							structureDimX[qMatrix[i][3].qText]=1; 
+							if(!(qMatrix[i][2].qText in structure)){
+								structure[qMatrix[i][2].qText]={};
+								//if(qMatrix[i][1].qText in structure[qMatrix[i][0].qText]){
+								
 									
+								//}
+								//else{
 									
-									if(qMatrix[i][4].qNum < minScale[it])
-										minScale[it]=qMatrix[i][4].qNum;
-									if(qMatrix[i][4].qNum > maxScale[it])
-										maxScale[it]=qMatrix[i][4].qNum;							
-									structure[it][qMatrix[i][2].qText][qMatrix[i][3].qText]=qMatrix[i][4].qNum;
-									structure[it][qMatrix[i][2].qText][qMatrix[i][3].qText+"-chart"]=qMatrix[i][0].qText;
-									structure[it][qMatrix[i][2].qText][qMatrix[i][3].qText+"-square"]=qMatrix[i][1].qText;
-								}
+								//}	
+								//structure[Matrix[i][0].qText]={}
 							}
-							//console.log(totalChartsKeys[it]);
-							//console.log(maxScale[it]+1);
-							//console.log(minScale[it]);
-							/*
-							var diff = maxScale[it]-minScale[it];
-							var diff5=  diff/5;
-							var tDiff = minScale[it];
-							*/
-							/*for(var di=0; di<5;di++){
+							//else{
 								
-								tDiff+=diff5;
-								//console.log(tDiff);
-							}*/
-							var rangesScale = layout.rangesScale;
-
+							//}
+							if(qMatrix[i][4].qNum < minScale)
+								minScale=qMatrix[i][4].qNum;
+							if(qMatrix[i][2].qNum > maxScale)
+								maxScale=qMatrix[i][4].qNum;							
+							structure[qMatrix[i][2].qText][qMatrix[i][3].qText]=qMatrix[i][4].qNum;
+							structure[qMatrix[i][2].qText][qMatrix[i][3].qText+"-chart"]=qMatrix[i][0].qText;
+							structure[qMatrix[i][2].qText][qMatrix[i][3].qText+"-square"]=qMatrix[i][1].qText;
+						}
+						console.log(minScale);
+						console.log(maxScale);
+						var palette = createPalette((maxScale+1)-minScale,{},{});
+						
+						var structureDimXKeys = Object.keys(structureDimX);
+						var structureDimYKeys = Object.keys(structure);
+						
+						
+						var tam=20;
+						var alerts = {};
+						
 							
-															
-							
-							//palette.push(createPalette((maxScale[it]+1)-minScale[it],{},{}));
-							palette.push(createPalette(rangesScale-1,{},{}));
-							//console.log(palette[it]);
-							var arrayStructureDimX = Object.keys(structureDimX[it]);
-							if(maxOfMax<arrayStructureDimX.length)
-								maxOfMax=arrayStructureDimX.length;							
-							structureDimXKeys.push(arrayStructureDimX);
-							structureDimYKeys.push(Object.keys(structure[it]));
+						
+						for(var i=0; i<structureDimXKeys.length;i++){
 							
 							
-							var tam=20;
+										
 							
 							
+							for(var j=0;  j<structureDimYKeys.length; j++){
 								
-							
-							for(var i=0; i<structureDimXKeys[it].length;i++){
-								
-								
-											
-								
-								
-								for(var j=0;  j<structureDimYKeys[it].length; j++){
-									
-									//tamanho string no Y
-									if(maxLengthInY<structureDimYKeys[it][j].length)
-										maxLengthInY=structureDimYKeys[it][j].length;
-									
-									if(!(structureDimXKeys[it][i] in structure[it][structureDimYKeys[it][j]])){
-										//structure[structureDimYKeys[i]]={};
-										structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]]=0;
-										alerts[it][i+','+j] = {'color':'white','message':''};
-									}
-									else{
-	//'Em ' +structureDimYKeys[j] + ' a Conn/Rep ' + structureDimXKeys[i] + ' teve ' + structure[structureDimYKeys[j]][structureDimXKeys[i]]
-								//console.log("-----------");
-								//console.log(structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]+"-square"]);
-								//console.log(palette[it][(structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]]+1)-minScale[it]]);
-								//console.log((structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]]+1)-minScale[it]);
-								//console.log("-----------");		
-//palette[it][(structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]]+1)-minScale[it]]
-										var colorIt=
-										Math.floor(
-										(structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]]-minScale[it])/((maxScale[it]-minScale[it])/rangesScale)
-										);
-										if(colorIt==rangesScale)
-											colorIt--;
-										//console.log(colorIt);
-										alerts[it][i+','+j] = {'color':palette[it][colorIt],'message':structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]+"-square"]+": "+structure[it][structureDimYKeys[it][j]][structureDimXKeys[it][i]] };
-									}
-									
-									
+								if(!(structureDimXKeys[i] in structure[structureDimYKeys[j]])){
+									//structure[structureDimYKeys[i]]={};
+									structure[structureDimYKeys[j]][structureDimXKeys[i]]=0;
+									alerts[i+','+j] = {'color':'white','message':''};
 								}
+								else
+//'Em ' +structureDimYKeys[j] + ' a Conn/Rep ' + structureDimXKeys[i] + ' teve ' + structure[structureDimYKeys[j]][structureDimXKeys[i]]									
+									alerts[i+','+j] = {'color':palette[(structure[structureDimYKeys[j]][structureDimXKeys[i]]+1)-minScale],'message':structure[structureDimYKeys[j]][structureDimXKeys[i]+"-square"]+": "+structure[structureDimYKeys[j]][structureDimXKeys[i]] };
+								
 								
 							}
-							/*
-							//console.log("oi1");
-							//console.log(structureDimXKeys);
-							//console.log("oi2");
-							//console.log(structureDimYKeys);
-							//console.log("oi3");
-							*/
-							//console.log(structure);
-							//console.log(structureDimX);
-							//var tam=20;
-							tamX.push(structureDimXKeys[it].length);
-							//console.log("oi4");
-							tamY.push(structureDimYKeys[it].length);
-							//console.log("oi5");
 							
-							
-							html+='<div style="height:'+height+'px; overflow: auto;background-color: '+ layout.backgroundColor.color +';" id="canvas-wrapper-'+guids[it]+'"><canvas id="' + guids[it] + '" width="'+(width-10)+'" height="'+structureDimYKeys[it].length*(tam+5)+'">[No canvas support]</canvas></div><div id="myKey-'+guids[it]+'"></div>';
-							//onsole.log(html);
-							//console.log("oi2");
 						}
-						
-						//console.log("max  em  y é  "  +  maxLengthInY);
-						
-						//(ip*((tam/2)+0))+80
-						
-						var maxWidthWithPalette = 0;
-						var maxWidth = (122+(maxOfMax*(tam+5)));
-						var spaceTitleChart=30;
-						var lengthTotal=0;
-						for(var it = 0;  it < totalChartsKeys.length; it++)
-						{
 							
-							if(maxWidthWithPalette < (palette[it].length*((tam/1)+0))+90 )
-								maxWidthWithPalette=(palette[it].length*((tam/1)+0))+90;
-							lengthTotal+=structureDimYKeys[it].length*(tam+5)+spaceTitleChart+50;
-							if(it>0)
-								lengthTotal+=20;
-						}
-						if(maxWidthWithPalette>maxWidth)
-							maxWidth=maxWidthWithPalette;
-						lengthTotal+=30;
-						//var lengthTotal = structureDimYKeys[0].length+structureDimYKeys[1].length+100;
-						html='<div style="height:'+height+'px; width:'+width+'px; overflow:auto;background-color: '+ layout.backgroundColor.color +';" id="canvas-wrapper-'+guids[0]+'"><canvas id="' + guids[0] + '" width="'+maxWidth+'" height="'+(lengthTotal)+'">[No canvas support]</canvas></div><div id="myKey-'+guids[0]+'"></div>';						
 						
+						
+						//console.log(structure);
+						//console.log(structureDimX);
+						//var tam=20;
+						var tamX=structureDimXKeys.length;
+						var tamY=structureDimYKeys.length;
+						
+						
+						html='<div style="height:'+height+'px; overflow: auto;background-color: '+ layout.backgroundColor.color +';" id="canvas-wrapper-'+tmpCVSID+'"><canvas id="' + tmpCVSID + '" width="'+(width-10)+'" height="'+structureDimYKeys.length*(tam+5)+'">[No canvas support]</canvas></div><div id="myKey-'+tmpCVSID+'"></div>';
+						//onsole.log(html);
 						$element.html(html);						
-						//console.log(minScale);
-						//console.log(maxScale);
-						//console.log(palette);
-						var yIt=0;
-						for(var it = 0;  it < totalChartsKeys.length; it++)
-						{
-							
-							if(it>0)
-								yIt+= ((structureDimYKeys[it-1].length*(tam+5))+100);
 						
-							//layout.qHyperCube.qDimensionInfo[i].qFallbackTitle
-							//title y
-							var yTitle = layout.qHyperCube.qDimensionInfo[2].qFallbackTitle;
-							for(var m=0;m<yTitle.length;m++)
-							{
-								var text = new RGraph.Drawing.Text({
-									id: guids[0],
-									x:20,
-									y:30+yIt+(m*12),
-									text: yTitle.substr(m,1),
-									options: {
-										colors:['black'],
-										valign: 'top',
-										halign: 'center',
-										size: 8,
-										font:'QlikView Sans',
-										angle:0,
-										bold:true
-										
-									}
-								}).draw();								
-							}
+						/*var alerts = {};
+						console.log("olap");
+						alerts['34,7'] = {'color':'red','message':'Computer #37 is broken and needs shutting down and repairing'}
+						alerts['52,7'] = {'color':'red','message':'Computer #68 is broken and needs shutting down and repairing'}
+						alerts['53,7'] = {'color':'red','message':'Computer #69 is broken and needs shutting down and repairing'}
+						alerts['54,7'] = {'color':'red','message':'Computer #70 is broken and needs shutting down and repairing'}
+						alerts['14,19'] = {'color':'red','message':'Computer #135 is running hot','color':'yellow'}
+						alerts['14,20'] = {'color':'red','message':'Computer #139 is loose','color':'yellow'}
+						alerts['14,21'] = {'color':'red','message':'Computer #139 is old','color':'orange'}
+						alerts['45,21'] = {'color':'red','message':'Computer #139 is old','color':'orange'}
+						alerts['2,2'] = {'color':'red','message':'Computer #139 needs replacing','color':'orange'}
+						alerts['18,5'] = {'color':'red','message':'Computer #139 needs repairing','color':'red'}*/
+						//console.log(alerts);
+						// 25 "clusters of computers" (sticking to the datacenter analogy)
+					
+						
+						for (var y=0; y<tamY; ++y) {
+						
+							// 60 "Computers per cluster" (sticking to the datacenter analogy)
 							
-							
-							//title  x
 							var text = new RGraph.Drawing.Text({
-									id: guids[0],
-									x:80,
-									y:spaceTitleChart+(structureDimYKeys[it].length*(tam+5))+yIt+20,
-									text: layout.qHyperCube.qDimensionInfo[3].qFallbackTitle,
-									options: {
-										colors:['black'],
-										valign: 'top',
-										halign: 'left',
-										size: 8,
-										font:'QlikView Sans',
-										angle:0,
-										bold:true
-										
-									}
-								}).draw();								
-							
-							
-							
-							//Main Title
-							var text = new RGraph.Drawing.Text({
-								id: guids[0],
-								x:60,
-								y:yIt,
-								text: totalChartsKeys[it],
+								id: tmpCVSID,
+								x:40,
+								y:y*(tam+5),
+								text: structureDimYKeys[y].slice(0,10),
 								options: {
 									colors:['black'],
 									valign: 'top',
-									halign: 'left',
-									size: 14,
+									halign: 'center',
+									marker: false,
+									size: 10,
 									font:'QlikView Sans',
-									bold:true
-									
+									//tooltips: [structureDimYKeys[y]],
+									tooltipsHighlight: false,
+									tooltipsEvent: 'mousemove',
+									bounding: false,
+									shadow: true,
+									shadowColor: '#ddd',
+									shadowOffsetx: 2,
+									shadowOffsety: 2,
+									shadowBlur: 2
 								}
-							}).draw();								
-							
-							
-							//legends
-							for(var ip=0;ip<palette[it].length;ip++)
-							{
-								//console.log("ola "+palette[it][ip]);
+							}).draw();	
+							for (var x=0; x<tamX; ++x) {
 								var rect = new RGraph.Drawing.Rect({
-									id: guids[0],
-									x: (ip*((tam/1)+0))+80,
-									y:  spaceTitleChart+(structureDimYKeys[it].length*(tam+5))+yIt+40,
-									width: tam/1,
-									height: tam/2,
+									id: tmpCVSID,
+									x: (x*(tam+5))+80,
+									y: y*(tam+5),
+									width: tam,
+									height: tam,
 									options: {
-										strokestyle: 'rgba(0,0,0,0.5)',
-										fillstyle: palette[it][ip]
+										strokestyle: 'rgba(0,0,0,0.5)'
 									}
-								}).draw();
-								if(ip==0 || ip == (palette[it].length-1) || (ip+1)==Math.floor(((palette[it].length-1)/2))){
-									var textIt="";
-									var ipIt = 0;
-									if(ip==0){
-										ipIt=ip;
-										//textIt = String(minScale[it])+"-"+String((minScale[it]+((maxScale[it]-minScale[it])/5)).toFixed(1));
-										textIt = String(minScale[it]);
-										//textIt="";
-									}
-									else if((ip+1)==Math.floor(((palette[it].length-1)/2)))
-									{
-										ipIt=ip+1;
-										//console.log(minScale[it]);
-										//console.log(maxScale[it]);
-										//console.log((maxScale[it]-minScale[it])/5);
-										//console.log(ip);
-										//console.log((minScale[it]+(ip*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										
-										//var textIt=String((minScale[it]+(ip*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										var textIt=String((minScale[it]+((ip+2)*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										
-										//console.log((minScale[it]+((ip+1)*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										//textIt+="-"+String((minScale[it]+((ip+1)*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										//if(rangesScale%2==0 && rangesScale>3);
-										//	textIt+="-"+String((minScale[it]+((ip+2)*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										
-									}
-									else if(ip == (palette[it].length-1))
-									{
-										ipIt=ip;
-										//var textIt=String((minScale[it]+(ip*((maxScale[it]-minScale[it])/rangesScale))).toFixed(1));
-										//textIt+="-"+String(maxScale[it]);
-										textIt = String(maxScale[it]);
-									}
-									
-									var text = new RGraph.Drawing.Text({
-										id: guids[0],
-										x:(((ipIt)+0.5)*((tam/1)+0))+83,
-										y:spaceTitleChart+(structureDimYKeys[it].length*(tam+5))+yIt+55,
-										//text: String(ip+minScale[it]),
-										text: textIt,
-										options: {
-											colors:['black'],
-											valign: 'top',
-											halign: 'center',
-											size: 7,
-											font:'QlikView Sans'											
-										}
-									}).draw();	
-									//console.log("foi?"+ip);
+								})
+
+								if (alerts[x+','+y]) {
+									rect.set({
+										fillstyle: alerts[x+','+y].color,
+										tooltips: [alerts[x+','+y].message]
+									})
+								} else {
+									rect.set('fillstyle', 'rgba(100,255,100,0.2)');
 								}
-								
-								
+
+								rect.draw();
 							}
-						
-						
-						
-							//console.log
-							var offsetX=0;
-							if(maxLengthInY>10)
-								maxLengthInY=10;
-							if(maxLengthInY>4)				
-								offsetX=5*(maxLengthInY-4);
-							for (var y=0; y<tamY[it]; ++y) {
-							
-								// 60 "Computers per cluster" (sticking to the datacenter analogy)
-								//labels Y
-								var text = new RGraph.Drawing.Text({
-									id: guids[0],
-									x:offsetX+40,
-									y:spaceTitleChart+(y*(tam+5)) + yIt,
-									text: structureDimYKeys[it][y].slice(0,10),
+						}
+
+						for(var  i = 0; i<structureDimXKeys.length;i++){
+							//console.log((i*(tam+5))+50);
+							var text4 = new RGraph.Drawing.Text({
+									id: tmpCVSID,
+									//x:400,
+									//y:50,
+									x:(i*(tam+5))+92,
+									y:(structureDimYKeys.length*(tam+5))+10,
+									text: structureDimXKeys[i].slice(0,10),
+									//text: 'asasasas',
 									options: {
 										colors:['black'],
-										valign: 'top',
-										halign: 'center',
+										valign: 'center',
+										halign: 'right',
+										marker: false,
 										size: 10,
-										font:'QlikView Sans'
-										
+										font:'QlikView Sans',
+										tooltips: [structureDimXKeys[i]],
+										//tooltips: ['sasasasasas'],
+										tooltipsHighlight: false,
+										tooltipsEvent: 'mousemove',
+										bounding: false,
+										shadow: true,
+										shadowColor: '#ddd',
+										shadowOffsetx: 2,
+										shadowOffsety: 2,
+										shadowBlur: 2,
+										angle:-45
 									}
-								}).draw();	
-								for (var x=0; x<tamX[it]; ++x) {
-								
-									//values  inside brick
-									if(alerts[it][x+','+y].color!='white')
-									{
-										
-
-										var text = new RGraph.Drawing.Text({
-											id: guids[0],
-											x:offsetX+(x*((tam)+5))+80+(tam/2),
-											y:spaceTitleChart+(y*(tam+5)) +yIt+(tam/3),
-											//text: String(ip+minScale[it]),
-											text: structure[it][structureDimYKeys[it][y]][structureDimXKeys[it][x]],
-											options: {
-												colors:["RGBA(0,0,0,0.5)"],
-												valign: 'top',
-												halign: 'center',
-												size: 6,
-												font:'QlikView Sans'											
-											}
-										}).draw();
-									}
-									
-									
-									
-									var rect = new RGraph.Drawing.Rect({
-										id: guids[0],
-										x: offsetX+(x*(tam+5))+80,
-										y: spaceTitleChart+(y*(tam+5)) +yIt,
-										width: tam,
-										height: tam,
-										options: {
-											strokestyle: 'rgba(0,0,0,0.5)'
-										}
-									})
-
-									if (alerts[it][x+','+y]) {
-										//console.log(alerts[it][x+','+y]);
-										if(alerts[it][x+','+y].color=='white'){
-											rect.set({
-											fillstyle: alerts[it][x+','+y].color,
-											//tooltips: [alerts[it][x+','+y].message],
-											strokestyle: 'rgba(255,255,255,1)'
-											});
-										}
-										else{
-											rect.set({
-												fillstyle: alerts[it][x+','+y].color,
-												tooltips: [alerts[it][x+','+y].message]
-											})
-										}
-									} else {
-										//rect.set('fillstyle', 'rgba(100,255,100,0.2)');
-										rect.set({strokestyle: 'rgba(255,0,0,1)'});
-									}
-
-									rect.draw();
-								}
-							}
-
-							for(var  i = 0; i<structureDimXKeys[it].length;i++){
-								//console.log((i*(tam+5))+50);
-								var text4 = new RGraph.Drawing.Text({
-										id: guids[0],
-										//x:400,
-										//y:50,
-										x:offsetX+(i*(tam+5))+92,
-										y:spaceTitleChart+((structureDimYKeys[it].length*(tam+5))+10)+yIt,
-										text: structureDimXKeys[it][i].slice(0,10),
-										//text: 'asasasas',
-										options: {
-											colors:['black'],
-											valign: 'center',
-											halign: 'right',
-											size: 10,
-											font:'QlikView Sans',
-											//tooltips: [structureDimXKeys[it][i]],
-											//tooltips: ['sasasasasas'],
-											//tooltipsHighlight: false,
-											//tooltipsEvent: 'mousemove',
-											angle:-45
-										}
-									}).draw();
-							}
-						}							
+								}).draw();
+						}								
 						
 						
 						
@@ -1277,7 +1010,7 @@ define( [
 							String(parseInt(width-limitWidthWhenScroll))+"px"
 							//'90%'
 							//+';height:'+parseInt(height*(taxHeight-0.02))+'px">';
-							+';height:'+parseInt((qMatrix.length+1)*cellHeight)+'px;border: '+layout.borderOut+'px solid #000;">';
+							+';height:'+parseInt((qMatrix.length+1)*cellHeight)+'px;border: 3px solid #000;">';
 							
 
 							//height = 20;
@@ -1291,7 +1024,7 @@ define( [
 							{
 								//console.log(layout.qHyperCube.qDimensionInfo[i]);
 								
-								htmlHeader+='<div class="divTableHead" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+layout.qHyperCube.qDimensionInfo[i].qFallbackTitle+'</div>';
+								htmlHeader+='<div class="divTableHead" style="height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+layout.qHyperCube.qDimensionInfo[i].qFallbackTitle+'</div>';
 								
 							}
 							
@@ -1301,7 +1034,7 @@ define( [
 							{
 								//console.log(layout.qHyperCube.qMeasureInfo[i]);
 								
-								htmlHeader+='<div class="divTableHead" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
+								htmlHeader+='<div class="divTableHead" style="height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+layout.qHyperCube.qMeasureInfo[i].qFallbackTitle+'</div>';
 								
 							}							
 							htmlHeader+='</div>';
@@ -1345,7 +1078,7 @@ define( [
 										//guidsNovo.push([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
 										guidsNovo[String(j-layout.qHyperCube.qDimensionInfo.length)].push(guid());
 										var k=String(j-layout.qHyperCube.qDimensionInfo.length);
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*taxWidth)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*(taxWidth/taxWidth))/totalColumns+'" height="'+cellHeight+'">[No canvas support]</canvas></div>';
+										htmlBody+='<div class="divTableCell" style="height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*taxWidth)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*(taxWidth/taxWidth))/totalColumns+'" height="'+cellHeight+'">[No canvas support]</canvas></div>';
 										
 										var arrayConfVales=[]
 										
@@ -1396,7 +1129,7 @@ define( [
 											var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
 										else
 											var htmlItem='<i class="'+circleArrow+'" style="color: '+color+';"></i>';
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+htmlItem+'</div>';										
+										htmlBody+='<div class="divTableCell" style="height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+htmlItem+'</div>';										
 									}
 									else
 									{
@@ -1405,7 +1138,7 @@ define( [
 										if(qMatrix[i][j].qAttrExps !== undefined)
 											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
 										
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+										htmlBody+='<div class="divTableCell" style="height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
 									}
 										
 								}
@@ -2212,8 +1945,7 @@ define( [
 						palette=getPalette(rainbow);
 					}
 					if(layout.palette=="yellowRed"){
-						//rainbow.setSpectrum('#C7DB00','E5B800','CE7800','E53D00', '#DB0029');
-						rainbow.setSpectrum('#C7DB00','#FFFFFF', '#DB0029');
+						rainbow.setSpectrum('#C7DB00','E5B800','CE7800','E53D00', '#DB0029');
 						palette=getPalette(rainbow);
 					}
 					if(layout.palette=="whiteBlue"){

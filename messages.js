@@ -70,6 +70,7 @@ messages["pt_BR"].WORDCLOUD = "Word Cloud";
 messages["pt_BR"].GANTT= "Gantt";
 messages["pt_BR"].BUMPS= "Bumps";
 messages["pt_BR"].HPROGRESS= "HProgress";
+messages["pt_BR"].HEATBRICK= "Mapa Calor em Blocos";
 
 messages["en_US"].CHART_TYPE = "Chart Type";
 messages["en_US"].POLAR = "Polar";
@@ -81,6 +82,7 @@ messages["en_US"].WORDCLOUD = "Word Cloud";
 messages["en_US"].GANTT= "Gantt Chart";
 messages["en_US"].BUMPS= "Bumps";
 messages["en_US"].HPROGRESS= "HProgress";
+messages["en_US"].HEATBRICK= "Heat Brick Map";
 
 
 messages["pt_BR"].ANALOGUE1 =  "Análogas 1";
@@ -123,6 +125,9 @@ messages["en_US"].BORDER_SIZE = "Border Width";
 messages["en_US"].YES = "Yes";
 messages["en_US"].NO = "No";
 
+messages["pt_BR"].RANGES_SCALE = "Faixas de Legenda";
+messages["en_US"].RANGES_SCALE = "Ranges Scale";
+
 
 messages["pt_BR"].GRID  = "Grid";
 messages["en_US"].GRID  = "Grid";
@@ -140,6 +145,9 @@ messages["en_US"].POLYGON = "Polygon";
 
 messages["pt_BR"].GRID_SPOKES = "Divisórias";
 messages["en_US"].GRID_SPOKES = "Spokes";
+
+messages["pt_BR"].MIN = "Mínimo";
+messages["en_US"].MIN = "Minimum";
 
 messages["pt_BR"].MAX = "Máximo";
 messages["en_US"].MAX = "Maximum";
@@ -361,4 +369,48 @@ messages["en_US"].ITEM_POSITION="Position";
 
 messages["pt_BR"].EXPANDABLE_ITEM_OPTIONS = "Opções";
 messages["en_US"].EXPANDABLE_ITEM_OPTIONS = "Options";
+
+messages["pt_BR"].SEGMENT_1 = "Segmento 1";
+messages["en_US"].SEGMENT_1 = "Segment 1";
+
+messages["pt_BR"].SEGMENT_1_COLOR = "Cor do Segmento 1";
+messages["en_US"].SEGMENT_1_COLOR = "Segment 1 Color";
+
+messages["pt_BR"].SEGMENT_2 = "Segmento 2";
+messages["en_US"].SEGMENT_2 = "Segment 2";
+
+messages["pt_BR"].SEGMENT_2_COLOR = "Cor do Segmento 2";
+messages["en_US"].SEGMENT_2_COLOR = "Segment 2 Color";
+
+messages["pt_BR"].SEGMENT_3 = "Segmento 3";
+messages["en_US"].SEGMENT_3 = "Segment 3";
+
+messages["pt_BR"].SEGMENT_3_COLOR = "Cor do Segmento 3";
+messages["en_US"].SEGMENT_3_COLOR = "Segment 3 Color";
+
+messages["pt_BR"].CIRCLE_OR_ARROW = "Círculo('circle')/Sinal('arrow up')";
+messages["en_US"].CIRCLE_OR_ARROW = "Circle('circle')/Arrow('arrow up')";									
+									
+messages["pt_BR"].CELL_FONT_COLOR = "Cor do Texto";
+messages["en_US"].CELL_FONT_COLOR = "Cell Font Color";	
+
+messages["pt_BR"].CIRCLE_ARROW = "Círculo/Sinal";
+messages["en_US"].CIRCLE_ARROW = "Circle/Arrow";	
+
+messages["pt_BR"].HPROGRESS = "Barra Progresso";
+messages["en_US"].HPROGRESS = "Horizontal Progress";
+
+messages["pt_BR"].TEXT = "Texto";
+messages["en_US"].TEXT = "Text";
+									
+									
+messages["pt_BR"].TEXT_COA_HPROGRESS = "Texto, Barra de Progresso ou Círculo/Sinal";
+messages["pt_BR"].TEXT_COA_HPROGRESS = "Text, HProgress ou Circle/Arrow";
+
+messages["pt_BR"].BORDER_IN = "Borda Interna";
+messages["en_US"].BORDER_IN = "Border In";
+
+messages["pt_BR"].BORDER_OUT = "Borda Externa";
+messages["en_US"].BORDER_OUT = "Border Out";
+
 

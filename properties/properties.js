@@ -49,18 +49,18 @@ define( [
 	var showHProgress = {
 									//type: "string",
 									ref: "qDef.showHProgress",
-									label: "Show HProgress",
+									label: messages[language].TEXT_COA_HPROGRESS,
 									type: "string",
 									component: "dropdown",
 									options: [{
 										value: "hprogress",
-										label: "HProgress"
+										label: messages[language].HPROGRESS
 									}, {
 										value: "circleArrow",
-										label: "Circle/Arrow"
+										label: messages[language].CIRCLE_ARROW
 									}, {
 										value: "text",
-										label: "Text"
+										label: messages[language].TEXT
 									}],
 									defaultValue: "text",
 									show: function (d,a){
@@ -77,7 +77,7 @@ define( [
 									type: "string",
 									//ref: "qDef.cellFontColor",
 									ref: "qAttributeExpressions.0.qExpression",									
-									label: "Cell Font Color",
+									label: messages[language].CELL_FONT_COLOR,
 									component:"expression",
 									expressionType:"measure",									
 									defaultValue: "='black'",
@@ -95,7 +95,7 @@ define( [
 									type: "string",
 									//ref: "qDef.circleArrow",
 									ref: "qAttributeExpressions.1.qExpression",									
-									label: "Circle('circle')/Arrow('arrow')",
+									label: messages[language].CIRCLE_OR_ARROW,
 									component:"expression",
 									expressionType:"measure",									
 									defaultValue: "='circle'",
@@ -111,7 +111,7 @@ define( [
 	show['measures']['minHProgress']=["hprogress"];						
 	var minHProgress = {
 			type: "string",
-			label: "Mín",
+			label: messages[language].MIN,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.minHProgress",
@@ -131,7 +131,7 @@ define( [
 	show['measures']['maxHProgress']=["hprogress"];						
 	var maxHProgress = {
 			type: "string",
-			label: "Max",
+			label: messages[language].MAX,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.maxHProgress",
@@ -149,7 +149,7 @@ define( [
 	show['measures']['segment1']=["hprogress"];						
 	var segment1 = {
 			type: "string",
-			label: "Segment 1",
+			label: messages[language].SEGMENT_1,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.segment1",
@@ -169,7 +169,7 @@ define( [
 			type: "string",
 			component:"expression",
 			expressionType:"measure",
-			label: "Segment 1 Color",
+			label: messages[language].SEGMENT_1_COLOR,
 			//ref: "qDef.segment1Color",
 			ref: "qAttributeExpressions.3.qExpression",
 			//component:"color-picker",
@@ -185,7 +185,7 @@ define( [
 	show['measures']['segment2']=["hprogress"];						
 	var segment2 = {
 			type: "string",
-			label: "Segment 2",
+			label: messages[language].SEGMENT_2,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.segment2",
@@ -203,7 +203,7 @@ define( [
 	show['measures']['segment2Color']=["hprogress"];						
 	var segment2Color = {
 			type: "string",
-			label: "Segment 2 Color",
+			label: messages[language].SEGMENT_2_COLOR,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.segment2Color",
@@ -221,7 +221,7 @@ define( [
 	show['measures']['segment3']=["hprogress"];						
 	var segment3 = {
 			type: "string",
-			label: "Segment 3",
+			label: messages[language].SEGMENT_3,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.segment3",
@@ -239,7 +239,7 @@ define( [
 	show['measures']['segment3Color']=["hprogress"];						
 	var segment3Color = {
 			type: "string",
-			label: "Segment 3 Color",
+			label: messages[language].SEGMENT_3_COLOR,
 			component:"expression",
 			expressionType:"measure",			
 			//ref: "qDef.segment3Color",
@@ -446,9 +446,63 @@ define( [
 		}, {
 			value: "hprogress",
 			label: messages[language].HPROGRESS
+		}, {
+			value: "heatbrick",
+			label: messages[language].HEATBRICK
 		}],
 		defaultValue: "polar"
 	};	
+	
+	show['options']['rangesScale']=["heatbrick"];
+	var rangesScale = {
+			type: "integer",
+			label: messages[language].RANGES_SCALE,
+			ref: "rangesScale",
+			//component: "slider",
+			min: 1,
+			max: 20,
+			//step: 0.5,			
+			//expression: "always",
+			defaultValue: 5,
+			show: function (d){
+				return showTo(show['options']['rangesScale'],d);
+
+			}
+	};
+
+	show['options']['borderIn']=["hprogress"];
+	var borderIn = {
+			type: "integer",
+			label: messages[language].BORDER_IN,
+			ref: "borderIn",
+			//component: "slider",
+			min: 0,
+			max: 20,
+			//step: 0.5,			
+			//expression: "always",
+			defaultValue: 1,
+			show: function (d){
+				return showTo(show['options']['borderIn'],d);
+
+			}
+	};
+
+	show['options']['borderOut']=["hprogress"];
+	var borderOut = {
+			type: "integer",
+			label: messages[language].BORDER_OUT,
+			ref: "borderOut",
+			//component: "slider",
+			min: 0,
+			max: 20,
+			//step: 0.5,			
+			//expression: "always",
+			defaultValue: 1,
+			show: function (d){
+				return showTo(show['options']['borderOut'],d);
+
+			}
+	};
 	
 
 	var palette = {
@@ -1059,7 +1113,10 @@ define( [
 			timeFormat:timeFormat,
 			offset:offset,
 			ticks:ticks,
-			spaceTasksLeft:spaceTasksLeft
+			spaceTasksLeft:spaceTasksLeft,
+			rangesScale:rangesScale,
+			borderIn:borderIn,
+			borderOut:borderOut
 			
 			//,keepColors:keepColors
 
