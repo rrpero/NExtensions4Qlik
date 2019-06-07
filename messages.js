@@ -401,8 +401,8 @@ messages["en_US"].SEGMENT_3 = "Segment 3";
 messages["pt_BR"].SEGMENT_3_COLOR = "Cor do Segmento 3";
 messages["en_US"].SEGMENT_3_COLOR = "Segment 3 Color";
 
-messages["pt_BR"].CIRCLE_OR_ARROW = "Círculo('circle')/Sinal('arrow up')";
-messages["en_US"].CIRCLE_OR_ARROW = "Circle('circle')/Arrow('arrow up')";									
+messages["pt_BR"].CIRCLE_OR_ARROW = "Círculo('circle')/Sinal('arrow up/down/left/right')";
+messages["en_US"].CIRCLE_OR_ARROW = "Circle('circle')/Arrow('arrow up/down/left/right')";									
 									
 messages["pt_BR"].CELL_FONT_COLOR = "Cor do Texto";
 messages["en_US"].CELL_FONT_COLOR = "Cell Font Color";	
