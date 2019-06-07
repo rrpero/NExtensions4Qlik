@@ -30,6 +30,19 @@ messages["en_US"].POLAR_DIMENSIONMEASURE ="Polar:  Select 1 Dimension and 1 Meas
 messages["pt_BR"].GANTT_DIMENSIONMEASURE ="Gantt: Selecione 5 Dimensões e 1 ou nenhuma Medida";
 messages["en_US"].GANTT_DIMENSIONMEASURE ="Gantt:  Select 5 Dimensions and 1 or 0 Measures";
 
+messages["pt_BR"].HPROGRESS_DIMENSIONMEASURE ="Advanced Table: Selecione pelo menos 1 Dimensão e 1 Medida";
+messages["en_US"].HPROGRESS_DIMENSIONMEASURE ="Advanced Table:  Select at least 1 Dimension and 1 Measure";
+
+messages["pt_BR"].HEATBRICK_DIMENSIONMEASURE ="HeatBrick: - Dimensão 1 - Um gráfico para cada desse</br>"+
+												"HeatBrick: - Dimensão 2 - Precisa ser Igual a  dimensão 3 ou 4(Texto Ao clicar quadrado)</br>"+
+												"HeatBrick: - Dimensão 3 - Referente ao eixo y</br>"+
+												"HeatBrick: - Dimensão 4 - Referente ao eixo x</br>"+
+												"HeatBrick: - Medida 1 - Referente a cor e valor do Quadrado</br>";
+messages["en_US"].HEATBRICK_DIMENSIONMEASURE ="HeatBrick: - Dimension 1 - 1 chart  for each this</br>"+
+												"HeatBrick: - Dimension 2 - Needs to be equal dimension 3 or 4(Text on square click)</br>"+
+												"HeatBrick: - Dimension 3 - Y Axis</br>"+
+												"HeatBrick: - Dimension 4 - X Axis/br>"+
+												"HeatBrick: - Measure 1 - Square Color and Value</br>"
 
 messages["pt_BR"].ROTATE_TYPE= "Tipo Rotação";
 messages["pt_BR"].RANDOM2 = "Aleatório 2";
@@ -397,8 +410,8 @@ messages["en_US"].CELL_FONT_COLOR = "Cell Font Color";
 messages["pt_BR"].CIRCLE_ARROW = "Círculo/Sinal";
 messages["en_US"].CIRCLE_ARROW = "Circle/Arrow";	
 
-messages["pt_BR"].HPROGRESS = "Barra Progresso";
-messages["en_US"].HPROGRESS = "Horizontal Progress";
+messages["pt_BR"].HPROGRESS = "Advanced Table";
+messages["en_US"].HPROGRESS = "Advanced Table";
 
 messages["pt_BR"].TEXT = "Texto";
 messages["en_US"].TEXT = "Text";
