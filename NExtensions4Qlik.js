@@ -199,7 +199,7 @@ define( [
 				//console.log(numberOfDimensions);
 				//console.log(layout.qHyperCube.qMeasureInfo);
 				var numberOfMeasures = layout.qHyperCube.qMeasureInfo.length;
-				console.log(numberOfMeasures);				
+				//console.log(numberOfMeasures);				
 				
 
 			
@@ -1222,7 +1222,7 @@ define( [
 						
 					}
 					else if(layout.polar=="hprogress"){
-						console.log(layout.qHyperCube);
+						//console.log(layout.qHyperCube);
 						if(layout.qHyperCube.qDimensionInfo.length>0 && layout.qHyperCube.qMeasureInfo.length>0){
 							
 							width = $element.width();
