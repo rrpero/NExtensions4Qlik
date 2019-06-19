@@ -1412,7 +1412,7 @@ define( [
 										if(circleArrow=="circle")
 											var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
 										else
-											var htmlItem='<i class="'+circleArrow+'" style="color: '+color+';"></i>';
+											var htmlItem='<i class="'+circleArrow+'Arrow" style="color: '+color+';"></i>';
 										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+htmlItem+'</div>';										
 									}
 									else
