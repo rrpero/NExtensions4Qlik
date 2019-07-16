@@ -1564,6 +1564,16 @@ define( [
 							$element.html(getHtml(messages[language].HPROGRESS_DIMENSIONMEASURE));
 						}
 					}
+					else if(layout.polar=="stackedBar"){
+						if(layout.qHyperCube.qDimensionInfo.length==1 && layout.qHyperCube.qMeasureInfo.length>0){
+							
+							
+						}
+						else{
+							//Fazer mensagem hprogress					
+							$element.html(getHtml(messages[language].HPROGRESS_DIMENSIONMEASURE));
+						}						
+					}
 					else if(layout.polar=="bumps"){
 						if(layout.qHyperCube.qDimensionInfo.length==2 && layout.qHyperCube.qMeasureInfo.length==1){
 							//bumpsChart(app,$element,layout,qMatrix,d3,plott,createPalette);
@@ -1734,7 +1744,7 @@ define( [
 													//vmargin: 15,
 													colors: palette,
 													colorsTemp: palette,
-													grouping: 'stacked',
+													grouping: 'bumps',
 													marginLeft: 100,
 													marginTop: 10,
 													marginBottom: 250,

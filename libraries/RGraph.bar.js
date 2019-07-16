@@ -1356,10 +1356,194 @@ co.lineTo(
                             this.coords2[i].push([x + hmargin, y, width - (2 * hmargin), height]);
 
 
-                    /**
+							
+					 /**
                     * Stacked bar
                     */
                     } else if (this.data[i] && typeof(this.data[i]) == 'object' && prop['chart.grouping'] == 'stacked') {
+
+                        if (this.scale2.min) {
+                            alert("[ERROR] Stacked Bar charts with a Y min are not supported");
+                        }
+
+                        var barWidth     = width - (2 * hmargin);
+                        var redrawCoords = [];// Necessary to draw if the shadow is enabled
+                        var startY       = 0;
+                        var dataset      = this.data[i];
+
+                        /**
+                        * Check for a negative bar width
+                        */
+                        if (barWidth < 0) {
+                            alert('[RGRAPH] Warning: you have a negative bar width. This may be caused by the chart.hmargin being too high or the width of the canvas not being sufficient.');
+                        }
+
+                        for (j=0; j<dataset.length; ++j) {
+
+                            // Stacked bar chart and X axis pos in the middle - poitless since negative values are not permitted
+                            if (xaxispos == 'center') {
+                                alert("[BAR] It's pointless having the X axis position at the center on a stacked bar chart.");
+                                return;
+                            }
+
+                            // Negative values not permitted for the stacked chart
+                            if (this.data[i][j] < 0) {
+                                alert('[BAR] Negative values are not permitted with a stacked bar chart. Try a grouped one instead.');
+                                return;
+                            }
+
+                            /**
+                            * Set the fill and stroke colors
+                            */
+                            co.strokeStyle = strokeStyle
+                            co.fillStyle = colors[j];
+
+                            if (prop['chart.colors.reverse']) {
+                                co.fillStyle = colors[this.data[i].length - j - 1];
+                            }
+
+                            if (prop['chart.colors.sequential'] && colors[sequentialColorIndex]) {
+                                co.fillStyle = colors[sequentialColorIndex++];
+                            } else if (prop['chart.colors.sequential']) {
+                                co.fillStyle = colors[sequentialColorIndex - 1];
+                            }
+
+                            var height = (dataset[j] / this.scale2.max) * (ca.height - this.gutterTop - this.gutterBottom );
+
+                            // If the X axis pos is in the center, we need to half the  height
+                            if (xaxispos == 'center') {
+                                height /= 2;
+                            }
+
+                            var totalHeight = (RGraph.array_sum(dataset) / this.scale2.max) * (ca.height - hmargin - this.gutterTop - this.gutterBottom);
+
+                            /**
+                            * Store the coords for tooltips
+                            */
+                            this.coords.push([x + hmargin, y, width - (2 * hmargin), height]);
+                            if (typeof this.coords2[i] == 'undefined') {
+                                this.coords2[i] = [];
+                            }
+                            this.coords2[i].push([x + hmargin, y, width - (2 * hmargin), height]);
+
+                            // MSIE shadow
+                            if (RGraph.ISOLD && shadow) {
+                                this.DrawIEShadow([x + hmargin, y, width - (2 * hmargin), height + 1]);
+                            }
+
+                            if (height > 0) {
+                                co.strokeRect(x + hmargin, y, width - (2 * hmargin), height);
+                                co.fillRect(x + hmargin, y, width - (2 * hmargin), height);
+                            }
+
+
+                            if (j == 0) {
+                                var startY = y;
+                                var startX = x;
+                            }
+
+                            /**
+                            * Store the redraw coords if the shadow is enabled
+                            */
+                            if (shadow) {
+                                redrawCoords.push([x + hmargin, y, width - (2 * hmargin), height, co.fillStyle]);
+                            }
+
+                            /**
+                            * Stacked 3D effect
+                            */
+                            if (variant == '3d') {
+
+                                var prevFillStyle = co.fillStyle;
+                                var prevStrokeStyle = co.strokeStyle;
+
+
+                                // Draw the top side
+                                if (j == 0) {
+                                    co.beginPath();
+                                        co.moveTo(startX + hmargin, y);
+                                        co.lineTo(startX + prop['chart.variant.threed.offsetx'] + hmargin, y - prop['chart.variant.threed.offsety']);
+                                        co.lineTo(startX + prop['chart.variant.threed.offsetx'] + barWidth + hmargin, y - prop['chart.variant.threed.offsety']);
+                                        co.lineTo(startX + barWidth + hmargin, y);
+                                    co.closePath();
+
+                                    co.fill();
+                                    co.stroke();
+                                }
+
+                                // Draw the side section
+                                co.beginPath();
+                                    co.moveTo(startX + barWidth + hmargin, y);
+                                    co.lineTo(startX + barWidth + hmargin + prop['chart.variant.threed.offsetx'], y - prop['chart.variant.threed.offsety']);
+                                    co.lineTo(startX + barWidth + hmargin + prop['chart.variant.threed.offsetx'], y - prop['chart.variant.threed.offsety'] + height);
+                                    co.lineTo(startX + barWidth + hmargin , y + height);
+                                co.closePath();
+
+                                co.fill();
+                                co.stroke();
+
+                                // Draw the lighter top side
+                                if (j == 0) {
+                                    co.fillStyle = 'rgba(255,255,255,0.5)';
+                                    co.beginPath();
+                                        co.moveTo(startX + hmargin, y);
+                                        co.lineTo(startX + prop['chart.variant.threed.offsetx'] + hmargin, y - prop['chart.variant.threed.offsety']);
+                                        co.lineTo(startX + prop['chart.variant.threed.offsetx'] + barWidth + hmargin, y - prop['chart.variant.threed.offsety']);
+                                        co.lineTo(startX + barWidth + hmargin, y);
+                                    co.closePath();
+
+                                    co.fill();
+                                    co.stroke();
+                                }
+
+                                // Draw the darker side section
+                                co.fillStyle = 'rgba(0,0,0,0.4)';
+                                co.beginPath();
+                                    co.moveTo(startX + barWidth + hmargin, y);
+                                    co.lineTo(startX + barWidth + hmargin + prop['chart.variant.threed.offsetx'], y - prop['chart.variant.threed.offsety']);
+                                    co.lineTo(startX + barWidth + hmargin + prop['chart.variant.threed.offsetx'], y - prop['chart.variant.threed.offsety'] + height);
+                                    co.lineTo(startX + barWidth + hmargin , y + height);
+                                co.closePath();
+
+                                co.fill();
+                                co.stroke();
+
+                                co.strokeStyle = prevStrokeStyle;
+                                co.fillStyle = prevFillStyle;
+                            }
+
+                            y += height;
+                        }
+
+
+
+                        /**
+                        * Redraw the bars if the shadow is enabled due to hem being drawn from the bottom up, and the
+                        * shadow spilling over to higher up bars
+                        */
+                        if (shadow) {
+
+                            RGraph.NoShadow(this);
+
+                            for (k=0; k<redrawCoords.length; ++k) {
+                                co.strokeStyle = strokeStyle;
+                                co.fillStyle = redrawCoords[k][4];
+                                co.strokeRect(redrawCoords[k][0], redrawCoords[k][1], redrawCoords[k][2], redrawCoords[k][3]);
+                                co.fillRect(redrawCoords[k][0], redrawCoords[k][1], redrawCoords[k][2], redrawCoords[k][3]);
+
+                                co.stroke();
+                                co.fill();
+                            }
+
+                            // Reset the redraw coords to be empty
+                            redrawCoords = [];
+                        }
+
+                    		
+                    /**
+                    * Bumps bar
+                    */
+                    } else if (this.data[i] && typeof(this.data[i]) == 'object' && prop['chart.grouping'] == 'bumps') {
 
 						
 
@@ -1992,7 +2176,7 @@ co.lineTo(
 			
 			
 			
-			if (this.data[0] && typeof(this.data[0]) == 'object' && prop['chart.grouping'] == 'stacked'  && prop['chart.show.links'] ) {
+			if (this.data[0] && typeof(this.data[0]) == 'object' && prop['chart.grouping'] == 'bumps'  && prop['chart.show.links'] ) {
 				//console.log(this.coords2);
 
 				//print lines in grouped
@@ -2700,15 +2884,17 @@ co.lineTo(
 					//console.log(prop['chart.data.colors']);
 					//prop['chart.data.colors'][0]='black';
 					//prop['chart.colors']=testeTemp;	
-					//console.log(this.properties['chart.colors']);					
-					this.properties['chart.colors'] =[];
-					//console.log(this.properties['chart.colors.temp']);
-					for(var testeI=0;testeI<this.properties['chart.colors.temp'].length;testeI++){
-						this.properties['chart.colors'].push(this.properties['chart.colors.temp'][testeI]);
-					}					
-					this.properties['chart.colors'][this.properties['chart.data.colors'][dataset][idx]]="RGB(200,200,200)";
-					//console.log(RGraph.arrayLinearize(prop['chart.data.colors']));
-					//console.log(RGraph.arrayLinearize(prop['chart.data.colors'])[idx]);
+					//console.log(this.properties['chart.colors']);
+					if(prop['chart.grouping'] == 'bumps'){
+						this.properties['chart.colors'] =[];
+						//console.log(this.properties['chart.colors.temp']);
+						for(var testeI=0;testeI<this.properties['chart.colors.temp'].length;testeI++){
+							this.properties['chart.colors'].push(this.properties['chart.colors.temp'][testeI]);
+						}					
+						this.properties['chart.colors'][this.properties['chart.data.colors'][dataset][idx]]="RGB(200,200,200)";
+						//console.log(RGraph.arrayLinearize(prop['chart.data.colors']));
+						//console.log(RGraph.arrayLinearize(prop['chart.data.colors'])[idx]);
+					}
 
                     if (typeof(obj.data[dataset]) == 'number') {
                         idx = null;
