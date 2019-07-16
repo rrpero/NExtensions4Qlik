@@ -1345,89 +1345,105 @@ define( [
 							for(var i=0; i< qMatrix.length;i++)
 							{
 								//console.log(layout.qHyperCube.qDimensionInfo[i]);
+								var hasNumberNoZero = true;
 								
-								backgroundColor = 'white';
-								if(i%2==1)
-									backgroundColor='rgb(200,200,200)';
-								htmlBody+='<div class="divTableRow" style="background-color:'+backgroundColor+';">';
-								
-								
-								for(var j = 0; j<qMatrix[i].length;j++)
-								{
-									//eh medida  e tem hprogress
-									if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="hprogress"){
-										//console.log("tem q mostrar");
-										//console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
-										//console.log([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
-										//guidsNovo.push([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
-										guidsNovo[String(j-layout.qHyperCube.qDimensionInfo.length)].push(guid());
-										var k=String(j-layout.qHyperCube.qDimensionInfo.length);
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*taxWidth)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*(taxWidth/taxWidth))/totalColumns+'" height="'+cellHeight+'">[No canvas support]</canvas></div>';
-										
-										var arrayConfVales=[]
-										
-										
-										
-										//var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
-										if(isNaN(qMatrix[i][j].qAttrExps.qValues[0].qNum))
-											var hpmin =  0;
-										else
-											var hpmin=qMatrix[i][j].qAttrExps.qValues[0].qNum;
-										arrayConfVales.push(hpmin);
-										//var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
-										if(isNaN(qMatrix[i][j].qAttrExps.qValues[1].qNum))
-											var hpmax =1;
-										else
-											var hpmax=qMatrix[i][j].qAttrExps.qValues[1].qNum;
-										arrayConfVales.push(hpmax);
-										//var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
-										var hpseg1=qMatrix[i][j].qAttrExps.qValues[2].qNum;
-										arrayConfVales.push(hpseg1);
-										var hpseg1Color=qMatrix[i][j].qAttrExps.qValues[3].qText;
-										arrayConfVales.push(hpseg1Color);
-										//var hpseg2=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment2;
-										var hpseg2=qMatrix[i][j].qAttrExps.qValues[4].qNum;
-										arrayConfVales.push(hpseg2);
-										var hpseg2Color=qMatrix[i][j].qAttrExps.qValues[5].qText;
-										arrayConfVales.push(hpseg2Color);
-										//var hpseg3=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment3;
-										var hpseg3=qMatrix[i][j].qAttrExps.qValues[6].qNum;
-										arrayConfVales.push(hpseg3);
-										var hpseg3Color=qMatrix[i][j].qAttrExps.qValues[7].qText;
-										arrayConfVales.push(hpseg3Color);
-										//console.log(arrayConfVales);
-										arrayConfVales.push(qMatrix[i][j].qNum);
-										//guidsNovoValues.push(qMatrix[i][j].qNum);																			
-										guidsNovoValues[String(j-layout.qHyperCube.qDimensionInfo.length)].push(arrayConfVales);																			
-										
-									}
-									else if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="circleArrow"){
-										//console.log(qMatrix[i][j].qAttrExps.qValues[1].qText);
-										var color='black';
-										var circleArrow = "circle";
-										if(qMatrix[i][j].qAttrExps !== undefined){
-											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
-											circleArrow= qMatrix[i][j].qAttrExps.qValues[1].qText;
-										}
-										if(circleArrow=="circle")
-											var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
-										else
-											var htmlItem='<i class="'+circleArrow+'Arrow" style="color: '+color+';"></i>';
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+htmlItem+'</div>';										
-									}
-									else
+								if(layout.suppressZeroValues){
+									hasNumberNoZero = false;
+									for(var j =0; j<qMatrix[i].length;j++)
 									{
-										var color='black';
-										
-										if(qMatrix[i][j].qAttrExps !== undefined)
-											color= qMatrix[i][j].qAttrExps.qValues[0].qText;
-										
-										htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+										if(qMatrix[i][j].qState=="L")
+										{
+											if(!isNaN(qMatrix[i][j].qNum) && qMatrix[i][j].qNum !== 0){
+												hasNumberNoZero=true;
+												break;
+											}
+										}
 									}
-										
 								}
+								if(hasNumberNoZero){
+									backgroundColor = 'white';
+									if(i%2==1)
+										backgroundColor='rgb(200,200,200)';
+									htmlBody+='<div class="divTableRow" style="background-color:'+backgroundColor+';">';
+									
+									
+									for(var j = 0; j<qMatrix[i].length;j++)
+									{
+										//eh medida  e tem hprogress
+										if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="hprogress"){
+											//console.log("tem q mostrar");
+											//console.log(layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length]);
+											//console.log([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
+											//guidsNovo.push([String(j-layout.qHyperCube.qDimensionInfo.length),guid()]);
+											guidsNovo[String(j-layout.qHyperCube.qDimensionInfo.length)].push(guid());
+											var k=String(j-layout.qHyperCube.qDimensionInfo.length);
+											htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;width: '+parseInt((width-limitWidthWhenScroll)*taxWidth)/totalColumns+'px;" id="canvas-wrapper-'+guidsNovo[k][guidsNovo[k].length-1]+'"><canvas id="' + guidsNovo[k][guidsNovo[k].length-1] + '" width="'+parseInt(width*(taxWidth/taxWidth))/totalColumns+'" height="'+cellHeight+'">[No canvas support]</canvas></div>';
+											
+											var arrayConfVales=[]
+											
+											
+											
+											//var hpmin=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].minHProgress;
+											if(isNaN(qMatrix[i][j].qAttrExps.qValues[0].qNum))
+												var hpmin =  0;
+											else
+												var hpmin=qMatrix[i][j].qAttrExps.qValues[0].qNum;
+											arrayConfVales.push(hpmin);
+											//var hpmax=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].maxHProgress;
+											if(isNaN(qMatrix[i][j].qAttrExps.qValues[1].qNum))
+												var hpmax =1;
+											else
+												var hpmax=qMatrix[i][j].qAttrExps.qValues[1].qNum;
+											arrayConfVales.push(hpmax);
+											//var hpseg1=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment1;
+											var hpseg1=qMatrix[i][j].qAttrExps.qValues[2].qNum;
+											arrayConfVales.push(hpseg1);
+											var hpseg1Color=qMatrix[i][j].qAttrExps.qValues[3].qText;
+											arrayConfVales.push(hpseg1Color);
+											//var hpseg2=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment2;
+											var hpseg2=qMatrix[i][j].qAttrExps.qValues[4].qNum;
+											arrayConfVales.push(hpseg2);
+											var hpseg2Color=qMatrix[i][j].qAttrExps.qValues[5].qText;
+											arrayConfVales.push(hpseg2Color);
+											//var hpseg3=layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].segment3;
+											var hpseg3=qMatrix[i][j].qAttrExps.qValues[6].qNum;
+											arrayConfVales.push(hpseg3);
+											var hpseg3Color=qMatrix[i][j].qAttrExps.qValues[7].qText;
+											arrayConfVales.push(hpseg3Color);
+											//console.log(arrayConfVales);
+											arrayConfVales.push(qMatrix[i][j].qNum);
+											//guidsNovoValues.push(qMatrix[i][j].qNum);																			
+											guidsNovoValues[String(j-layout.qHyperCube.qDimensionInfo.length)].push(arrayConfVales);																			
+											
+										}
+										else if(j+1>layout.qHyperCube.qDimensionInfo.length && layout.qHyperCube.qMeasureInfo[j-layout.qHyperCube.qDimensionInfo.length].showHProgress=="circleArrow"){
+											//console.log(qMatrix[i][j].qAttrExps.qValues[1].qText);
+											var color='black';
+											var circleArrow = "circle";
+											if(qMatrix[i][j].qAttrExps !== undefined){
+												color= qMatrix[i][j].qAttrExps.qValues[0].qText;
+												circleArrow= qMatrix[i][j].qAttrExps.qValues[1].qText;
+											}
+											if(circleArrow=="circle")
+												var htmlItem='<span class="dot" style="background-color: '+color+';"></span>';
+											else
+												var htmlItem='<i class="'+circleArrow+'Arrow" style="color: '+color+';"></i>';
+											htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+htmlItem+'</div>';										
+										}
+										else
+										{
+											var color='black';
+											
+											if(qMatrix[i][j].qAttrExps !== undefined)
+												color= qMatrix[i][j].qAttrExps.qValues[0].qText;
+											
+											htmlBody+='<div class="divTableCell" style="border: '+layout.borderIn+'px solid #999999;height:'+cellHeight+'px;font-weight: bold;color:'+color+';width: '+parseInt((width-limitWidthWhenScroll)*(taxWidth/taxWidth))/totalColumns+'px;" >'+qMatrix[i][j].qText+'</div>';
+										}
+											
+									}
 
-								htmlBody+='</div>';
+									htmlBody+='</div>';
+								}
 								
 							}
 							
@@ -2355,6 +2371,11 @@ define( [
 					layout.showRankColors=true;			
 
 				}
+				if(typeof(layout.suppressZeroValues) == "undefined"){
+					layout.suppressZeroValues=false;			
+
+				}				
+				
 
 				if(typeof(layout.showRanks) == "undefined"){
 					layout.showRanks="firstAndLast";			

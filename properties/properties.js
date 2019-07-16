@@ -504,6 +504,9 @@ define( [
 			}
 	};
 	
+	
+
+	
 
 	var palette = {
 			type: "string",
@@ -1139,6 +1142,26 @@ define( [
 		show: true			
 	};
 	
+	show['advanced']['suppressZeroValues']=["hprogress"];		
+	var suppressZeroValues = {
+		type: "boolean",
+		component: "switch",
+		label: messages[language].SUPPRESS_ZERO_VALUES,
+		ref: "suppressZeroValues",
+		options: [{
+			value: true,
+			label: messages[language].YES
+		}, {
+			value: false,
+			label: messages[language].NO
+		}],
+		defaultValue: false,
+		show: function (d){
+			return showTo(show['advanced']['suppressZeroValues'],d);
+
+		}	
+	};	
+	
 	show['advanced']['advancedScroll']=["gantt"];		
 	var advancedScroll = {
 		type: "boolean",
@@ -1165,7 +1188,8 @@ define( [
 		items: {			
 
 			advancedInstanceLimit:advancedInstanceLimit,
-			advancedScroll:advancedScroll
+			advancedScroll:advancedScroll,
+			suppressZeroValues:suppressZeroValues
 		},
 		show: true
 	

@@ -426,4 +426,6 @@ messages["en_US"].BORDER_IN = "Border In";
 messages["pt_BR"].BORDER_OUT = "Borda Externa";
 messages["en_US"].BORDER_OUT = "Border Out";
 
+messages["pt_BR"].SUPPRESS_ZERO_VALUES = "Não Mostrar Valores Zerados";
+messages["en_US"].SUPPRESS_ZERO_VALUES = "Suppress Zero Values";
 
